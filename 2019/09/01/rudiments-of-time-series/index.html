@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="time series,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="入门开始时，作者讲了一些小典故，非常有意思:  数千年来，预测一直吸引着人们。古巴比伦的预言家们可以基于蛆在腐烂的绵羊肝脏中的分布预测未来。在公元前300年，想要预知未来的人们会前往希腊的德尔菲祈求神谕，神谕会在被乙醚蒸汽陶醉的情况下给出她的预言。预言家们在康斯坦丁大帝的统治下经历了一段艰难的时期，康斯坦丁大帝在公元357年颁布了一项法令禁止任何人“去咨询占卜者、数学家或预言家，对预言未来的好奇将">
+<meta name="keywords" content="time series">
+<meta property="og:type" content="article">
+<meta property="og:title" content="1. 时间序列入门">
+<meta property="og:url" content="http://yoursite.com/2019/09/01/rudiments-of-time-series/index.html">
+<meta property="og:site_name" content="xiaolongc">
+<meta property="og:description" content="入门开始时，作者讲了一些小典故，非常有意思:  数千年来，预测一直吸引着人们。古巴比伦的预言家们可以基于蛆在腐烂的绵羊肝脏中的分布预测未来。在公元前300年，想要预知未来的人们会前往希腊的德尔菲祈求神谕，神谕会在被乙醚蒸汽陶醉的情况下给出她的预言。预言家们在康斯坦丁大帝的统治下经历了一段艰难的时期，康斯坦丁大帝在公元357年颁布了一项法令禁止任何人“去咨询占卜者、数学家或预言家，对预言未来的好奇将">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-01T08:50:19.753Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="1. 时间序列入门">
+<meta name="twitter:description" content="入门开始时，作者讲了一些小典故，非常有意思:  数千年来，预测一直吸引着人们。古巴比伦的预言家们可以基于蛆在腐烂的绵羊肝脏中的分布预测未来。在公元前300年，想要预知未来的人们会前往希腊的德尔菲祈求神谕，神谕会在被乙醚蒸汽陶醉的情况下给出她的预言。预言家们在康斯坦丁大帝的统治下经历了一段艰难的时期，康斯坦丁大帝在公元357年颁布了一项法令禁止任何人“去咨询占卜者、数学家或预言家，对预言未来的好奇将">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/01/rudiments-of-time-series/">
+
+
+
+
+
+  <title>1. 时间序列入门 | xiaolongc</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaolongc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/01/rudiments-of-time-series/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">1. 时间序列入门</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-01T16:49:11+08:00">
+                2019-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/time-series/" itemprop="url" rel="index">
+                    <span itemprop="name">time series</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h1><p>开始时，作者讲了一些小典故，非常有意思:</p>
+<blockquote>
+<p>数千年来，预测一直吸引着人们。古巴比伦的预言家们可以基于蛆在腐烂的绵羊肝脏中的分布预测未来。在公元前300年，想要预知未来的人们会前往希腊的德尔菲祈求神谕，神谕会在被乙醚蒸汽陶醉的情况下给出她的预言。预言家们在康斯坦丁大帝的统治下经历了一段艰难的时期，康斯坦丁大帝在公元357年颁布了一项法令禁止任何人“去咨询占卜者、数学家或预言家，对预言未来的好奇将被永远禁止。”1763年英国颁布了一项相似的禁令：通过预测骗取钱财将被判作犯罪，其刑罚是判处三个月的狱中的苦役。</p>
+</blockquote>
+<h2 id="什么是可以被预测的"><a href="#什么是可以被预测的" class="headerlink" title="什么是可以被预测的"></a>什么是可以被预测的</h2><p>事件（或数量）的可预测性取决于以下几个因素：</p>
+<ul>
+<li>我们对它的影响因素的了解程度;</li>
+<li>有多少数据是可用的;</li>
+<li>预测是否会影响我们试图预测的事物。</li>
+</ul>
+<h2 id="预测、计划和目标"><a href="#预测、计划和目标" class="headerlink" title="预测、计划和目标"></a>预测、计划和目标</h2><p>该小节讲述了预测、目标以及计划之间的关系。</p>
+<p>预测：它是指在考虑到所有可用信息的前提下，包括历史数据和可以影响预测的任何未来事件的知识，尽可能准确地预言。</p>
+<p>目标：它是指你想要发生的事情。目标理应与预测和计划联系在一起，但是这并不经常发生。很多时候，设定目标时没有任何如何去实现这些目标的计划，也没有目标是否切合实际的预测。</p>
+<p>计划：它是对预测和目标的回应。计划包括制定使得你的预测符合你的目标的适当行动。</p>
+<p>而预测又可以分为短期预测、中期预测、长期预测等，具体预测取决于特定的应用场景。</p>
+<h2 id="决定预测什么"><a href="#决定预测什么" class="headerlink" title="决定预测什么"></a>决定预测什么</h2><ul>
+<li>决定预测什么：<ul>
+<li>用于每条产品线或一组产品？</li>
+<li>用于每条产品线或一组产品？</li>
+<li>每周数据、月度数据或年度数据？</li>
+</ul>
+</li>
+<li>考虑预测的前景时段：<ul>
+<li>需要提前1个月，提前6个月还是提前10年预测？</li>
+<li>预测需要多频繁？需要经常进行的预测, 最好是使用自动化系统, 而不是需要仔细人工操作。</li>
+</ul>
+</li>
+</ul>
+<p>在制定合适的预测方法之前, 预测者大一部分的时间将用于寻找和整理可用数据。</p>
+<h2 id="预测数据和方法"><a href="#预测数据和方法" class="headerlink" title="预测数据和方法"></a>预测数据和方法</h2><p>在大程度上，什么数据是可用的决定了适合什么合适的预测方法。</p>
+<ul>
+<li><p>定性预测：</p>
+<ul>
+<li>如果没有可用的数据，或者如果可用的数据与预测无关，那么应该使用定性预测方法。</li>
+</ul>
+</li>
+<li><p>在满足以下两个条件的时候可以使用定量预测 ：</p>
+<ul>
+<li>关于过去的数字化信息是可以用的；</li>
+<li>有理由假设过去的一些模式会在未来延续下去。</li>
+</ul>
+</li>
+</ul>
+<p>大多数定量预测问题都使用时间序列数据 (按时间间隔定期收集) 或横截面数据 (在一个时间点收集)。在本书中,我们关注预测未来的数据,并且我们主要专注于时间序列领域。</p>
+<p>时间序列数据样例包括:</p>
+<ul>
+<li>IBM每日股票价格</li>
+<li>每月降水量</li>
+<li>亚马逊季度销售结果</li>
+<li>谷歌年度利润</li>
+</ul>
+<p>最简单的时间序列预测方法只用了预测变量的信息，而不去寻找影响预测变量的因素。因此，这些方法可以推断趋势部分和季节性部分，但是它们会忽略掉所有其他的信息，如营销计划，竞争对手活动，经济状况变动等。</p>
+<p>用于预测的时间序列模型包括分解模型，指数平滑模型，ARIMA 模型。这些模型分别在章节 6，7 和 8 中进行了分析探讨。</p>
+<h3 id="预测变量与时间序列预测"><a href="#预测变量与时间序列预测" class="headerlink" title="预测变量与时间序列预测"></a>预测变量与时间序列预测</h3><p>以预测夏季每小时用电需求量为例：</p>
+<ul>
+<li>解释模型</li>
+</ul>
+<p>ED = f(当前气温，经济实力，人口当日时间，星期几，误差)</p>
+<p>这种关系并不确切–总会有不能由预测变量决定的电力需求变化。右侧的“误差”项表示随机波动和没有被包括在模型中的相关变量的影响。我们将它称之为“解释模型”，因为它帮助解释电力需求变化的原因。</p>
+<ul>
+<li>时间序列模型</li>
+</ul>
+<center>$$ ED _{t+1} = f(ED _{t}, ED _{t-1}, ED _{t-2}, ED _{t-3}, …, error) $$</center>
+
+<p>t 表示当前的时间， t+1 表示下一个小时，t−1 表示前一个小时，t−2 表示前两个小时，以此类推。此处，对未来的预测是基于变量的过去值，而不是基于可能影响系统的外部变量。同样，右侧的“误差”项允许随机波动和不包含在模型中的相关变量的影响。</p>
+<ul>
+<li>混合模型：结合了上述两种模型的特点</li>
+</ul>
+<center>$$ ED _{t+1} = f(ED _{t}, 当前气温，当日时间，星期几，误差) $$</center>
+
+<p>解释模型非常有用,因为它包含了有关其他变量的信息,而不仅仅是要预测的变量的历史值。但是, 预测者可能选择时间序列模型而不是解释性或混合模型的原因有多种：</p>
+<ul>
+<li>这一系统可能不被理解,即使被理解,也很难衡量被认为应该管理行为的关系。</li>
+<li>其次,有必要知道或预测各种预测因子的未来价值, 以便能够预测有意义的变量, 但是这可能太难了。</li>
+<li>第三, 可能主要只是关注预测会发生什么,而不知道为什么会发生。</li>
+<li>最后,时间序列模型可以提供比解释或混合模型更准确的预测。</li>
+</ul>
+<p>在预测中使用的模型取决于可用的资源和数据、模型的准确性以及预测模型的使用方式。</p>
+<h2 id="案例学习"><a href="#案例学习" class="headerlink" title="案例学习"></a>案例学习</h2><p>该小节，作者讲了4个案例，有以下几个特点：</p>
+<ul>
+<li>时间序列数据显示出一系列模式，其中一些带有长期趋势，一些带有季节变动，还有一些两者都不具备。</li>
+<li>几乎每种药品的销售量数据都包含长期趋势和季节变动模式。很多药品的销量会因药品补贴政策的变化而突然上升或下降，对很多药品的津贴支出也会因出现低价可替代药品而突然发生变化。（因此，我们需要寻找到一种能够对包含长期趋势和季节变动因素的数据进行预测的方法，使得该方法不仅可以对潜在模式下的突然变动进行稳健预测，同时能够处理大样本的时间序列数据。）</li>
+<li>一群专家正在预测汽车转售价格。他们认为统计模型的建立会对他们的生计造成威胁，因而在提供信息方面不合作。尽管如此，该公司还是给我们提供了大量的车辆和汽车转售价格的历史数据。</li>
+<li>航空乘客人数会受到学校假期、重大体育赛事、广告活动、竞争行为等影响。一般情况下，澳大利亚不同城市的学校假期不会同时出现，体育赛事有时也会从一个城市转移到另一个城市。在历史数据相应期间发生过一场关键飞行员的罢工运动，其间几个月都没有相关航线运行，一条新的低价航线推出后也惨遭失败。在历史数据期间的末尾，航空公司将一些经济舱座位重新改造为商务舱和头等舱座位，然而几个月后，座位安排重新恢复到原来的状态。</li>
+</ul>
+<h2 id="预测过程的主要步骤"><a href="#预测过程的主要步骤" class="headerlink" title="预测过程的主要步骤"></a>预测过程的主要步骤</h2><p>一个预测过程通常包括五个基本步骤。</p>
+<h3 id="定义问题"><a href="#定义问题" class="headerlink" title="定义问题"></a>定义问题</h3><p>通常这是预测中最困难的步骤。要准确定义这个问题，需要了解怎样运用预测方法，谁需要这个预测，以及预测效果如何满足需要这个预测的机构。预测人员需要花费一定时间与所有参与收集数据、维护数据库和使用这个预测对未来进行规划的人沟通。</p>
+<h3 id="收集信息"><a href="#收集信息" class="headerlink" title="收集信息"></a>收集信息</h3><p>一般至少需要两种信息收集方式：(a) 统计数据，(b) 收集数据和进行预测方面专家的积累经验。通常情况下，要获得足够多的历史数据以构建良好的统计模型是很困难的。在这种情况下，可以使用 第4节 中的判断预测方法。有时候，陈旧数据会因相应数据发生结构变化而失效，因而我们一般只选择使用较新的数据。然而，一个好的统计模型可以处理系统中的结构变化，因此不要轻易丢弃好的数据。</p>
+<h3 id="初步（探索性）分析"><a href="#初步（探索性）分析" class="headerlink" title="初步（探索性）分析"></a>初步（探索性）分析</h3><p>总是以图形开头，观察思考以下几个问题：</p>
+<ul>
+<li>有一致的模式吗？</li>
+<li>有明显的长期趋势吗？</li>
+<li>季节性重要吗？</li>
+<li>是否有证据表明商业周期存在？</li>
+<li>数据中是否包含需要专业知识解释的异常值？</li>
+<li>用于分析的变量之间的相关性有多强？</li>
+</ul>
+<p>目前已经开发了各种工具来帮助进行这种分析。这些将在章节 2 和 章节6中讨论。、</p>
+<h3 id="选择及拟合模型"><a href="#选择及拟合模型" class="headerlink" title="选择及拟合模型"></a>选择及拟合模型</h3><p>最佳模型的选择取决于历史数据的可用性、预测变量与各解释变量之间的相关性，以及预测的使用方式。比较两个或三个潜在的模型是很常见的。每个模型本身都基于人为提出的一组假设(显式和隐式)而建立，通常包含一个或多个参数，这些参数必须使用已知的历史数据进行估计。我们将讨论回归模型(章节 5)、指数平滑方法(章节 7)、Box-Jenkins ARIMA模型(章节 8)、动态回归模型(章节 9)、分层预测(章节 10)，以及其他各种方法，包括计数时间序列、神经网络和章节 11中的向量自回归。</p>
+<h3 id="使用及评估预测模型"><a href="#使用及评估预测模型" class="headerlink" title="使用及评估预测模型"></a>使用及评估预测模型</h3><p>一旦模型及其参数确定后，该模型就可以用来进行预测。模型的预测效果只有用于预测的数据得到之后才能得到正确的评价。目前已经开发了许多方法来评估预测的准确性。在使用和进行预测时会存在很多组织结构问题。对其中一些问题的简要讨论将在章节 3 中给出。</p>
+<h2 id="统计预测观点"><a href="#统计预测观点" class="headerlink" title="统计预测观点"></a>统计预测观点</h2><p>我们试图预测的东西是未知的(或者我们不能预测它)，所以我们可以把它想象成一个随机变量。</p>
+<p>例如，下个月的总销售额可能会有一系列的可能值，直到月底我们把实际销售额加起来，我们才知道这个值会是多少。所以在我们知道下个月的销售情况之前，这是一个随机的变量。</p>
+<p>因为下个月时间节点比较近，我们通常清楚销售量大概是多少。如果我们预测明年同一个月的销售情况，可能的销售量变动就会较大。在大多数预测情况下，随着事件的临近，预测对象的相关变动较小。换句话说，预测的越早，预测结果越不稳定。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/time-series/" rel="tag"># time series</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/01/fbprophet/" rel="next" title="5. fbprophet原理及实战">
+                <i class="fa fa-chevron-left"></i> 5. fbprophet原理及实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2099/01/01/Contents/" rel="prev" title="博客目录">
+                博客目录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="chenxiaolong">
+            
+              <p class="site-author-name" itemprop="name">chenxiaolong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolongc929" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xiaolongc929@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/xiaolongc929" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#入门"><span class="nav-number">1.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是可以被预测的"><span class="nav-number">1.1.</span> <span class="nav-text">什么是可以被预测的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测、计划和目标"><span class="nav-number">1.2.</span> <span class="nav-text">预测、计划和目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决定预测什么"><span class="nav-number">1.3.</span> <span class="nav-text">决定预测什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测数据和方法"><span class="nav-number">1.4.</span> <span class="nav-text">预测数据和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预测变量与时间序列预测"><span class="nav-number">1.4.1.</span> <span class="nav-text">预测变量与时间序列预测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例学习"><span class="nav-number">1.5.</span> <span class="nav-text">案例学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测过程的主要步骤"><span class="nav-number">1.6.</span> <span class="nav-text">预测过程的主要步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义问题"><span class="nav-number">1.6.1.</span> <span class="nav-text">定义问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收集信息"><span class="nav-number">1.6.2.</span> <span class="nav-text">收集信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初步（探索性）分析"><span class="nav-number">1.6.3.</span> <span class="nav-text">初步（探索性）分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择及拟合模型"><span class="nav-number">1.6.4.</span> <span class="nav-text">选择及拟合模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用及评估预测模型"><span class="nav-number">1.6.5.</span> <span class="nav-text">使用及评估预测模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统计预测观点"><span class="nav-number">1.7.</span> <span class="nav-text">统计预测观点</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenxiaolong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
