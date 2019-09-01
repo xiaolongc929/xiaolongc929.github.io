@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hive,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言 Hive 是 Hadoop 生态系统中必不可少的一个工具，它提供了一种 SQL 语言，可以查询存储在 Hadoop 分布式文件系统(HDFS)中的数据或其他和 Hadoop 集成的文件系统， 如 MapR-FS，Amazon的S3和像 HBase(Hadoop数据库) 和 Cassandra 这样的数据库中的数据。 第1章 基础知识搜索引擎公司、电子商务公司、社交网络等许多组织意识到他们所收">
+<meta name="keywords" content="hive">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive 编程指南">
+<meta property="og:url" content="http://yoursite.com/2019/07/06/Programming-Hive/index.html">
+<meta property="og:site_name" content="xiaolongc">
+<meta property="og:description" content="前言 Hive 是 Hadoop 生态系统中必不可少的一个工具，它提供了一种 SQL 语言，可以查询存储在 Hadoop 分布式文件系统(HDFS)中的数据或其他和 Hadoop 集成的文件系统， 如 MapR-FS，Amazon的S3和像 HBase(Hadoop数据库) 和 Cassandra 这样的数据库中的数据。 第1章 基础知识搜索引擎公司、电子商务公司、社交网络等许多组织意识到他们所收">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Programming-Hive/1-1.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Programming-Hive/1-2.png">
+<meta property="og:updated_time" content="2019-09-01T07:50:51.874Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hive 编程指南">
+<meta name="twitter:description" content="前言 Hive 是 Hadoop 生态系统中必不可少的一个工具，它提供了一种 SQL 语言，可以查询存储在 Hadoop 分布式文件系统(HDFS)中的数据或其他和 Hadoop 集成的文件系统， 如 MapR-FS，Amazon的S3和像 HBase(Hadoop数据库) 和 Cassandra 这样的数据库中的数据。 第1章 基础知识搜索引擎公司、电子商务公司、社交网络等许多组织意识到他们所收">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/picture/Programming-Hive/1-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/06/Programming-Hive/">
+
+
+
+
+
+  <title>Hive 编程指南 | xiaolongc</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaolongc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/06/Programming-Hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hive 编程指南</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-06T15:31:43+08:00">
+                2019-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/big-data/" itemprop="url" rel="index">
+                    <span itemprop="name">big data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>前言</strong></p>
+<p>Hive 是 Hadoop 生态系统中必不可少的一个工具，它提供了一种 SQL 语言，可以查询存储在 Hadoop 分布式文件系统(HDFS)中的数据或其他和 Hadoop 集成的文件系统， 如 MapR-FS，Amazon的S3和像 HBase(Hadoop数据库) 和 Cassandra 这样的数据库中的数据。</p>
+<h1 id="第1章-基础知识"><a href="#第1章-基础知识" class="headerlink" title="第1章 基础知识"></a>第1章 基础知识</h1><p>搜索引擎公司、电子商务公司、社交网络等许多组织意识到他们所收集的数据是让他们了解他们的用户，提高业务在市场上的表现以及提高基础架构效率的一个宝贵的资源。</p>
+<p>Hive提供了一个被称为 Hive 查询语言(HiveQL 或 HQL)的SQL语言，来查询存储在 Hadoop 集群中的数据。Hive 可以将大多数的查询转换为MapReduce任务(job)，进而在介绍一个令人熟悉的 SQL 抽象的同时，拓宽 Hadoop 的课扩展性。</p>
+<p>Hive 的劣势：</p>
+<ul>
+<li>Hive 不支持记录级别的更新，插入或者删除操作。</li>
+<li>因为Hadoop是一个面向批处理的系统，而MapReduce任务(job)的启动过程需要消耗较长时间，所以 Hive 查询延时比较严重。</li>
+<li>Hive 不支持事务。因此，Hive 不支持OLTP(联机事务处理)所需的关键功能。</li>
+</ul>
+<p>如果用户需要对大规模数据使用OLTP功能的话，那么应该选择使用一个NoSQL数据库，例如，和 Hadoop 结合使用的 HBase 及 Cassandra。</p>
+<h2 id="Hadoop-和-MapReduce-综述"><a href="#Hadoop-和-MapReduce-综述" class="headerlink" title="Hadoop 和 MapReduce 综述"></a>Hadoop 和 MapReduce 综述</h2><p>参考Tom White 《Hadoop权威指南》一书。</p>
+<p>MapReduce</p>
+<p>MapReduce是一种计算模型，该模型可以将大型数据处理任务分解为很多单个的，可以在服务器集群中并行执行的任务，这些任务的计算结果可以合并在一起来计算最终的结果。</p>
+<p>MapReduce编程模型由谷歌开发，两篇经典的论文为：《MapReduce: 大数据之上的简化数据处理》，以及《Google 文件系统》。这两篇论文启发了道-卡丁开发了 Hadoop。</p>
+<p>MapReduce这个术语来自于两个基本的数据转换操作: Map过程和reduce过程。MapReduce 计算框架中的输入和输出的基本数据结构是键-值对。</p>
+<p>下图介绍了一种 Word Count程序，左边的每个 Input(输入) 框都表示一个单独的文件，默认情况下，每个文档都会触发一个 Mapper 进程进行处理。而在实际场景中，大文件可能会划分为多个部分，每个部分都会被发送给一个 Mapper 进行处理。同时，也有将多个小文件合并为一个部分供某个 Mapper进行处理。</p>
+<p><img src="/images/2019/picture/Programming-Hive/1-1.png" alt></p>
+<p>Hadoop 神奇的地方一部分在于后面要进行的Sort和Shuffle过程，Hadoop会按照键来对键-值进行排序，然后Shuffle，将所有具有相同键的键-值对分发到同一个Reducer中。这里有很多方式可以决定哪个Reducer获取哪个范围内的键对应的数据。</p>
+<h2 id="Hadoop生态系统中的Hive"><a href="#Hadoop生态系统中的Hive" class="headerlink" title="Hadoop生态系统中的Hive"></a>Hadoop生态系统中的Hive</h2><p>下图显示了Hive的主要模块，以及Hive是如何与Hadoop交互工作的。有好几种方式可以与Hive进行交互，例如命令行。或者图形界面：Karmasphere发布的一个商业产品，Cloudera提供的开源 Hue 项目，以及 Qubole 提供的 “Hive即服务”。</p>
+<p><img src="/images/2019/picture/Programming-Hive/1-2.png" alt></p>
+<p>Hive 发行版中附带的模块有CLI(命令行)，一个称为 Hive 网页界面(HWI)的简单网页界面，以及可通过 JDBC、ODBC 和一个 Thrift 服务器进行编程访问的几个模块。</p>
+<p>所有的命令和查询都会进入到Driver模块，通过该模块对输入进行解析编译，对需求的计算进行优化，然后按照指定的步骤执行(通常是启动多个MapReduce任务(job)来执行)。当需要启动 MapReduce job 时，Hive本身是不会生成 Java MapReduce 算法程序的。相反，Hive 通过一个表示 “job执行计划”的XML 文件驱动执行内置的、原生的 Mapper 和 Reducer 模块。</p>
+<p>Hive通过和 JobTracker通信来初始化 MapReduce任务(job)，而不必部署在 JobTracker 所在的管理节点上执行。</p>
+<p>Metastore(元数据存储)是一个独立的关系型数据库(通常是一个MySQL实例)，Hive 会在其中保存表模式和其他系统元数据。</p>
+<h3 id="Pig"><a href="#Pig" class="headerlink" title="Pig"></a>Pig</h3><p>Hive的替代工具中最有名的就是 Pig，假设用户的输入数据具有一个或者多个源，而用户需要进行一组复杂的转换来生成一个或者多个输出数据集。如果使用 Hive, 用户可能会使用嵌套查询，但是在某些时刻会需要重新保存临时表来控制复杂度。</p>
+<p>Pig被描述为一种数据流语言，而不是一种查询语言，因此，Pig常用于ETL(数据抽取，数据转换，和数据装载)过程的一部分.</p>
+<p>参考 Alan Gates 《Pig 编程指南》</p>
+<h3 id="HBase"><a href="#HBase" class="headerlink" title="HBase"></a>HBase</h3><p>如果用户需要 Hive 无法提供的数据特性(如行级别的更新，快速查询响应时间，以及支持事务)的话，那么该怎么办呢？ HBase 是一个分布式的、可伸缩的数据存储，其支持行级别的数据更新，快速查询和行级事务(但不支持多行事务)。</p>
+<p>HBase支持的一个重要特性就是列存储，可以像键-值存储一样来使用HBase。HBase使用HDFS(或其他某种分布式文件系统)来持久化存储数据。Hive 现在已经可以和 HBase 结合使用了。</p>
+<h3 id="Cascading、Crunch-及其他"><a href="#Cascading、Crunch-及其他" class="headerlink" title="Cascading、Crunch 及其他"></a>Cascading、Crunch 及其他</h3><h2 id="Java-和-Hive-词频统计算法"><a href="#Java-和-Hive-词频统计算法" class="headerlink" title="Java 和 Hive: 词频统计算法"></a>Java 和 Hive: 词频统计算法</h2><p>统计词频：</p>
+<pre><code>CREATE TABLE docs (line STRING);
+LOAD DATA INPATH &apos;docs&apos; OVERWRITE INTO TABLE docs;
+CREATE TABLE word_counts AS
+SELECT word, count(1) AS count FROM
+    (SELECT explode(split(line, &apos;\s&apos;)) AS word FROM docs) w
+GROUP BY word
+ORDER BY word;
+</code></pre><h1 id="第2章-基础操作"><a href="#第2章-基础操作" class="headerlink" title="第2章 基础操作"></a>第2章 基础操作</h1><h2 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h2><p><a href="https://xiaolongc929.github.io/2019/03/12/hadoop-spark-install/" target="_blank" rel="noopener">macOS hadoop-spark安装方式</a></p>
+<h3 id="本地模式、伪分布式模式、分布式模式"><a href="#本地模式、伪分布式模式、分布式模式" class="headerlink" title="本地模式、伪分布式模式、分布式模式"></a>本地模式、伪分布式模式、分布式模式</h3>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hive/" rel="tag"># hive</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/23/Theory-of-Generalization/" rel="next" title="6. Theory-of-Generalization">
+                <i class="fa fa-chevron-left"></i> 6. Theory-of-Generalization
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/27/Decision-tree/" rel="prev" title="1. Decision-tree">
+                1. Decision-tree <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="chenxiaolong">
+            
+              <p class="site-author-name" itemprop="name">chenxiaolong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolongc929" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xiaolongc929@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/xiaolongc929" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第1章-基础知识"><span class="nav-number">1.</span> <span class="nav-text">第1章 基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop-和-MapReduce-综述"><span class="nav-number">1.1.</span> <span class="nav-text">Hadoop 和 MapReduce 综述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hadoop生态系统中的Hive"><span class="nav-number">1.2.</span> <span class="nav-text">Hadoop生态系统中的Hive</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pig"><span class="nav-number">1.2.1.</span> <span class="nav-text">Pig</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HBase"><span class="nav-number">1.2.2.</span> <span class="nav-text">HBase</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cascading、Crunch-及其他"><span class="nav-number">1.2.3.</span> <span class="nav-text">Cascading、Crunch 及其他</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Java-和-Hive-词频统计算法"><span class="nav-number">1.3.</span> <span class="nav-text">Java 和 Hive: 词频统计算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第2章-基础操作"><span class="nav-number">2.</span> <span class="nav-text">第2章 基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装方式"><span class="nav-number">2.1.</span> <span class="nav-text">安装方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#本地模式、伪分布式模式、分布式模式"><span class="nav-number">2.1.1.</span> <span class="nav-text">本地模式、伪分布式模式、分布式模式</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenxiaolong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

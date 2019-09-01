@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ML,AI,Foundation,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="When can machines learn? (illustrative + technical)learning is impossible?No free lunch: NFL定理最重要的寓意，是让我们清楚地认识到，脱离具体问题，空泛地谈论”什么学习算法更好“毫无意义，因为若考虑所有潜在的问题，则所有的算法一样好. 要谈论算法的相对优劣，必须要针对具体问题；在某些问题上表现好的学习算法，在">
+<meta name="keywords" content="ML,AI,Foundation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="4. Feasibility-of-learning">
+<meta property="og:url" content="http://yoursite.com/2019/04/05/Feasibility-of-learning/index.html">
+<meta property="og:site_name" content="xiaolongc">
+<meta property="og:description" content="When can machines learn? (illustrative + technical)learning is impossible?No free lunch: NFL定理最重要的寓意，是让我们清楚地认识到，脱离具体问题，空泛地谈论”什么学习算法更好“毫无意义，因为若考虑所有潜在的问题，则所有的算法一样好. 要谈论算法的相对优劣，必须要针对具体问题；在某些问题上表现好的学习算法，在">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/1.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/2.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/3.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/4.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/5.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/6.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/7.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/8.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/9.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/10.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/11.png">
+<meta property="og:updated_time" content="2019-09-01T07:50:51.871Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="4. Feasibility-of-learning">
+<meta name="twitter:description" content="When can machines learn? (illustrative + technical)learning is impossible?No free lunch: NFL定理最重要的寓意，是让我们清楚地认识到，脱离具体问题，空泛地谈论”什么学习算法更好“毫无意义，因为若考虑所有潜在的问题，则所有的算法一样好. 要谈论算法的相对优劣，必须要针对具体问题；在某些问题上表现好的学习算法，在">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/picture/Feasibility-of-learning/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/05/Feasibility-of-learning/">
+
+
+
+
+
+  <title>4. Feasibility-of-learning | xiaolongc</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaolongc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/05/Feasibility-of-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">4. Feasibility-of-learning</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-05T08:25:43+08:00">
+                2019-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning-foundation/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning foundation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="When-can-machines-learn-illustrative-technical"><a href="#When-can-machines-learn-illustrative-technical" class="headerlink" title="When can machines learn? (illustrative + technical)"></a>When can machines learn? (illustrative + technical)</h1><h2 id="learning-is-impossible"><a href="#learning-is-impossible" class="headerlink" title="learning is impossible?"></a>learning is impossible?</h2><p>No free lunch: NFL定理最重要的寓意，是让我们清楚地认识到，脱离具体问题，空泛地谈论”什么学习算法更好“毫无意义，因为若考虑所有潜在的问题，则所有的算法一样好. 要谈论算法的相对优劣，必须要针对具体问题；在某些问题上表现好的学习算法，在另一问题上却可能不尽如人意，学习算法自身的归纳偏好与问题是否相配，往往会起到决定性作用. </p>
+<h2 id="probability-to-the-rescue"><a href="#probability-to-the-rescue" class="headerlink" title="probability to the rescue"></a>probability to the rescue</h2><p>inferring something unknow:</p>
+<p>在不知道瓶子中各种颜色弹珠数量的前提下，考虑一个瓶子中橘色弹珠的比例。</p>
+<p>解决方式： sample:</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/1.png" alt></p>
+<p>霍夫定理：</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/2.png" alt></p>
+<h2 id="connection-to-learning"><a href="#connection-to-learning" class="headerlink" title="connection to learning"></a>connection to learning</h2><p>将下图中的一颗一颗的弹珠，想象为一个一个的样本x, 如果 hypothesis h 与 target f 对样本 x 表现不一致，则将弹珠染为橘色的，否则染为绿色的。</p>
+<p>假设现在有一个固定的 h 在手上，则就可以按照上面的规则将弹珠染为橘色或者绿色。</p>
+<p>从瓶子中将染好颜色的弹珠抓出来，比如抓出100个弹珠，就相当于抓取出了100个样本 x 出来了，这个做的好处是可以检验 h 在数据集 D 上的表现，有多少样本 x 与 f(x) 与真实值 y 变现的不同。</p>
+<p>这样就能从看见的资料中，衡量 hypothesis  h 与 target f 之间的偏离程度。</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/3.png" alt></p>
+<blockquote>
+<p>个人理解，林老师想表达的意思是：瓶子中的弹珠就像整个数据集，我们没有办法将整个瓶子的弹珠倒出来检查一遍颜色(即不能在整个数据集上验证 hypothesis h )，因此采用独立同分布的方式从瓶子中取出一部分弹珠(即在一部分数据集上验证 h)，来评价 h 与 f 之间的相似程度。</p>
+</blockquote>
+<p>下图中，有很多的原件，其中 unknown P on X(相当于瓶子)，以一定的几率从瓶子中取样会用在两个地方(即图中的两个虚线)，一个是 training examples，另一个是 h ≈ f，其中 E<sub>in</sub> 表示 in-sample(即从瓶子中取出来的弹珠，手上的弹珠)，E<sub>out</sub> 表示 out-of-sample(即没有采用出来的弹珠，手上以外的瓶子里面的弹珠)，通过 E<sub>in</sub> 能够根据霍夫不等式求出 E<sub>out</sub>。</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/4.png" alt></p>
+<ul>
+<li>霍夫不等式对所有的 N 与 ε 都是正确的</li>
+<li>霍夫不等式不依赖于 E<sub>out</sub>， 即不需要知道 E<sub>out</sub>，也不需要 f 和 P.</li>
+<li>根据 probably approximately correct(PAC) 定理， E<sub>in</sub> = E<sub>out</sub>。这个保证来源于E<sub>in</sub> 和 E<sub>out</sub> 都是从分布 P 中产生的。</li>
+</ul>
+<p><img src="/images/2019/picture/Feasibility-of-learning/5.png" alt></p>
+<p>如果在组合的 h 中， E<sub>in</sub>(h) 足够小， learning algorithm A 拿出来一个 h 做为 g  =&gt;  ‘g = f’ PAC。</p>
+<p>如果只有一个 hypothesis h，怎么来验证 g 与 f 是否接近呢？ 首先可以将唯一的 h 作为 g, 然后从 P 中抽取一部分样本，来验证 g 与 f 之间是否接近。</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/6.png" alt></p>
+<h2 id="connection-to-real-learning"><a href="#connection-to-real-learning" class="headerlink" title="connection to real learning"></a>connection to real learning</h2><p>上面假设了只有 1 个 hypothesis h 时候的验证方式，假设现在有多个 hypothesis h，应该怎么处理呢？</p>
+<p>例如下图，有 M 个 hypothesis，其中 h<sub>M</sub> 在 E<sub>in</sub>(h<sub>M</sub>) 中表现都是正确的(即训练集的误差为0)，你要不要选 h<sub>M</sub>。</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/7.png" alt></p>
+<blockquote>
+<p>图中也形象的说明了， h<sub>2</sub> 中的绿色弹珠最对，即  h<sub>2</sub> 在所有数据上误差最小。因此，如果选择 h<sub>M</sub> 尽管 E<sub>in</sub>(h<sub>M</sub>) 全是正确的(即训练集误差为0), 但是 h<sub>M</sub> 确不是最好的 g（过拟合了）。</p>
+</blockquote>
+<p>Bad sample (不好的抽样): E<sub>in</sub> 与 E<sub>out</sub> 非常不接近。 hypothesis 变大的时候(即 h 变多的时候)，是会加大 Bad sample 的概率。例如，只有 1 个硬币(即只有1个 hypothesis)，丢5次全为正面的概率为 1/32，但是如果有 150 个硬币(即有150个 h)，其中有5次全为正面的概率为 1 - (31/32)<sup>150</sup>。</p>
+<p>霍夫不等式给出了 Bad sample 的概率为，下图是只有一个 h 时候的概率，说明 Bad sample 的概率很小：</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/8.png" alt></p>
+<p>但是，如果有多个 h 的时候，Bad sample 的概率就变大很多：</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/9.png" alt></p>
+<p>从上图可以看出，霍夫不等式是对一个一个的 h 的保证，即每行的 Bad sample 的概率都很小，但是 learning algorithm A，是从多个 h 中选出一个做为 g(即通过资料 D<sub>1</sub> ，从 h<sub>1</sub> 到 h<sub>M</sub> 中，选择一个 g)，即每列遇到 Bad sample 的概率。</p>
+<p>对于 M 个 h，遇到 Bad Data 的上限为：</p>
+<p><img src="/images/2019/picture/Feasibility-of-learning/10.png" alt></p>
+<p>上面的图片也是表明了，选择 g 的原则为，使 E<sub>in</sub>(g) 尽量小。</p>
+<p>下图是一个学习的过程，即主要由两点组成。</p>
+<ul>
+<li>if |H| = M 是有限的，并且样本数据个数 N 足够大，无论算法 A 怎么选择到的 g, 都能保证 E<sub>out</sub>(g) ≈ E<sub>in</sub>(g)。</li>
+<li>if 算法A找到一个 g，使得 E<sub>in</sub>(g) ≈ 0，则 PAC 能够保证 E<sub>out</sub>(g) ≈ 0.</li>
+</ul>
+<p><img src="/images/2019/picture/Feasibility-of-learning/11.png" alt></p>
+<blockquote>
+<p>本节主要解决了，在有限的 hypothesis h 的条件下，机器学习有可能做到的证明。下面的几个将处理在无限的 hypothesis h 的条件下，机器学习的证明。</p>
+</blockquote>
+<h1 id="Why-can-machines-learn-theoretical-illustrative"><a href="#Why-can-machines-learn-theoretical-illustrative" class="headerlink" title="Why can machines learn? (theoretical +illustrative)"></a>Why can machines learn? (theoretical +illustrative)</h1><h1 id="How-can-machines-learn-technical-practical"><a href="#How-can-machines-learn-technical-practical" class="headerlink" title="How can machines learn? (technical +practical)"></a>How can machines learn? (technical +practical)</h1><h1 id="How-can-machines-learn-better-practical-theoretical"><a href="#How-can-machines-learn-better-practical-theoretical" class="headerlink" title="How can machines learn better? (practical + theoretical)"></a>How can machines learn better? (practical + theoretical)</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+            <a href="/tags/Foundation/" rel="tag"># Foundation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/31/Types-of-learning/" rel="next" title="3. Types-of-learning">
+                <i class="fa fa-chevron-left"></i> 3. Types-of-learning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/26/Training-versus-Testing/" rel="prev" title="5. Training-versus-Testing">
+                5. Training-versus-Testing <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="chenxiaolong">
+            
+              <p class="site-author-name" itemprop="name">chenxiaolong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolongc929" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xiaolongc929@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/xiaolongc929" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#When-can-machines-learn-illustrative-technical"><span class="nav-number">1.</span> <span class="nav-text">When can machines learn? (illustrative + technical)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#learning-is-impossible"><span class="nav-number">1.1.</span> <span class="nav-text">learning is impossible?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#probability-to-the-rescue"><span class="nav-number">1.2.</span> <span class="nav-text">probability to the rescue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connection-to-learning"><span class="nav-number">1.3.</span> <span class="nav-text">connection to learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#connection-to-real-learning"><span class="nav-number">1.4.</span> <span class="nav-text">connection to real learning</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Why-can-machines-learn-theoretical-illustrative"><span class="nav-number">2.</span> <span class="nav-text">Why can machines learn? (theoretical +illustrative)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-can-machines-learn-technical-practical"><span class="nav-number">3.</span> <span class="nav-text">How can machines learn? (technical +practical)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#How-can-machines-learn-better-practical-theoretical"><span class="nav-number">4.</span> <span class="nav-text">How can machines learn better? (practical + theoretical)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenxiaolong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

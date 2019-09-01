@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="software,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="maven 简介Apache Maven，是一个软件（特别是Java软件）项目管理及自动构建工具，由Apache软件基金会所提供。基于项目对象模型（缩写：POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。—来自维基百科 Maven 是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建、报告和文档的软件项目管理工具。 Maven是一款强大的自动化构建">
+<meta name="keywords" content="software">
+<meta property="og:type" content="article">
+<meta property="og:title" content="maven实战">
+<meta property="og:url" content="http://yoursite.com/2019/03/08/maven-action/index.html">
+<meta property="og:site_name" content="xiaolongc">
+<meta property="og:description" content="maven 简介Apache Maven，是一个软件（特别是Java软件）项目管理及自动构建工具，由Apache软件基金会所提供。基于项目对象模型（缩写：POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。—来自维基百科 Maven 是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建、报告和文档的软件项目管理工具。 Maven是一款强大的自动化构建">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Maven/1.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Maven/2.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Maven/3.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/Maven/4.png">
+<meta property="og:updated_time" content="2019-09-01T07:50:51.877Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="maven实战">
+<meta name="twitter:description" content="maven 简介Apache Maven，是一个软件（特别是Java软件）项目管理及自动构建工具，由Apache软件基金会所提供。基于项目对象模型（缩写：POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。—来自维基百科 Maven 是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建、报告和文档的软件项目管理工具。 Maven是一款强大的自动化构建">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/picture/Maven/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/08/maven-action/">
+
+
+
+
+
+  <title>maven实战 | xiaolongc</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaolongc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/08/maven-action/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">maven实战</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T22:02:00+08:00">
+                2019-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/maven/" itemprop="url" rel="index">
+                    <span itemprop="name">maven</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="maven-简介"><a href="#maven-简介" class="headerlink" title="maven 简介"></a>maven 简介</h1><p>Apache Maven，是一个软件（特别是Java软件）项目管理及自动构建工具，由Apache软件基金会所提供。基于项目对象模型（缩写：POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。—来自维基百科</p>
+<p>Maven 是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建、报告和文档的软件项目管理工具。</p>
+<p>Maven是一款强大的自动化构建工具，覆盖了编译、测试、运行、清理、打包和部署等各个项目构建的周期。它提供了一个仓库的概念，帮助统一的管理第三方的jar包，最大可能避免由于环境配置不同所产生的不同环境无法运行的情况。</p>
+<h1 id="maven-环境搭建"><a href="#maven-环境搭建" class="headerlink" title="maven 环境搭建"></a>maven 环境搭建</h1><p>Maven 的安装：</p>
+<ul>
+<li>mac下：brew install maven</li>
+<li>windows下：<a href="https://maven.apache.org/download.cgi#" target="_blank" rel="noopener">https://maven.apache.org/download.cgi#</a> 找到 Binary zip archive 对应的压缩包下载即可，解压并配置环境变量。</li>
+</ul>
+<p>文件结构：</p>
+<ul>
+<li>bin 目录:包含mvn的运行脚本。其中 m2.conf 是一个配置文件。</li>
+<li>boot 目录:包含了一个类加载器的框架plexus-classworlds-2.5.2.jar，maven使用它来加载自己的类库。</li>
+<li>conf 目录:包含了一些配置文件，例如常用的 settings.xml。</li>
+<li>lib 目录:包含了 Maven 运行时所用到的所有类库，除了 Maven自身的，还包含了一些第三方依赖的类库。</li>
+</ul>
+<h1 id="maven-helloWorld程序"><a href="#maven-helloWorld程序" class="headerlink" title="maven helloWorld程序"></a>maven helloWorld程序</h1><p>直接使用Idea进行创建，过程如下：</p>
+<ul>
+<li>创建 maven 项目</li>
+</ul>
+<p><img src="/images/2019/picture/Maven/1.png" alt></p>
+<ul>
+<li>选择 GroupId 和 ArtifactId</li>
+</ul>
+<p><img src="/images/2019/picture/Maven/2.png" alt></p>
+<ul>
+<li>确定项目名称及保存地址</li>
+</ul>
+<p><img src="/images/2019/picture/Maven/3.png" alt></p>
+<p>查看并修改 pom.xml 内容为：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+        xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;com.maventest&lt;/groupId&gt;
+    &lt;artifactId&gt;maven.helloworld&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.10&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+&lt;/project&gt;
+</code></pre><ul>
+<li>构建结构目录为：</li>
+</ul>
+<p><img src="/images/2019/picture/Maven/4.png" alt></p>
+<pre><code>// HelloWorld.java 文件为：
+package com.maventest.helloworld;
+
+public class HelloWorld {
+    public String sayHello(){
+        return &quot;Hello World!&quot;;
+    }
+}
+
+// HelloWorldTest.java 文件为：
+package com.maventest.helloworld;
+
+import org.junit.*;
+import org.junit.Assert.*;
+
+public class HelloWorldTest {
+    @Test
+    public void testHello(){
+        Assert.assertEquals(&quot;Hello World!&quot;, new HelloWorld().sayHello());
+    }
+}
+</code></pre><p>在 terminal 中依次输入如下命令，并观察输出：</p>
+<ul>
+<li>mvn compile</li>
+<li>mvn test</li>
+<li>mvn package</li>
+</ul>
+<h1 id="maven-核心知识"><a href="#maven-核心知识" class="headerlink" title="maven 核心知识"></a>maven 核心知识</h1><h2 id="maven-常用命令"><a href="#maven-常用命令" class="headerlink" title="maven 常用命令"></a>maven 常用命令</h2><pre><code>compile: 编译
+test: 测试
+package: 打包
+clean: 删除target
+install: 安装jar包到本地仓库
+</code></pre><h2 id="maven-自动建立目录骨架"><a href="#maven-自动建立目录骨架" class="headerlink" title="maven 自动建立目录骨架"></a>maven 自动建立目录骨架</h2><p>archetype插件：用于创建符合 maven 规定的目录骨架。</p>
+<p>创建目录的两种方式：</p>
+<ul>
+<li>mav archetype:generate</li>
+<li>mvn archetype:generate -DgroupId=com.imooc.maven04 -DartifactId=maven04-demo -Dversion=1.0.0SNAPSHOT -Dpackage=com.imooc.maven04.demo </li>
+</ul>
+<h2 id="maven-中的坐标和仓库"><a href="#maven-中的坐标和仓库" class="headerlink" title="maven 中的坐标和仓库"></a>maven 中的坐标和仓库</h2><p>构件：在 maven 中，任何一个插件、依赖以及构件的输出都可以称为构件。</p>
+<p>坐标：所有构件均通过构件作为其唯一标识。包括(groupId, artifactId, version)</p>
+<p>例如：</p>
+<ul>
+<li>groupId：com.imooc.maven01，其中 com.imooc 为公司名的反写，maven01 为项目名。</li>
+<li>artifactId: maven01-model，其中 maven01 为项目名，model 为该项目的模块名。</li>
+<li>version: 0.0.1SNAPSHOT，为项目所构件的版本</li>
+</ul>
+<p>仓库：用来管理项目的依赖。仓库主要分为 <code>本地仓库</code> 和 <code>远程仓库</code>两种。依赖会先在本地仓库中进行查找，如果查找不到就会在远程仓库进行查找，在远程仓库中能查找到则下载到本地仓库中去，不能查找到则会报错。</p>
+<p>maven 全球中央仓库地址：<a href="https://repo.maven.apache.org/maven2" target="_blank" rel="noopener">https://repo.maven.apache.org/maven2</a></p>
+<p>修改镜像仓库： 修改 maven/conf/settings.xml 文件。修改下面的内容为：</p>
+<pre><code>&lt;mirrors&gt;
+&lt;!-- mirror
+    | Specifies a repository mirror site to use instead of a given repository. The repository that
+    | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
+    | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
+    |
+&lt;mirror&gt;
+    &lt;id&gt;maven.net.cn&lt;/id&gt;
+    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+    &lt;name&gt;central mirror in china&lt;/name&gt;
+    &lt;url&gt;http://maven.net.cn/content/groups/public&lt;/url&gt;
+&lt;/mirror&gt;
+    --&gt;
+&lt;/mirrors&gt;
+</code></pre><p>仓库位置：${M2_HOME}/conf/settings.xml 文件。</p>
+<p>同时将 settings.xml 文件复制一份到 ${user.home}/.m2/settings.xml 文件夹下。</p>
+<p>maven的配置文件settings.xml存在于两个地方：</p>
+<p>1.安装的地方：${M2_HOME}/conf/settings.xml</p>
+<p>2.用户的目录：${user.home}/.m2/settings.xml</p>
+<p>前者又被叫做全局配置，对操作系统的所有使用者生效；后者被称为用户配置，只对当前操作系统的使用者生效。如果两者都存在，它们的内容将被合并，并且用户范围的 settings.xml 会覆盖全局的 settings.xml。</p>
+<p>Maven安装后，用户目录下不会自动生成 settings.xml，只有全局配置文件。如果需要创建用户范围的 settings.xml，可以将安装路径下的 settings 复制到目录${user.home}/.m2/。Maven默认的settings.xml是一个包含了注释和例子的模板，可以快速的修改它来达到你的要求。</p>
+<p>全局配置一旦更改，所有的用户都会受到影响，而且如果 maven 进行升级，所有的配置都会被清除，所以要提前复制和备份 ${M2_HOME}/conf/settings.xml文件，一般情况下不推荐配置全局的 settings.xml。</p>
+<p>将复制后的 ${user.home}/.m2/settings.xml 修改下面的内容为：</p>
+<pre><code>&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+</code></pre><p>即可将仓库指定到 <code>/path/to/local/repo</code> 路径下。</p>
+<h2 id="maven-的生命周期和插件"><a href="#maven-的生命周期和插件" class="headerlink" title="maven 的生命周期和插件"></a>maven 的生命周期和插件</h2><p>完整的项目构建过程包括：清理、编译、测试、打包、集成测试、验证和部署。</p>
+<ul>
+<li>clean: 清理项目<ul>
+<li>pre-clean: 执行清理前的工作</li>
+<li>clean: 清理上一次构建生成的所有文件</li>
+<li>post-clean: 执行清理后的文件</li>
+</ul>
+</li>
+<li>default: 构建项目（最核心）<ul>
+<li>compile:</li>
+<li>test:</li>
+<li>package:</li>
+<li>install:</li>
+</ul>
+</li>
+<li>site: 生成项目站点<ul>
+<li>pre-site: 生成项目站点前要完成工作</li>
+<li>site: 生成项目的站点文档</li>
+<li>post-site: 在生成项目站点后要完成的工作</li>
+<li>site-deploy: 发布生成站点到服务器上</li>
+</ul>
+</li>
+</ul>
+<p>maven 插件：<a href="https://maven.apache.org/plugins/index.html" target="_blank" rel="noopener">https://maven.apache.org/plugins/index.html</a> 目录下都是 maven 的插件。</p>
+<p>例如：使用 <code>source</code> 插件，该插件可以将项目的源码进行打包。</p>
+<p>在项目的 <code>pom.xml</code> 文件中，添加一下内容：</p>
+<pre><code>&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.apache.maven.plugin&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-source-plugin&lt;/artifactID&gt;
+            &lt;version&gt;2,4&lt;/version&gt;
+            &lt;executions&gt;
+                &lt;phase&gt;package&lt;/phase&gt;
+                &lt;goals&gt;
+                    &lt;goal&gt;jar-no-fork&lt;/goal&gt;
+                &lt;/goals&gt;
+            &lt;/executions&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre><p>例如：执行 package 命令时，会默认将前面的 compile, test 命令自动执行。</p>
+<h2 id="maven-中-pom-xml-解析"><a href="#maven-中-pom-xml-解析" class="headerlink" title="maven 中 pom.xml 解析"></a>maven 中 pom.xml 解析</h2><p>pom,xml 文件是用于项目描述，组织管理，依赖管理和构建信息。</p>
+<p>根项目元素:</p>
+<pre><code>&lt;project xmlns:&apos;pom的约束信息&apos;&gt;
+    &lt;!--制定了当前pom的版本--&gt;
+    &lt;modelVersion&gt;&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;反写的公司网址+项目名&lt;/groupId&gt;
+    &lt;artifactId&gt;项目名+模块名&lt;/artifactId&gt;
+    &lt;!--第一个0表示大版本号
+        第二个0表示分支版本号
+        第三个0表示小版本号
+        0.01
+        snapshot快照
+        alpha内部测试
+        beta公测
+        release稳定
+        GA正式发布
+    --&gt;
+    &lt;version&gt;&lt;/version&gt;
+    &lt;!--默认是jar
+        war zip pom
+    --&gt;
+    &lt;packaging&gt;&lt;/packaging&gt;
+
+    &lt;!--项目描述名，产生文档时会使用--&gt;
+    &lt;name&gt;&lt;/name&gt;
+    &lt;!--项目的地址--&gt;
+    &lt;url&gt;&lt;/url&gt;
+    &lt;!--项目的描述--&gt;
+    &lt;description&gt;&lt;/description&gt;
+    &lt;!--开发人员信息--&gt;
+    &lt;developers&gt;&lt;/developers&gt;
+    &lt;!--许可证件--&gt;
+    &lt;licenses&gt;&lt;/licenses&gt;
+    &lt;!--组织信息--&gt;
+    &lt;organization&gt;&lt;/organization&gt;
+
+    &lt;!--依赖类--&gt;
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;&lt;/groupId&gt;
+            &lt;artifactId&gt;&lt;/artifactId&gt;
+            &lt;veriosn&gt;&lt;/version&gt;
+            &lt;type&gt;&lt;/type&gt;
+            &lt;!--scope指定依赖的范围
+                例如junit指定的test, 指的是只在 test 测试过程有用
+            --&gt;
+            &lt;scope&gt;test&lt;scope&gt;
+            &lt;!-- 设置依赖是否可选，默认是 false--&gt;
+            &lt;optional&gt;&lt;/optional&gt;
+            &lt;!--排除依赖传递列表--&gt;
+            &lt;exclusions&gt;
+                &lt;exclusion&gt;
+                &lt;/exclusion&gt;
+            &lt;/exclusions&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;!--依赖的管理，并不会引入依赖--&gt;
+    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+    &lt;!--build 对相应的构建行为提供相应的支持--&gt;
+    &lt;build&gt;
+        &lt;!--插件列表--&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;&lt;/groupId&gt;
+                &lt;artifactId&gt;&lt;/artifactId&gt;
+                &lt;veriosn&gt;&lt;/version&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+    &lt;!-- 对父依赖的继承--&gt;
+    &lt;parent&gt;&lt;/parent&gt;
+    &lt;!-- 指定多个模块。一起编译--&gt;
+    &lt;modules&gt;
+        &lt;module&gt;&lt;/module&gt;
+    &lt;/modules&gt;
+&lt;/project&gt;
+</code></pre><h2 id="maven-依赖范围"><a href="#maven-依赖范围" class="headerlink" title="maven 依赖范围"></a>maven 依赖范围</h2><p>scope 指定6中依赖范围：<a href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html" target="_blank" rel="noopener">Dependency Scope</a></p>
+<ul>
+<li>compile: 默认范围</li>
+<li>provided: 编译测试时有效</li>
+<li>runtime: 测试和运行时有效</li>
+<li>test: 测试时有效</li>
+<li>system: 本机系统相关：编译和测试时有效</li>
+<li>import: 导入的范围</li>
+</ul>
+<h2 id="maven-依赖传递"><a href="#maven-依赖传递" class="headerlink" title="maven 依赖传递"></a>maven 依赖传递</h2><p>假如 A 依赖于 B，B 依赖于 C。则在 A 引入 B 的依赖时，会将 C 的依赖也引入进来，要想 A 至依赖于 B，可以通过 <code>exclusions</code> 将 C 排除在外：</p>
+<pre><code>&lt;exclusions&gt;
+    &lt;exclusion&gt;
+        &lt;groupID&gt;&lt;/groupID&gt;
+        &lt;artifactId&gt;&lt;/artifactId&gt;
+        &lt;version&gt;&lt;/veriosn&gt;
+    &lt;/exclusion&gt;
+&lt;/exclusions&gt;
+</code></pre><h2 id="依赖冲突"><a href="#依赖冲突" class="headerlink" title="依赖冲突"></a>依赖冲突</h2><p>1 短路优先</p>
+<pre><code>A -&gt; B -&gt; C -&gt; X(jar)
+A -&gt; D -&gt; X(jar)
+</code></pre><p>假如，A 依赖的 B,D 所依赖的 X 的版本不同，根据短路优先原则，A 会依赖 D 所依赖的 X(jar)</p>
+<p>2 路径相同时，先声明先优先</p>
+<h2 id="maven-聚合和继承"><a href="#maven-聚合和继承" class="headerlink" title="maven 聚合和继承"></a>maven 聚合和继承</h2><pre><code>&lt;parent&gt;&lt;/parent&gt;
+&lt;packaging&gt;pom&lt;/packaging&gt;
+&lt;modules&gt;
+    &lt;module&gt;&lt;/module&gt;
+&lt;/modules&gt;
+</code></pre><h1 id="maven-构建web项目"><a href="#maven-构建web项目" class="headerlink" title="maven 构建web项目"></a>maven 构建web项目</h1><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://www.imooc.com/learn/443" target="_blank" rel="noopener">项目管理利器-maven</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/software/" rel="tag"># software</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/17/Hexo-HelloWorld/" rel="next" title="Hexo-HelloWorld">
+                <i class="fa fa-chevron-left"></i> Hexo-HelloWorld
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/10/hexo-action/" rel="prev" title="hexo-实战">
+                hexo-实战 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="chenxiaolong">
+            
+              <p class="site-author-name" itemprop="name">chenxiaolong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolongc929" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xiaolongc929@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/xiaolongc929" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#maven-简介"><span class="nav-number">1.</span> <span class="nav-text">maven 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven-环境搭建"><span class="nav-number">2.</span> <span class="nav-text">maven 环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven-helloWorld程序"><span class="nav-number">3.</span> <span class="nav-text">maven helloWorld程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven-核心知识"><span class="nav-number">4.</span> <span class="nav-text">maven 核心知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-常用命令"><span class="nav-number">4.1.</span> <span class="nav-text">maven 常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-自动建立目录骨架"><span class="nav-number">4.2.</span> <span class="nav-text">maven 自动建立目录骨架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-中的坐标和仓库"><span class="nav-number">4.3.</span> <span class="nav-text">maven 中的坐标和仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-的生命周期和插件"><span class="nav-number">4.4.</span> <span class="nav-text">maven 的生命周期和插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-中-pom-xml-解析"><span class="nav-number">4.5.</span> <span class="nav-text">maven 中 pom.xml 解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-依赖范围"><span class="nav-number">4.6.</span> <span class="nav-text">maven 依赖范围</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-依赖传递"><span class="nav-number">4.7.</span> <span class="nav-text">maven 依赖传递</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖冲突"><span class="nav-number">4.8.</span> <span class="nav-text">依赖冲突</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#maven-聚合和继承"><span class="nav-number">4.9.</span> <span class="nav-text">maven 聚合和继承</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maven-构建web项目"><span class="nav-number">5.</span> <span class="nav-text">maven 构建web项目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenxiaolong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ML,AI,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="提升方法的基本思路理论基础： 强可学习(strongly learning)：在概率近似正确(probably approximately correct, PAC)学习框架下，一个概念(一个类)如果存在一个多项式的学习算法能够学习它，并且正确率很高，那么称他为强可学习的。 弱可学习(weakly learnable): 一个概念，如果存在一个多项式的学习算法能够学习它，学习的正确率仅比随机猜测好">
+<meta name="keywords" content="ML,AI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2. AdaBoost">
+<meta property="og:url" content="http://yoursite.com/2019/08/03/AdaBoost/index.html">
+<meta property="og:site_name" content="xiaolongc">
+<meta property="og:description" content="提升方法的基本思路理论基础： 强可学习(strongly learning)：在概率近似正确(probably approximately correct, PAC)学习框架下，一个概念(一个类)如果存在一个多项式的学习算法能够学习它，并且正确率很高，那么称他为强可学习的。 弱可学习(weakly learnable): 一个概念，如果存在一个多项式的学习算法能够学习它，学习的正确率仅比随机猜测好">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-01T07:50:51.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="2. AdaBoost">
+<meta name="twitter:description" content="提升方法的基本思路理论基础： 强可学习(strongly learning)：在概率近似正确(probably approximately correct, PAC)学习框架下，一个概念(一个类)如果存在一个多项式的学习算法能够学习它，并且正确率很高，那么称他为强可学习的。 弱可学习(weakly learnable): 一个概念，如果存在一个多项式的学习算法能够学习它，学习的正确率仅比随机猜测好">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/03/AdaBoost/">
+
+
+
+
+
+  <title>2. AdaBoost | xiaolongc</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaolongc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/03/AdaBoost/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">2. AdaBoost</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-03T10:10:23+08:00">
+                2019-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="提升方法的基本思路"><a href="#提升方法的基本思路" class="headerlink" title="提升方法的基本思路"></a>提升方法的基本思路</h1><p>理论基础：</p>
+<p>强可学习(strongly learning)：在概率近似正确(probably approximately correct, PAC)学习框架下，一个概念(一个类)如果存在一个多项式的学习算法能够学习它，并且正确率很高，那么称他为强可学习的。</p>
+<p>弱可学习(weakly learnable): 一个概念，如果存在一个多项式的学习算法能够学习它，学习的正确率仅比随机猜测好，那么称这个概念为弱可学习的。</p>
+<p>Schapire证明强可学习与弱可学习是等价的。即在PAC学习框架下，一个概念是强可学习的充分必要条件是这个概念是弱可学习的。这样如果发现了“弱学习算法”能否将他提升为“强可学习算法”。<font color="orange">大多数的提升方法都是改变训练数据的概率分布(训练数据的权值分布)，针对不同的训练数据分布调用弱学习算法学习一系列弱分类器。</font>下面介绍最典型的AdaBoost算法。</p>
+<p>还有两个问题是：</p>
+<p>1) 每一轮如何改变训练数据的权值或概率分布？</p>
+<p>AdaBoost的做法是提高被前一轮弱分类器错误分类样本的权值，而降低那些被正确分类样本的权值。</p>
+<p>2) 如何将弱分类器组合为一个强分类器？</p>
+<p>AdaBoost 采取加权多数表决方法，加大分类误差率小的弱分类器的权重，使其在表决中起较大作用，减小分类误差率大的弱分类器的权值，使其表决中起较小的作用。</p>
+<h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><h2 id="AdaBoost二分类算法"><a href="#AdaBoost二分类算法" class="headerlink" title="AdaBoost二分类算法"></a>AdaBoost二分类算法</h2><p>假设给定一个二分类训练数据集：</p>
+<center>$$ \mathit{T=\left { (x _{1},y _{1}),(x _{2},y _{2}),…,(x _{N},y _{N}) \right }} $$</center>
+
+<p>其中，每个样本点由实例与标记组成，实例 $ x _{i}\epsilon \chi \subseteq \mathbb{R} _{n} $ ,标记 $ y _{i}\epsilon Y = \left { -1,+1 \right } $ , X 是实例空间，Y是标记集合。</p>
+<p>算法：AdaBoost </p>
+<p>输入：训练数据集 $ T= \left { (x _{1}, y _{1}),(x _{2},y _{2}),…,(x _{N},y _{N}) \right } $ ,其中 $ x _{i}\epsilon \chi \subseteq \mathbb{R} _{n} $ , $ y _{i}\epsilon Y = \left { -1,+1 \right } $ ;弱学习算法。</p>
+<p>输出：最终分类器G(x).</p>
+<ul>
+<li>(1) 初始化训练数据的权值分布：<center>$$ D _{1}=(w _{11},…,w _{1i},…,w _{1N}), w _{1i}=\frac{1}{N}, i=1,2,…,N $$</center></li>
+<li>(2) 对 m=1,2,…,M<br>– (a) 使用具有权值分布 $ D _{m} $ 的训练数据集学习，得到基本分类器：<br><center>$$ G _{m}(x):\chi \rightarrow \left { -1,+1 \right }. $$</center><br>– (b) 计算 $ G _{m}(x) $ 在训练数据集上的分类误差率：<br><center>$$ e _{m}=P(G _{m}(x _{i})\neq y <em>{i})=\sum</em>{i=1}^{N}w _{mi}I(G _{m}(x _{i})\neq y _{i}) $$</center><br>– (c) 计算 $ G _{m}(x) $ 的系数：<br><center>$$ \alpha _{m}=\frac{1}{2}log\frac{1-e _{m}}{e _{m}} $$</center><br>– (d) 更新训练数据集的权值分布：<br><center>$$ D _{m+1}=(w _{m+1,1},…,w _{m+1,i},…,w _{m+1,N}) $$</center><br><center>$$ w _{m+1,i}=\frac{w _{mi}}{Z _{m}}exp(-\alpha _{m}y _{i}G _{m}(x _{i})),i=1,2,…,N $$</center><br>这里， $ Z _{m} $ 是规范因子<br><center>$$ Z <em>{m}=\sum</em>{i=1}^{N}w _{mi}exp(-\alpha _{m}y _{i}G _{m}(x _{i})) $$</center><br>它使 $ D _{m+1} $ 成为一个概率分布.</li>
+<li>(3) 构建基本分类器的线性组合<center>$$ f(x)=\sum_{m=1}^{M}\alpha _{m}G <em>{m}(x) $$</em></center><br>得到最终分类器：<br><center>$$ G(x)=sign(f(x))=sign(\sum{m=1}^{M}\alpha _{m}G _{m}(x)) $$</center>
+
+</li>
+</ul>
+<h2 id="AdaBoost回归问题算法流程"><a href="#AdaBoost回归问题算法流程" class="headerlink" title="AdaBoost回归问题算法流程"></a>AdaBoost回归问题算法流程</h2><p>来源于：<a href="https://www.cnblogs.com/pinard/p/6133937.html" target="_blank" rel="noopener">集成学习之Adaboost算法原理小结</a></p>
+<p>输入：样本集 $ T=\left { (x _{1},y _{1}),(x _{2},y _{2}),…,(x _{m},y _{m}) \right } $ , 弱学习器算法，弱学习器迭代器K.</p>
+<p>输出：强学习器 $ f(x) $</p>
+<ul>
+<li>(1) 初始化样本权重：<center>$$ D _{1}=(w _{11},…,w _{1i},…,w _{1N}), w _{1i}=\frac{1}{N}, i=1,2,…,N $$</center></li>
+<li>(2) 对于k=1,2,…,k:<br>– a) 使用具有权重 $ D _{k} $ 的样本集来训练数据，得到弱学习器 $ G _{k}(x) $<br>– b) 计算训练集上的最大误差： $ E _{k}=max|y _{i} - G _{k}(x _{i})|, i=1,2,…,m $<br>– c) 计算每个样本相对误差：<br>— 如果是线性误差，则 $ e _{ki} = \frac{|y _{i}-G _{k}(x _{i})|}{E _{k}} $<br>— 如果是平方误差，则 $ e _{ki} = \frac{(y _{i}-G _{k}(x _{i}))^{2}}{E _{k}^{2}} $<br>— 如果是指数误差，则 $ e _{ki} =  1-exp(\frac{-|y _{i}-G _{k}(x _{i})|}{E _{k}}) $<br>– d) 计算回归误差率： $ e <em>{k}=\sum</em>{i=1}^{m}w _{ki}e _{ki} $<br>– e) 计算弱学习器系数： $ \alpha _{k} = \frac{e _{k}}{1-e _{k}} $<br>– f) 更新样本集的权重分布： $ w _{k+1,i}=\frac{w _{ki}}{Z _{k}}\alpha _{k}^{1-e _{ki}} $ ,其中 $ Z _{k} $ 是规范化因子： $ Z <em>{k}=\sum</em>{i=1}^{m}w _{ki}\alpha _{k}^{1-e _{ki}} $ .</li>
+<li>(3) 构建最终强学习器为： $ f(x)=G _{k*}(x) $ .</li>
+</ul>
+<p>其中， $ G_ {k∗}(x) $ 是所有 $ ln\frac{1}{\alpha _{k}}, k=1,2,…,K $的中位数值对应序号k∗对应的弱学习器。</p>
+<h1 id="AdaBoost的解释：前向分布算法"><a href="#AdaBoost的解释：前向分布算法" class="headerlink" title="AdaBoost的解释：前向分布算法"></a>AdaBoost的解释：前向分布算法</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ML/" rel="tag"># ML</a>
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/27/Decision-tree/" rel="next" title="1. Decision-tree">
+                <i class="fa fa-chevron-left"></i> 1. Decision-tree
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/07/GBDT/" rel="prev" title="3. GBDT">
+                3. GBDT <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.png" alt="chenxiaolong">
+            
+              <p class="site-author-name" itemprop="name">chenxiaolong</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/xiaolongc929" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:xiaolongc929@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://plus.google.com/xiaolongc929" target="_blank" title="Google">
+                      
+                        <i class="fa fa-fw fa-google"></i>Google</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#提升方法的基本思路"><span class="nav-number">1.</span> <span class="nav-text">提升方法的基本思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AdaBoost算法"><span class="nav-number">2.</span> <span class="nav-text">AdaBoost算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaBoost二分类算法"><span class="nav-number">2.1.</span> <span class="nav-text">AdaBoost二分类算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AdaBoost回归问题算法流程"><span class="nav-number">2.2.</span> <span class="nav-text">AdaBoost回归问题算法流程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AdaBoost的解释：前向分布算法"><span class="nav-number">3.</span> <span class="nav-text">AdaBoost的解释：前向分布算法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenxiaolong</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>
