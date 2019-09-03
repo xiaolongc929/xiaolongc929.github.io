@@ -87,10 +87,31 @@
 <meta property="og:site_name" content="xiaolongc">
 <meta property="og:description" content="入门开始时，作者讲了一些小典故，非常有意思:  数千年来，预测一直吸引着人们。古巴比伦的预言家们可以基于蛆在腐烂的绵羊肝脏中的分布预测未来。在公元前300年，想要预知未来的人们会前往希腊的德尔菲祈求神谕，神谕会在被乙醚蒸汽陶醉的情况下给出她的预言。预言家们在康斯坦丁大帝的统治下经历了一段艰难的时期，康斯坦丁大帝在公元357年颁布了一项法令禁止任何人“去咨询占卜者、数学家或预言家，对预言未来的好奇将">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-01T08:50:19.753Z">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/1-2.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/1-3.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-1.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-2.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-3.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-4.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-5.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-6.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-7.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-8.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-9.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-10.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-11.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-12.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-13.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-14.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-15.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-16.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-17.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/time-forecast/2-18.png">
+<meta property="og:updated_time" content="2019-09-03T15:11:03.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="1. 时间序列入门">
 <meta name="twitter:description" content="入门开始时，作者讲了一些小典故，非常有意思:  数千年来，预测一直吸引着人们。古巴比伦的预言家们可以基于蛆在腐烂的绵羊肝脏中的分布预测未来。在公元前300年，想要预知未来的人们会前往希腊的德尔菲祈求神谕，神谕会在被乙醚蒸汽陶醉的情况下给出她的预言。预言家们在康斯坦丁大帝的统治下经历了一段艰难的时期，康斯坦丁大帝在公元357年颁布了一项法令禁止任何人“去咨询占卜者、数学家或预言家，对预言未来的好奇将">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/picture/time-forecast/1-2.png">
 
 
 
@@ -455,6 +476,119 @@
 <h2 id="统计预测观点"><a href="#统计预测观点" class="headerlink" title="统计预测观点"></a>统计预测观点</h2><p>我们试图预测的东西是未知的(或者我们不能预测它)，所以我们可以把它想象成一个随机变量。</p>
 <p>例如，下个月的总销售额可能会有一系列的可能值，直到月底我们把实际销售额加起来，我们才知道这个值会是多少。所以在我们知道下个月的销售情况之前，这是一个随机的变量。</p>
 <p>因为下个月时间节点比较近，我们通常清楚销售量大概是多少。如果我们预测明年同一个月的销售情况，可能的销售量变动就会较大。在大多数预测情况下，随着事件的临近，预测对象的相关变动较小。换句话说，预测的越早，预测结果越不稳定。</p>
+<p>我们可以想象许多可能性，每一个都为我们将要预测的事物带来不同的影响。下图是1980年到2015年澳大利亚的国际游客总数以及2016至2025年的10个可能的预测值。</p>
+<p><img src="/images/2019/picture/time-forecast/1-2.png" alt></p>
+<blockquote>
+<p>用上面10个预测来加权，应该效果不错。</p>
+</blockquote>
+<p>我们进行预测的过程实际是寻找随机变量可能取值范围内的中间值。通常情况下，预测会伴随着一个预测区间，给出一个随机变量具有较高概率的范围值。例如，95%的预测区间包含一系列的值，这个预测区间包含实际未来值的概率为95%。</p>
+<p>我们通常会给出这些预测区间，而不是图 1.2 中显示的单个可能的预测值。下面的图表显示了未来澳大利亚国际游客的80%和95%的预测区间。蓝线是可能的预测值的平均值，我们称之为“点预测”。</p>
+<p><img src="/images/2019/picture/time-forecast/1-3.png" alt></p>
+<p>使用下标 t 作为时间。例如， $ y _{t} $ 表示时间 t 对应的观察值。假设将观察到的所有信息表示为 T，目标是预测 $ y _{t} $ .此时，我们将 $ y _{t} | T $ 表示为“给定已知 T 情况下的随机变量 $ y _{t} $ ”。这个随机变量取值的概率测度称为 $ y _{t} | T $ 的 “概率分布”。在预测中，我们称之为“预测分布”。</p>
+<p>每当我们谈到“预测”时，通常指的是预测分布的平均值，用 $ y _{t}^{^} $ 来表示 $ y _{t} $ 的预测值，这意味着 $ y _{t} $ 所有可能取值的均值包含了我们所有已知的信息。有时我们将使用 $ y _{t}^{^} $ 来表示预测分布的‘中位数’(或中间值)。</p>
+<p>明确指出我们在进行预测时使用的信息是很必要的。例如，我们使用 $ y _{t|t-1}^{^} $ 表示在已知观测值 $ (y _{1},…,y _{t-1}) $ 的情况下 $ y _{t} $ 的预测值。类似地，我们使用 $ y _{T+h|T}^{^} $ 表示在已知观测值 $ (y _{1},…,y _{T}) $ 的情况下 $ y _{T+h} $ 的预测值（即考虑时间 T 之前所有观测值的h步预测）.</p>
+<h2 id="拓展阅读"><a href="#拓展阅读" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li>Armstrong (2001) 涵盖了整个预测领域的内容，每个章节都由不同的专家撰写。文章部分观点非常武断(我们并不同意其中的观点)，但在处理预测问题上有很多优秀的一般性建议。</li>
+<li>Ord, Fildes, and Kourentzes (2017) 是一本预测教材，涵盖了与本书相同的部分，但重点不同，它不关注任何特定的软件环境。这是由三位有着几十年经验的权威预测专家撰写的。</li>
+</ul>
+<h1 id="时间序列图形"><a href="#时间序列图形" class="headerlink" title="时间序列图形"></a>时间序列图形</h1><p>对于任何数据分析工作而言，其首要任务是数据可视化。图示化数据可以清晰地展现数据的特征，包括数据的形态、异常值、随时间变化情况以及变量间的相互关系。我们在预测时应尽可能地将图中显示的特征纳入考虑。正如数据类型决定使用什么预测方法一样，数据类型也决定了使用什么图形来展示数据。</p>
+<p>在画图之前，首先我们应该在R中设置我们的时间序列数据。</p>
+<h2 id="ts-对象"><a href="#ts-对象" class="headerlink" title="ts 对象"></a>ts 对象</h2><p>R语言中的一种记录时序的对象。</p>
+<pre><code>y &lt;- ts(c(123,39,78,52,110), start=2012)
+</code></pre><h2 id="时间图"><a href="#时间图" class="headerlink" title="时间图"></a>时间图</h2><p>对于时间序列数据而言，我们从最简单的时间图开始。时间图是用将观测值与观测时间点作图，散点之间用直线连接。例如图2.1表示在澳大利亚两个最大的城市之间，Ansett航空公司的每周客流量。</p>
+<p><img src="/images/2019/picture/time-forecast/2-1.png" alt></p>
+<p>该时间图直观地展现出数据具有的一些特征：</p>
+<ul>
+<li>由于1989年当地的工业纠纷，当年的客流量为0.</li>
+<li>在1992年中，由于一部分经济舱被商务舱取代，导致客流量大幅减少。</li>
+<li>1991年下半年客流量大幅上升。</li>
+<li>由于假日效应，在每年年初，客流量都会有一定幅度的下降。</li>
+<li>这是序列存在长期波动，在1987年向上波动，在1988年向下波动，而在1990年和1991年又再次向上波动。</li>
+<li>在某些时期存在缺失值。</li>
+</ul>
+<p><img src="/images/2019/picture/time-forecast/2-2.png" alt></p>
+<ul>
+<li>显然，图示的时间序列具有明显增长的趋势。</li>
+<li>同时，在上升趋势中伴随着明显的季节性。</li>
+<li>在每年年底，由于政府补贴计划，使得降糖药品更便宜，所以人们倾向于在年底囤积药物，从而导致年初的销售额大幅下降。</li>
+<li>因此，当我们对降糖药物的销量进行预测时，需同时考虑其趋势和季节性因素。</li>
+</ul>
+<h2 id="时间序列形态"><a href="#时间序列形态" class="headerlink" title="时间序列形态"></a>时间序列形态</h2><p>我们通常使用例如“趋势”、“季节性”等词语描述时间序列。在深入研究时间序列形态时，应该更精确的定义这些词语。</p>
+<h3 id="趋势"><a href="#趋势" class="headerlink" title="趋势"></a>趋势</h3><p>当一个时间序列数据长期增长或者长期下降时，表示该序列有 <code>趋势</code> 。在某些场合，趋势代表着“转换方向”。例如从增长的趋势转换为下降趋势。在图 2.2 中，明显存在一个增长的趋势。</p>
+<h3 id="季节性"><a href="#季节性" class="headerlink" title="季节性"></a>季节性</h3><p>当时间序列中的数据受到季节性因素（例如一年的时间或者一周的时间）的影响时，表示该序列具有 <code>季节性</code> 。季节性总是一个已知并且固定的频率。由于抗糖尿病药物的成本在年底时会有变化，导致上述抗糖尿药物的月销售额存在季节性。</p>
+<h3 id="周期性"><a href="#周期性" class="headerlink" title="周期性"></a>周期性</h3><p>当时间序列数据存在不固定频率的上升和下降时，表示该序列有 <code>周期性</code> 。这些波动经常由经济活动引起，并且与“商业周期”有关。周期波动通常至少持续两年。</p>
+<blockquote>
+<p>许多初学者都不能很好的区分季节性和周期，然而这两个概念是完全不同的。当数据的波动是无规律时，表示序列存在周期性；如果波动的频率不变并且与固定长度的时间段有关，表示序列存在季节性。一般而言，周期的长度较长，并且周期的波动幅度也更大。</p>
+</blockquote>
+<p>许多时间序列同时包含趋势、季节性以及周期性。当我们选择预测方法时，首先应该分析时间序列数据所具备的特征，然后再选择合适的预测方法抓取特征。</p>
+<p>以下四个示例分别是上述三个特征的不同组合。</p>
+<p><img src="/images/2019/picture/time-forecast/2-3.png" alt></p>
+<ul>
+<li>美国新建房屋销售额（左上）表现出强烈的年度季节性，以及周期为6~10年的周期性。但是数据并没有表现出明显的趋势。</li>
+<li>美国国债价格（右上）表示1981年美国国债在芝加哥市场连续100个交易日的价格。可以看出，该序列并没有季节性，但是有明显下降的趋势。假如我们拥有该序列更多的观测数据，我们可以看到这个下降的趋势是一个长期循环的一部分。但是现在我们只有连续100天的数据，它表现出下降的趋势。</li>
+<li>澳大利亚月度电力产值数据（左下）明显表现出向上增长的趋势，以及强季节性。但是并不存在周期性。</li>
+<li>Google收盘股价格（右下）的价格波动没有趋势，季节性和周期性。随机波动没有良好的形态特性，不能很好地预测。</li>
+</ul>
+<h2 id="季节图"><a href="#季节图" class="headerlink" title="季节图"></a>季节图</h2><p>季节图和时间序列图很相似，不同之处是季节图是针对观察数据的“季节性”绘制的。下面的例子是降糖药物的销售情况。</p>
+<p><img src="/images/2019/picture/time-forecast/2-4.png" alt></p>
+<p>在早些年，数据形态基本相同，但是近些年数据存在相互堆叠的情况。季节图可以很清晰的显示季节形态，这对识别数据形态是否发生变化非常有效。</p>
+<p>在本例中，在每年一月份降糖药物的销量都会大幅下降。实际上，患者会在12月下旬大量购买降糖药物，但是这部分销量会在一两周后才向政府登记。从上图还可以看出，2008年3月销量大幅下降（其他年份2月份至3月份的销量增加）。2008年6月份销量较少可能是由于销量数据收集不完整导致。</p>
+<p>季节图中可以将直角坐标转换为极坐标。</p>
+<p><img src="/images/2019/picture/time-forecast/2-5.png" alt></p>
+<h2 id="子系列季节图"><a href="#子系列季节图" class="headerlink" title="子系列季节图"></a>子系列季节图</h2><p><img src="/images/2019/picture/time-forecast/2-6.png" alt></p>
+<p>图中的水平线表示每月的平均销量。子系列季节图可以清晰的描绘出数据的潜在季节性形态，并且显示了季节性随时间的变化情况。这类图可以很好地查看各时期内数据的变化情况。在本例中，子系列季节图并没有明显地体现数据特性，但是这是观察季节性变化最有用的方式。</p>
+<h2 id="散点图"><a href="#散点图" class="headerlink" title="散点图"></a>散点图</h2><p>在此之前，我们所讨论的内容都是单个时间序列的可视化。此外，多个时间序列的可视化也是非常有用的。 图 2.7 分别展示了两个时间序列：2014年澳大利亚维多利亚州每半小时的用电量（以千兆瓦为单位）和温度（以摄氏度为单位）</p>
+<p><img src="/images/2019/picture/time-forecast/2-7.png" alt></p>
+<p><img src="/images/2019/picture/time-forecast/2-8.png" alt></p>
+<p>这个散点图可以很好的帮助我们理解变量之间的相互关系。从图中我们可以看出，当温度很高时，人们会大量的使用空调进行降温，进而导致用电量随之增加；当温度很低时，人们会使用空调取暖，也会使得用电量一定程度上增加。</p>
+<h3 id="相关性"><a href="#相关性" class="headerlink" title="相关性"></a>相关性</h3><p>我们经常会用 相关系数 衡量两个两个变量之间的相关强度。假如已知两个变量 x 和 y ，那么它们之间的相关系数为：</p>
+<center> $$ r = \frac{\sum (x _{t} - \bar{x})(y _{t} - \bar{y}))}{\sqrt{\sum (x _{t}- \bar{x}) ^{2}}\sqrt{\sum (y _{t}-\bar{y}) ^{2}}} $$ </center>
+
+<p>r 的值始终在-1到1之间。当两个变量完全负相关时，r 值为-1；当两个变量完全正相关时，r 为1.图 2.9 分别展示了不同相关强度的例子。</p>
+<p><img src="/images/2019/picture/time-forecast/2-9.png" alt></p>
+<p>需要注意的是，相关系数仅仅衡量了变量之间的线性关系，并且有时会导致错误的结果。例如，在图 2.10中，所有例子的相关系数均为0.82，但是它们有着完全不同的形态。 这表明，在分析变量之间关系时，不仅要看相关系数值，而且要关注生成的图形。</p>
+<p><img src="/images/2019/picture/time-forecast/2-10.png" alt></p>
+<p>在图 2.8中，用电量和温度之间的相关系数仅为0.2798，但并不代表用电量和温度之间存在很强的非线性关系。</p>
+<h3 id="散点图矩阵"><a href="#散点图矩阵" class="headerlink" title="散点图矩阵"></a>散点图矩阵</h3><p>当所分析的数据有多个变量时，将每个变量与其他变量进行比较也很有意义。如图2.11所示，表示澳大利亚新南威尔士五个地区的季度游客人数。</p>
+<p><img src="/images/2019/picture/time-forecast/2-11.png" alt></p>
+<p>如图 2.12所示，我们可以绘制出它们的散点图矩阵。</p>
+<p><img src="/images/2019/picture/time-forecast/2-12.png" alt></p>
+<p>我们可以通过散点图矩阵快速查看所有变量之间的相关关系。在本例中，由图中第二列数据可知，新南威尔士州北部海岸游客与新南威尔士南部海岸游客之间存在强烈的正关系，而新南威尔士州北部海岸的游客与新南威尔士内陆游客之间几乎没有相关关系。同时，我们可以通过散点图矩阵检测到异常值。由于2000年悉尼奥运会，新南威尔士大都会地区存在异常大的客流量。</p>
+<h2 id="滞后图"><a href="#滞后图" class="headerlink" title="滞后图"></a>滞后图</h2><p>图 2.13是澳大利亚每季度啤酒产量的散点图，横轴表示时间序列的滞后阶数。各图分别显示了不同 k 值下 $ y _{t} $ 和 $ y _{t-k} $ 的散点图。</p>
+<p><img src="/images/2019/picture/time-forecast/2-13.png" alt></p>
+<p>2-13 澳大利亚每季度啤酒产量不同滞后阶数散点图</p>
+<p>图中不同颜色代表不同季节，每条线都按时间顺序连接。从图中可以看出，滞后四阶和滞后八阶有正相关关系，说明数据具有很强的季节性。二阶滞后图和六阶滞后图显示，第四季度的峰值对应第二季度的最低点。</p>
+<h2 id="自相关"><a href="#自相关" class="headerlink" title="自相关"></a>自相关</h2><p>正如相关系数可以衡量两个变量之间的线性相关关系一样，自相关系数可以测量时间序列 滞后值 之间的线性关系。</p>
+<p>以下几个不同的自相关系数，对应于滞后图中的不同情况。例如， $ r _{1} $ 衡量 $ y _{t} $ 和 $ y _{t-1} $ 之间的关系， $ r _{2} $ 衡量 $ y _{t} $ 和 $ y _{t-2} $ 之间的关系.</p>
+<p>其中， $ r _{k} $ 的定义如下：</p>
+<center> $$ r <em>{k}=\frac{\sum</em>{t=K+1}^{T}(y _{t}-\bar{y})(y <em>{t-k}-\bar{y})}{\sum</em>{t=1}^{T}(y _{t}-\bar{y})^{2}} $$ </center>
+
+<p>其中，T 是时间序列的长度。</p>
+<p>澳大利亚啤酒产量数据的前九个自相关系数如下表所示。（略）</p>
+<p>各值分别对应于图 2.13 中的九个散点图。通过绘制自相关系数图可以描绘 自相关函数 或者是ACF。因此也被称为相关图。</p>
+<p><img src="/images/2019/picture/time-forecast/2-14.png" alt></p>
+<p>在该图中：</p>
+<ul>
+<li>$ r _{4} $ 值最大。这是由于数据的季节性形态：顶峰往往出现在第四季度，谷底往往出现在第二季度。</li>
+<li>$ r _{2} $ 值最小。这是由于谷底往往在高峰之后的两个季度出现。</li>
+<li>蓝色虚线之内的区域自相关性可近似看做0。这将会在下节详细阐述。</li>
+</ul>
+<h3 id="ACF-图中的趋势性和季节性"><a href="#ACF-图中的趋势性和季节性" class="headerlink" title="ACF 图中的趋势性和季节性"></a>ACF 图中的趋势性和季节性</h3><p>当数据具有趋势性时，短期滞后的自相关值较大，因为观测点附近的值波动不会很大。时间序列的ACF一般是正值，随着滞后阶数的增加而缓慢下降。</p>
+<p>当数据具有季节性时，自相关值在滞后阶数与季节周期相同时（或者在季节周期的倍数）较大。</p>
+<p>当数据同时具有趋势和季节性时，我们会观察到组合效应。如图 2.15 是澳大利亚用电量，该序列同时具有趋势和季节性。它的ACF值如图 2.16 所示。</p>
+<p><img src="/images/2019/picture/time-forecast/2-15.png" alt></p>
+<p><img src="/images/2019/picture/time-forecast/2-16.png" alt></p>
+<p>自相关系数值随着滞后阶数增加而缓慢降低，是因为原时间序列中具有趋势变化，而图中的“圆齿状”形状是来源于原时间序列中的季节性变化。</p>
+<h2 id="白噪声"><a href="#白噪声" class="headerlink" title="白噪声"></a>白噪声</h2><p>“白噪声”是一个对所有时间其自相关系数为零的随机过程。 图 2.17是一个白噪声的例子。</p>
+<p><img src="/images/2019/picture/time-forecast/2-17.png" alt></p>
+<p>白噪声函数的自相关函数如下图所示：</p>
+<p><img src="/images/2019/picture/time-forecast/2-18.png" alt></p>
+<p>对于白噪声而言，我们期望它的自相关值接近0。但是由于随机扰动的存在，自相关值并不会精确地等于0。对于一个长度为 T 的白噪声序列而言，我们期望在0.95的置信度下，它的自相关值处于 $ \pm 2/\sqrt{T} $ 之间。我们可以很容易的画出ACF的边界值（图中蓝色虚线）。如果一个序列中有较多的自相关值处于边界之外，那么该序列很可能不是白噪声序列。</p>
+<p>在上例中，序列长度 T = 50，边界为 $ \pm 2/\sqrt{50} = \pm 0.28 $ 。所有的自相关值均落在边界之内，证明序列是白噪声.</p>
+<h2 id="拓展阅读-1"><a href="#拓展阅读-1" class="headerlink" title="拓展阅读"></a>拓展阅读</h2><ul>
+<li>Cleveland (1993) 是关于数据分析可视化原理的经典著作。虽然已有20多年历史，但它的思想永不过时。</li>
+<li>Unwin (2015) 是一本关于使用R进行图形数据分析的前沿著作。它并没有着重介绍如何绘制时间序列图形，更多的是关于使用图形进行数据分析。</li>
+</ul>
 
       
     </div>
@@ -653,7 +787,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#入门"><span class="nav-number">1.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是可以被预测的"><span class="nav-number">1.1.</span> <span class="nav-text">什么是可以被预测的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测、计划和目标"><span class="nav-number">1.2.</span> <span class="nav-text">预测、计划和目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决定预测什么"><span class="nav-number">1.3.</span> <span class="nav-text">决定预测什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测数据和方法"><span class="nav-number">1.4.</span> <span class="nav-text">预测数据和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预测变量与时间序列预测"><span class="nav-number">1.4.1.</span> <span class="nav-text">预测变量与时间序列预测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例学习"><span class="nav-number">1.5.</span> <span class="nav-text">案例学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测过程的主要步骤"><span class="nav-number">1.6.</span> <span class="nav-text">预测过程的主要步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义问题"><span class="nav-number">1.6.1.</span> <span class="nav-text">定义问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收集信息"><span class="nav-number">1.6.2.</span> <span class="nav-text">收集信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初步（探索性）分析"><span class="nav-number">1.6.3.</span> <span class="nav-text">初步（探索性）分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择及拟合模型"><span class="nav-number">1.6.4.</span> <span class="nav-text">选择及拟合模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用及评估预测模型"><span class="nav-number">1.6.5.</span> <span class="nav-text">使用及评估预测模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统计预测观点"><span class="nav-number">1.7.</span> <span class="nav-text">统计预测观点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#入门"><span class="nav-number">1.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是可以被预测的"><span class="nav-number">1.1.</span> <span class="nav-text">什么是可以被预测的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测、计划和目标"><span class="nav-number">1.2.</span> <span class="nav-text">预测、计划和目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#决定预测什么"><span class="nav-number">1.3.</span> <span class="nav-text">决定预测什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测数据和方法"><span class="nav-number">1.4.</span> <span class="nav-text">预测数据和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预测变量与时间序列预测"><span class="nav-number">1.4.1.</span> <span class="nav-text">预测变量与时间序列预测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#案例学习"><span class="nav-number">1.5.</span> <span class="nav-text">案例学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测过程的主要步骤"><span class="nav-number">1.6.</span> <span class="nav-text">预测过程的主要步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#定义问题"><span class="nav-number">1.6.1.</span> <span class="nav-text">定义问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收集信息"><span class="nav-number">1.6.2.</span> <span class="nav-text">收集信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初步（探索性）分析"><span class="nav-number">1.6.3.</span> <span class="nav-text">初步（探索性）分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选择及拟合模型"><span class="nav-number">1.6.4.</span> <span class="nav-text">选择及拟合模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用及评估预测模型"><span class="nav-number">1.6.5.</span> <span class="nav-text">使用及评估预测模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统计预测观点"><span class="nav-number">1.7.</span> <span class="nav-text">统计预测观点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展阅读"><span class="nav-number">1.8.</span> <span class="nav-text">拓展阅读</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#时间序列图形"><span class="nav-number">2.</span> <span class="nav-text">时间序列图形</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ts-对象"><span class="nav-number">2.1.</span> <span class="nav-text">ts 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间图"><span class="nav-number">2.2.</span> <span class="nav-text">时间图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间序列形态"><span class="nav-number">2.3.</span> <span class="nav-text">时间序列形态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#趋势"><span class="nav-number">2.3.1.</span> <span class="nav-text">趋势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#季节性"><span class="nav-number">2.3.2.</span> <span class="nav-text">季节性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#周期性"><span class="nav-number">2.3.3.</span> <span class="nav-text">周期性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#季节图"><span class="nav-number">2.4.</span> <span class="nav-text">季节图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子系列季节图"><span class="nav-number">2.5.</span> <span class="nav-text">子系列季节图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#散点图"><span class="nav-number">2.6.</span> <span class="nav-text">散点图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相关性"><span class="nav-number">2.6.1.</span> <span class="nav-text">相关性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#散点图矩阵"><span class="nav-number">2.6.2.</span> <span class="nav-text">散点图矩阵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#滞后图"><span class="nav-number">2.7.</span> <span class="nav-text">滞后图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自相关"><span class="nav-number">2.8.</span> <span class="nav-text">自相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ACF-图中的趋势性和季节性"><span class="nav-number">2.8.1.</span> <span class="nav-text">ACF 图中的趋势性和季节性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#白噪声"><span class="nav-number">2.9.</span> <span class="nav-text">白噪声</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展阅读-1"><span class="nav-number">2.10.</span> <span class="nav-text">拓展阅读</span></a></li></ol></li></ol></div>
             
 
           </div>
