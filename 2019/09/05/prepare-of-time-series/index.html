@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Essay,Impression,Internet,">
+  <meta name="keywords" content="time series,">
 
 
 
@@ -79,20 +79,18 @@
 
 
 
-<meta name="description" content="从哪开始呢今天是2019年3月10号，周日，在北京顺义区。昨天游玩了香山，晚上转了南锣鼓巷。今天也是入职互联网行业的第45天，难得有些许时光。就把最近的想法简单记录一下。 何种形式呈现呢也不知道从何处说，也不知道如何说，那就用自问自答的形式吧。  开始来点轻松的吧，来北京一个半月了，现在对北京感觉如何？  北京，是中国的首都，又叫做帝都，像我一样的大多数人，被称为北漂。才来的时候，被自如甲醛房美丽">
-<meta name="keywords" content="Essay,Impression,Internet">
+<meta name="description" content="预测者的工具集本章我们会讨论一些在不同预测场景中应用的常用工具。我们将介绍一些基准预测方法，并探讨如何通过数据变换与调整简化预测，如何判断预测是否充分利用了现有信息以及如何计算预测区间。 一些简单的预测方法均值法Naïve 方法季节性 Naïve 方法漂移法例子 变换和调整">
+<meta name="keywords" content="time series">
 <meta property="og:type" content="article">
-<meta property="og:title" content="加入互联网行业">
-<meta property="og:url" content="http://yoursite.com/2019/03/10/Join-the-Internet-industry/index.html">
+<meta property="og:title" content="2.时间序列准备">
+<meta property="og:url" content="http://yoursite.com/2019/09/05/prepare-of-time-series/index.html">
 <meta property="og:site_name" content="xiaolongc">
-<meta property="og:description" content="从哪开始呢今天是2019年3月10号，周日，在北京顺义区。昨天游玩了香山，晚上转了南锣鼓巷。今天也是入职互联网行业的第45天，难得有些许时光。就把最近的想法简单记录一下。 何种形式呈现呢也不知道从何处说，也不知道如何说，那就用自问自答的形式吧。  开始来点轻松的吧，来北京一个半月了，现在对北京感觉如何？  北京，是中国的首都，又叫做帝都，像我一样的大多数人，被称为北漂。才来的时候，被自如甲醛房美丽">
+<meta property="og:description" content="预测者的工具集本章我们会讨论一些在不同预测场景中应用的常用工具。我们将介绍一些基准预测方法，并探讨如何通过数据变换与调整简化预测，如何判断预测是否充分利用了现有信息以及如何计算预测区间。 一些简单的预测方法均值法Naïve 方法季节性 Naïve 方法漂移法例子 变换和调整">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/2019/picture/11.jpg">
-<meta property="og:updated_time" content="2019-09-01T07:50:51.873Z">
+<meta property="og:updated_time" content="2019-09-05T14:53:06.351Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="加入互联网行业">
-<meta name="twitter:description" content="从哪开始呢今天是2019年3月10号，周日，在北京顺义区。昨天游玩了香山，晚上转了南锣鼓巷。今天也是入职互联网行业的第45天，难得有些许时光。就把最近的想法简单记录一下。 何种形式呈现呢也不知道从何处说，也不知道如何说，那就用自问自答的形式吧。  开始来点轻松的吧，来北京一个半月了，现在对北京感觉如何？  北京，是中国的首都，又叫做帝都，像我一样的大多数人，被称为北漂。才来的时候，被自如甲醛房美丽">
-<meta name="twitter:image" content="http://yoursite.com/images/2019/picture/11.jpg">
+<meta name="twitter:title" content="2.时间序列准备">
+<meta name="twitter:description" content="预测者的工具集本章我们会讨论一些在不同预测场景中应用的常用工具。我们将介绍一些基准预测方法，并探讨如何通过数据变换与调整简化预测，如何判断预测是否充分利用了现有信息以及如何计算预测区间。 一些简单的预测方法均值法Naïve 方法季节性 Naïve 方法漂移法例子 变换和调整">
 
 
 
@@ -122,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/10/Join-the-Internet-industry/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/05/prepare-of-time-series/">
 
 
 
 
 
-  <title>加入互联网行业 | xiaolongc</title>
+  <title>2.时间序列准备 | xiaolongc</title>
   
 
 
@@ -265,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/10/Join-the-Internet-industry/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/05/prepare-of-time-series/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="chenxiaolong">
@@ -282,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">加入互联网行业</h1>
+          <h1 class="post-title" itemprop="name headline">2.时间序列准备</h1>
         
 
         <div class="post-meta">
@@ -294,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-10T11:15:43+08:00">
-                2019-03-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-05T22:50:51+08:00">
+                2019-09-05
               </time>
             
 
@@ -317,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Essay/" itemprop="url" rel="index">
-                    <span itemprop="name">Essay</span>
+                  <a href="/categories/time-series/" itemprop="url" rel="index">
+                    <span itemprop="name">time series</span>
                   </a>
                 </span>
 
@@ -354,18 +352,9 @@
       
 
       
-        <h1 id="从哪开始呢"><a href="#从哪开始呢" class="headerlink" title="从哪开始呢"></a>从哪开始呢</h1><p>今天是2019年3月10号，周日，在北京顺义区。昨天游玩了香山，晚上转了南锣鼓巷。今天也是入职互联网行业的第45天，难得有些许时光。就把最近的想法简单记录一下。</p>
-<h1 id="何种形式呈现呢"><a href="#何种形式呈现呢" class="headerlink" title="何种形式呈现呢"></a>何种形式呈现呢</h1><p>也不知道从何处说，也不知道如何说，那就用自问自答的形式吧。</p>
-<ul>
-<li>开始来点轻松的吧，来北京一个半月了，现在对北京感觉如何？</li>
-</ul>
-<p>北京，是中国的首都，又叫做帝都，像我一样的大多数人，被称为北漂。才来的时候，被自如甲醛房美丽的外表所迷惑，租了半个月，房子一开始开窗通风，只在最后3天入住，每天晚上开着窗户睡，被凛冽的寒风和马路上的车声安排的服服帖帖。后来，在美丽的外表与安全之间选择了安全，联系自如小管家换了房子。</p>
-<p>[中午小插曲，顿点从老家带来了老母鸡，喝点鸡汤，整了星球杯大小的6盅牛栏山，喝的晕晕乎乎的~~~。]</p>
-<p>北京，确实又到了想象的边缘。便利的交通，转不完的景点，酸爽的小吃，数不尽的小酒馆，让人流连忘返的各种夜景。能给人带来无尽的想象。更不用提高校、医院、建筑、文化、政治这种软实力。</p>
-<p>要说感受，目前还是月光族，交了房租，每月开销，剩下的需要还助学贷款。所谓在外面熙熙攘攘的环境下，还能够在小屋里享受片刻的安宁。</p>
-<p>附张北京的小玩物：</p>
-<p><img src="/images/2019/picture/11.jpg" alt></p>
-
+        <h1 id="预测者的工具集"><a href="#预测者的工具集" class="headerlink" title="预测者的工具集"></a>预测者的工具集</h1><p>本章我们会讨论一些在不同预测场景中应用的常用工具。我们将介绍一些基准预测方法，并探讨如何通过数据变换与调整简化预测，如何判断预测是否充分利用了现有信息以及如何计算预测区间。</p>
+<h2 id="一些简单的预测方法"><a href="#一些简单的预测方法" class="headerlink" title="一些简单的预测方法"></a>一些简单的预测方法</h2><h3 id="均值法"><a href="#均值法" class="headerlink" title="均值法"></a>均值法</h3><h3 id="Naive-方法"><a href="#Naive-方法" class="headerlink" title="Naïve 方法"></a>Naïve 方法</h3><h3 id="季节性-Naive-方法"><a href="#季节性-Naive-方法" class="headerlink" title="季节性 Naïve 方法"></a>季节性 Naïve 方法</h3><h3 id="漂移法"><a href="#漂移法" class="headerlink" title="漂移法"></a>漂移法</h3><p><strong>例子</strong></p>
+<h2 id="变换和调整"><a href="#变换和调整" class="headerlink" title="变换和调整"></a>变换和调整</h2>
       
     </div>
     
@@ -382,11 +371,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Essay/" rel="tag"># Essay</a>
-          
-            <a href="/tags/Impression/" rel="tag"># Impression</a>
-          
-            <a href="/tags/Internet/" rel="tag"># Internet</a>
+            <a href="/tags/time-series/" rel="tag"># time series</a>
           
         </div>
       
@@ -399,8 +384,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/10/hexo-action/" rel="next" title="hexo-实战">
-                <i class="fa fa-chevron-left"></i> hexo-实战
+              <a href="/2019/09/01/rudiments-of-time-series/" rel="next" title="1. 时间序列入门">
+                <i class="fa fa-chevron-left"></i> 1. 时间序列入门
               </a>
             
           </div>
@@ -409,8 +394,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/12/hadoop-spark-install/" rel="prev" title="macoc 下 hadoop spark 安装和配置">
-                macoc 下 hadoop spark 安装和配置 <i class="fa fa-chevron-right"></i>
+              <a href="/2099/01/01/Contents/" rel="prev" title="博客目录">
+                博客目录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -567,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#从哪开始呢"><span class="nav-number">1.</span> <span class="nav-text">从哪开始呢</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#何种形式呈现呢"><span class="nav-number">2.</span> <span class="nav-text">何种形式呈现呢</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#预测者的工具集"><span class="nav-number">1.</span> <span class="nav-text">预测者的工具集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一些简单的预测方法"><span class="nav-number">1.1.</span> <span class="nav-text">一些简单的预测方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#均值法"><span class="nav-number">1.1.1.</span> <span class="nav-text">均值法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Naive-方法"><span class="nav-number">1.1.2.</span> <span class="nav-text">Naïve 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#季节性-Naive-方法"><span class="nav-number">1.1.3.</span> <span class="nav-text">季节性 Naïve 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#漂移法"><span class="nav-number">1.1.4.</span> <span class="nav-text">漂移法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变换和调整"><span class="nav-number">1.2.</span> <span class="nav-text">变换和调整</span></a></li></ol></li></ol></div>
             
 
           </div>

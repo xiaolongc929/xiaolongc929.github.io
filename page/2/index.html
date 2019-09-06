@@ -259,6 +259,238 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/Training-versus-Testing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/05/26/Training-versus-Testing/" itemprop="url">5. Training-versus-Testing</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-26T10:48:34+08:00">
+                2019-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning-foundation/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning foundation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="When-can-machines-learn-illustrative-technical"><a href="#When-can-machines-learn-illustrative-technical" class="headerlink" title="When can machines learn? (illustrative + technical)"></a>When can machines learn? (illustrative + technical)</h1><h1 id="Why-can-machines-learn-theoretical-illustrative"><a href="#Why-can-machines-learn-theoretical-illustrative" class="headerlink" title="Why can machines learn? (theoretical +illustrative)"></a>Why can machines learn? (theoretical +illustrative)</h1><p><img src="/images/2019/picture/Training-versus-Testing/0.png" alt></p>
+<h2 id="Recap-and-preview"><a href="#Recap-and-preview" class="headerlink" title="Recap and preview"></a>Recap and preview</h2><blockquote>
+<p>复习：整个 learning 的流程图如下图所示， learning 从资料 training examples 出发，通过资料以及 hypothesis set，最终从里面选择了一个最终的 hypothesis g(assumption: 训练的资料和最终测试 hypothesis 方法，都来自于同样的一个 distribution)。</p>
+</blockquote>
+<ul>
+<li><p>如果训练集和测试集都来自于同样的一个分布，且 hypothesis set 的集合是有限的，则对于 learning algorithm A 选择的任意一个 g，都可以保证 E<sup>out</sup>(g) ≈ E<sup>in</sup>(g)。</p>
+</li>
+<li><p>如果 learning algorithm A 找到一个 g, 使得 E<sup>in</sup>(g) ≈ 0，PAC 能够保证 E<sup>out</sup>(g) ≈ 0。（这使得机器学习时间可能的事情）。</p>
+</li>
+</ul>
+<p><strong>这里的两个重要假设是：① 训练集和测试集都来自于同样的一个分布；② PAC 定理。</strong></p>
+<p><img src="/images/2019/picture/Training-versus-Testing/1.png" alt></p>
+<p>下图总结了前面的4节课中的主要内容：</p>
+<ul>
+<li>第一节课，期望找到一个 g，使得 g 与 f 很接近。</li>
+<li>第二节课，期望找到使 E<sup>in(g) ≈ 0 的方法。</sup></li>
+<li>第三节课，了解了批次数据、监督学习以及二元分类的情况(PLA)。</li>
+<li>第四节课，将 E<sup>out</sup>(g) ≈ E<sup>in</sup>(g)，连接了一起。</li>
+</ul>
+<p><img src="/images/2019/picture/Training-versus-Testing/2.png" alt></p>
+<p><strong>这里将 learning 拆分为了两个问题，如下图所示：</strong></p>
+<p><img src="/images/2019/picture/Training-versus-Testing/3.png" alt></p>
+<p>提出问题：M(hypothesis set 的大小) 在上述两个问题中扮演者什么样的角色？</p>
+<p>Trade-off(权衡) M：</p>
+<p>这里会有两种情况：</p>
+<ul>
+<li>M 很小的时候：①Yes -&gt; 坏事情 p[BAD] 发生的概率如下图所示，因此，当 M 很小的时候，坏事情(即 E<sup>out</sup>(g) 和 E<sup>in</sup>(g) 不接近)发生的概率就很小。②No -&gt; 当 M 很小的时候，可以选择的算法就很小，未必能够找到一个 g 使得 E<sup>in</sup> 足够小。</li>
+<li>M 很大的时候：①No -&gt; 。②Yes -&gt; 选择更多了。</li>
+</ul>
+<p><img src="/images/2019/picture/Training-versus-Testing/4.png" alt></p>
+<p>因此，如果 M 太大的话，未必是一件好事。</p>
+<p>对比 M 是有限的还是无线的两种情况：</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/5.png" alt></p>
+<p><strong>下面的问题也很有意思，他保证了要想 E<sup>out</sup>(g) 和 E<sup>in</sup>(g) 接近的话，至少需要的数据量。</strong></p>
+<p><img src="/images/2019/picture/Training-versus-Testing/6.png" alt></p>
+<h2 id="Effective-number-of-lines"><a href="#Effective-number-of-lines" class="headerlink" title="Effective number of lines"></a>Effective number of lines</h2><blockquote>
+<p>复习：下面复习下 M 的来源，考虑 BAD events 的定义为  E<sup>out</sup>(g) 和 E<sup>in</sup>(g) 相差很远(大于 ε)的如下图所示，当有 M 个可用选择的 f，则可以使用联结的形式将这些 f 联结在一起。</p>
+</blockquote>
+<p><img src="/images/2019/picture/Training-versus-Testing/7.png" alt></p>
+<p>下面的问题是，如果 M 的无限的，怎么办呢？(Uniform Bound Fail?)</p>
+<p>现在想，如果有两个比较接近的 hypotheses h<sup>1</sup> ≈ h<sup>2</sup>(比如两条比较接近的线)，这两个比较接近的 h<sup>1</sup> 、 h<sup>2</sup> 的 E<sup>in</sup>是一样的，E<sup>out</sup> 也很接近。</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/8.png" alt></p>
+<p>这种坏事情是互相叠起来的，像上图中的右边的 B1, B2, B3 所示。但是，我们在使用 Uniform Bound 的时候，并没有考虑叠起来这件事情，所以造成上限是一个 over-estimating。</p>
+<p>下面要做的事情就是找出这些坏事情重叠的部分：</p>
+<ul>
+<li>第一步，能否将无限多的 hypothesis set，分为有限多个类？</li>
+<li>如何分类？</li>
+</ul>
+<p><img src="/images/2019/picture/Training-versus-Testing/9.png" alt><br><img src="/images/2019/picture/Training-versus-Testing/10.png" alt><br><img src="/images/2019/picture/Training-versus-Testing/11.png" alt><br><img src="/images/2019/picture/Training-versus-Testing/12.png" alt></p>
+<p>在平面中的点和线而言，以将点划分为不同的类为区分：</p>
+<ul>
+<li>1个点，有 2 种线</li>
+<li>2个点，有 4 种线</li>
+<li>3个点，最多有 8 种线</li>
+<li>4个点，最多有 14 种线</li>
+</ul>
+<p>如果将输入的点以线分开的话，得到的有效的线的数量是有限的。</p>
+<p>使用 effective(N) 来代替 M。 effective(N) &lt;&lt; 2<sub>N</sub>。N 代表 N 个点(即 N 个样本)。</p>
+<p>如果只从输入的点看的话，那么得到线的种类是有限的，把这种有效的线叫做： Effective Number of Lines。</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/13.png" alt></p>
+<p>就算有无限多条线 M，如果能够将无限多条线分为 effective(N), 比 2<sub>N</sub> 小很多的话，我们就可以保证可能学的到东西。</p>
+<h2 id="Effective-number-of-hypotheses"><a href="#Effective-number-of-hypotheses" class="headerlink" title="Effective number of hypotheses"></a>Effective number of hypotheses</h2><h3 id="Dichotomies-Mini-hypotheses"><a href="#Dichotomies-Mini-hypotheses" class="headerlink" title="Dichotomies: Mini-hypotheses"></a>Dichotomies: Mini-hypotheses</h3><p>下面想象有这么一个 hypothesis，它将 X 空间分为 {x, o}，假如有 N 个点(x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>)的话，这 N 个点产生了几种{x, 0}组合可能性，将这种组合叫做 <strong>Dichotomy</strong>。</p>
+<ul>
+<li>a dichotomy(二分的意思): </li>
+<li>下面想看看一个 hypothesis set 可以做出多少种 dichotomy 出来，例如其中一个 dichotomy 将所有的点都分为 o。</li>
+<li>H(x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>) :将所有的 dichotomy 放在一起，形成一个集合，用 H(x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>) 表示。这是 dichotomies，而不是原来的 hypothesis set。</li>
+<li>具体的情况，如下图所示：hypotheses H 的大小最多有无限多个，而 dichotomies H(x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>) 的上限为 2<sub>N</sub>。</li>
+<li>接着用 |H(x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>)| 的大小来代替 M.</li>
+</ul>
+<p><img src="/images/2019/picture/Training-versus-Testing/14.png" alt></p>
+<h3 id="Growth-Function"><a href="#Growth-Function" class="headerlink" title="Growth Function"></a>Growth Function</h3><p>其实，dichotomies size |H(x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>)| 的大小，是取决于先选好的 (x<sup>1</sup>, x<sup>2</sup>, … , x<sup>N</sup>)(想下前面当有3个点时，可能有 8 种组合，在一条线上时有6种组合)。</p>
+<p>如果想要剔除掉对先选好的点(即对 X 的依赖)，就算下最终最大有几种就可以了：</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/15.png" alt></p>
+<p>将最大的 dichotomies size 记录为 m<sup>H</sup>(N)，并将 m<sup>H</sup>(N) 成为 Growth Function(成长函数)。Growth Function 的输出一定是有限的，因为最多为 2<sub>N</sub>。</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/16.png" alt></p>
+<p>下面要解决的问题是，如何计算 Growth function?</p>
+<h4 id="Growth-Function-for-positive-rays"><a href="#Growth-Function-for-positive-rays" class="headerlink" title="Growth Function for positive rays"></a>Growth Function for positive rays</h4><p>输入：一维的实数，<br>hypothesis: 大于阈值为正，小于阈值的为负。</p>
+<p>给N个点，最多可以切出多少不一样的 dichotomy？ 可以有 N+1 种 dichotomy。即成长函数为：m<sup>H</sup>(N) = N + 1</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/17.png" alt></p>
+<p>核心目标是：利用成长函数 m<sup>H</sup>(N) 来代替 M。</p>
+<h4 id="Growth-Function-for-positive-intervals"><a href="#Growth-Function-for-positive-intervals" class="headerlink" title="Growth Function for positive intervals"></a>Growth Function for positive intervals</h4><p>m<sup>H</sup>(N) = 1/2 * N<sup>2</sup> + 1/2 N  + 1</p>
+<h4 id="Growth-Function-for-convex-sets"><a href="#Growth-Function-for-convex-sets" class="headerlink" title="Growth Function for convex sets"></a>Growth Function for convex sets</h4><p>m<sup>H</sup>(N) = 2<sup>N</sup>，即 “shattered”, 即这 N 个点，被下面这种 hypothesis 打散了。</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/18.png" alt></p>
+<p><strong>四个不同的成长函数为：</strong></p>
+<p><img src="/images/2019/picture/Training-versus-Testing/19.png" alt></p>
+<h2 id="Break-point"><a href="#Break-point" class="headerlink" title="Break point"></a>Break point</h2><p>成长函数第一个看起来有一些希望的点在哪里？把这个点叫做 Break point。例如在 perceptrons 中，3个点的时候有8种情况，4个点的时候有14种情况，将第4个点叫做 perceptrons 的 break point。</p>
+<p>从 k 是 break point 的时候，k 以后都是 break point。</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/20.png" alt></p>
+<p>2D perceptrons 的 break point 为：4</p>
+<p>break point 和成长函数有一定的关系，见下图的左下角。</p>
+<p><img src="/images/2019/picture/Training-versus-Testing/21.png" alt></p>
+<h1 id="How-can-machines-learn-technical-practical"><a href="#How-can-machines-learn-technical-practical" class="headerlink" title="How can machines learn? (technical +practical)"></a>How can machines learn? (technical +practical)</h1><h1 id="How-can-machines-learn-better-practical-theoretical"><a href="#How-can-machines-learn-better-practical-theoretical" class="headerlink" title="How can machines learn better? (practical + theoretical)"></a>How can machines learn better? (practical + theoretical)</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/05/Feasibility-of-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2358,7 +2590,7 @@ A -&gt; D -&gt; X(jar)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
