@@ -259,6 +259,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/Theory-of-Generalization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/23/Theory-of-Generalization/" itemprop="url">6. Theory-of-Generalization</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-23T09:55:02+08:00">
+                2019-06-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning-foundation/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning foundation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="When-can-machines-learn-illustrative-technical"><a href="#When-can-machines-learn-illustrative-technical" class="headerlink" title="When can machines learn? (illustrative + technical)"></a>When can machines learn? (illustrative + technical)</h1><h1 id="Why-can-machines-learn-theoretical-illustrative"><a href="#Why-can-machines-learn-theoretical-illustrative" class="headerlink" title="Why can machines learn? (theoretical +illustrative)"></a>Why can machines learn? (theoretical +illustrative)</h1><p>希望成长函数 m<sub>H</sub>(N) 来代替实际的 M ?</p>
+<h2 id="Restriction-of-Break-Point"><a href="#Restriction-of-Break-Point" class="headerlink" title="Restriction of Break Point"></a>Restriction of Break Point</h2><p>growth function m<sub>H</sub>(N): max number of dichotomies（即最多能够产生几种不同的 xx 或 oo）。即 hypothesis set 在 N 个点上，最多能够产生多少种 dichotomy. </p>
+<p>几种不同类型的成长函数形式：</p>
+<p><img src="/images/2019/picture/Theory-of-Generalization/1.png" alt></p>
+<p>上面的 2D perceptrons, 虽然不知道成长函数是什么样的类型，但是可以知道 break point 为4.</p>
+<p> 下面一种情形为：当最小的 break point k = 2 时，当有 1个点，2个点，3个点的情形：可以证明，当有1个点 N = 1时，可以被成长函数 m<sub>H</sub> shatter(打散),当有2个点的时候，不能够被 shatter ，最大的 dichotomies 小于4，当 N = 3 时，不能被 shatter，最大的 dichotomies 等于4.</p>
+<p> <img src="/images/2019/picture/Theory-of-Generalization/2.png" alt></p>
+<p>小练习：</p>
+<p> <img src="/images/2019/picture/Theory-of-Generalization/3.png" alt></p>
+<h2 id="Bounding-Function-Basic-Cases"><a href="#Bounding-Function-Basic-Cases" class="headerlink" title="Bounding Function: Basic Cases"></a>Bounding Function: Basic Cases</h2><p>bounding function B(N, k): maximum possible m<sub>H</sub>(N) when point = k。这个成长函数在 K 那边漏出一线曙光，是它的 Break point, 那这个成长函数最多有多少种 dichotomy 的可能?</p>
+<p>限制条件： 最大长度为 N 向量的(o, x)，然而 ‘no shatter’ 任何 长度为k 的子向量。就是不希望看到 2<sup>k</sup> 的组合，即不能出现 shatter，不能将 k 个点，统统都 ko 掉。</p>
+<p>例如：上线函数 B(N, 3) 的地方边界有两种：① positive intervals(k=3)；② 1 D perceptrons(k=3)。即不去考虑 positive intervals 以及 1 D perceptrons 的成长函数，而是直接考虑他们的上线：B(N, 3)。</p>
+<p>接下来就先证明，上线函数 bounding functions 是像多项式那样的成长。</p>
+<p>new goal: B(N, k) ≤ ploy(N) ?</p>
+<p>现在的 B function 有两个参数，一个是 N(有几个点), 一个是 K(一线曙光发生的地方).</p>
+<p>前面我们知道的情形：</p>
+<ul>
+<li>B(N, 1) = 1</li>
+<li>B(2, 2) = 3(maximum &lt; 4)</li>
+<li>B(3, 2) = 4(‘pictorial’ proof previously)</li>
+<li>容易知道，当 N &lt; K 时，B(N, k) = 2<sup>N</sup></li>
+<li>当 N = K时，B(N, k) = 2<sup>N</sup> - 1</li>
+</ul>
+<p>B function(实际是成长函数的上线) 查表为：</p>
+<p><img src="/images/2019/picture/Theory-of-Generalization/4.png" alt></p>
+<h2 id="Bounding-Function-Inductive-Cases"><a href="#Bounding-Function-Inductive-Cases" class="headerlink" title="Bounding Function: Inductive Cases"></a>Bounding Function: Inductive Cases</h2><p>下面开始填上面的 B function 的左下角的部分。</p>
+<h2 id="A-Pictorial-Proof"><a href="#A-Pictorial-Proof" class="headerlink" title="A Pictorial Proof"></a>A Pictorial Proof</h2><h1 id="How-can-machines-learn-technical-practical"><a href="#How-can-machines-learn-technical-practical" class="headerlink" title="How can machines learn? (technical +practical)"></a>How can machines learn? (technical +practical)</h1><h1 id="How-can-machines-learn-better-practical-theoretical"><a href="#How-can-machines-learn-better-practical-theoretical" class="headerlink" title="How can machines learn better? (practical + theoretical)"></a>How can machines learn better? (practical + theoretical)</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/Training-versus-Testing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2380,169 +2547,11 @@ A -&gt; D -&gt; X(jar)
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/17/Hexo-HelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chenxiaolong">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xiaolongc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/02/17/Hexo-HelloWorld/" itemprop="url">Hexo-HelloWorld</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-17T21:44:57+08:00">
-                2019-02-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/software-install/" itemprop="url" rel="index">
-                    <span itemprop="name">software install</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<h2 id="参考的几篇文章"><a href="#参考的几篇文章" class="headerlink" title="参考的几篇文章"></a>参考的几篇文章</h2><ul>
-<li><a href="https://musoucrow.github.io/2017/02/26/build_bolg/" target="_blank" rel="noopener">在Mac平台使用GitHub和Hexo搭建博客</a></li>
-<li><a href="https://liam.page/2017/09/21/local-search-engine-in-Hexo-site/" target="_blank" rel="noopener">为 Hexo 博客创建本地搜索引擎</a></li>
-<li><a href="https://blog.csdn.net/Time888/article/details/70249241" target="_blank" rel="noopener">hexo 怎么删除文章？</a></li>
-<li><a href="https://blog.csdn.net/maosidiaoxian/article/details/85220394" target="_blank" rel="noopener">如何在Hexo中对文章md文件分类</a></li>
-<li><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">快速、简洁且高效的博客框架:hexo</a></li>
-<li><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">https://github.com/iissnan/hexo-theme-next</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2590,7 +2599,7 @@ A -&gt; D -&gt; X(jar)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2612,7 +2621,7 @@ A -&gt; D -&gt; X(jar)
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
