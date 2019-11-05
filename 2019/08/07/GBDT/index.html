@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xiaolongc">
 <meta property="og:description" content="提升树模型提升方法实际采用加法模型(即基函数的线性组合)与前向分布算法。以决策树为基函数的提升方法称为提升树(boosting tree)。对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归树。还有一种实现版本是分类问题、回归问题都使用的是CART回归树。具体情况，还需要查看其对应的实现方法。TODO：sklearn里面的GBDT实现方式。 提升树模型可以表示为决策树的加法模型： $$ f">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-01T07:50:51.871Z">
+<meta property="og:updated_time" content="2019-11-05T14:58:53.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3. GBDT">
 <meta name="twitter:description" content="提升树模型提升方法实际采用加法模型(即基函数的线性组合)与前向分布算法。以决策树为基函数的提升方法称为提升树(boosting tree)。对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归树。还有一种实现版本是分类问题、回归问题都使用的是CART回归树。具体情况，还需要查看其对应的实现方法。TODO：sklearn里面的GBDT实现方式。 提升树模型可以表示为决策树的加法模型： $$ f">
@@ -356,7 +356,7 @@
 <p><center>$$ f <em>{M}(x)=\sum</em>{m=1}^{M}T(x;\Theta _{m}) $$</center><br>其中 $ T(x;\Theta _{m}) $ 表示决策树， $ \Theta _{m} $ 为决策树的参数， M 为树的个数。</p>
 <h1 id="提升树算法"><a href="#提升树算法" class="headerlink" title="提升树算法"></a>提升树算法</h1><p>提升树算法采用前向分布算法，首先确定初始提升树 $ f _{0}=0 $ ,第m步的模型是： $ f _{m}=f _{m-1}(x)+T(x; \Theta _{m}) $ 。</p>
 <p>其中， $ f _{m-1}(x) $ 为当前模型，通过经验风险极小化确定下一颗决策树参数 $ \Theta _{m} $ ：</p>
-<p><center>$$ \Theta <em>{m}^{*}=argmin</em>{\Theta <em>{m}}\sum</em>{i=1}^{N}L(y _{i},f _{m-1}(x _{i})+T(x _{i};\Theta _{m})) $$</center><br>树的线性组合可以很好的拟合训练数据，即使数据中的输入与输出关系复杂也是，所以提升树一般是高功能的学习算法。</p>
+<p><center>$$ \Theta_{m}^{*}=argmin_{\Theta_{m}}\sum_{i=1}^{N}L(y_{i},f_{m-1}(x_{i})+T(x_{i};\Theta_{m})) $$</center><br>树的线性组合可以很好的拟合训练数据，即使数据中的输入与输出关系复杂也是，所以提升树一般是高功能的学习算法。</p>
 <font color="orange">下面讨论针对不同问题的提升树学习算法，主要区别在于损失函数的不同。包括用平方误差损失的回归问题，用指数损失函数的分类问题，以及用一般损失函数的决策问题。</font>
 
 <h2 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h2><p>GBDT损失函数拟合方法采用的是 Freidman 提出的损失函数负梯度来拟合本轮损失近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为：</p>

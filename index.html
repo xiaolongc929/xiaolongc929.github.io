@@ -1712,7 +1712,7 @@
 <p><center>$$ f <em>{M}(x)=\sum</em>{m=1}^{M}T(x;\Theta _{m}) $$</center><br>其中 $ T(x;\Theta _{m}) $ 表示决策树， $ \Theta _{m} $ 为决策树的参数， M 为树的个数。</p>
 <h1 id="提升树算法"><a href="#提升树算法" class="headerlink" title="提升树算法"></a>提升树算法</h1><p>提升树算法采用前向分布算法，首先确定初始提升树 $ f _{0}=0 $ ,第m步的模型是： $ f _{m}=f _{m-1}(x)+T(x; \Theta _{m}) $ 。</p>
 <p>其中， $ f _{m-1}(x) $ 为当前模型，通过经验风险极小化确定下一颗决策树参数 $ \Theta _{m} $ ：</p>
-<p><center>$$ \Theta <em>{m}^{*}=argmin</em>{\Theta <em>{m}}\sum</em>{i=1}^{N}L(y _{i},f _{m-1}(x _{i})+T(x _{i};\Theta _{m})) $$</center><br>树的线性组合可以很好的拟合训练数据，即使数据中的输入与输出关系复杂也是，所以提升树一般是高功能的学习算法。</p>
+<p><center>$$ \Theta_{m}^{*}=argmin_{\Theta_{m}}\sum_{i=1}^{N}L(y_{i},f_{m-1}(x_{i})+T(x_{i};\Theta_{m})) $$</center><br>树的线性组合可以很好的拟合训练数据，即使数据中的输入与输出关系复杂也是，所以提升树一般是高功能的学习算法。</p>
 <font color="orange">下面讨论针对不同问题的提升树学习算法，主要区别在于损失函数的不同。包括用平方误差损失的回归问题，用指数损失函数的分类问题，以及用一般损失函数的决策问题。</font>
 
 <h2 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h2><p>GBDT损失函数拟合方法采用的是 Freidman 提出的损失函数负梯度来拟合本轮损失近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为：</p>
@@ -1875,15 +1875,15 @@
 <p>2) 如何将弱分类器组合为一个强分类器？</p>
 <p>AdaBoost 采取加权多数表决方法，加大分类误差率小的弱分类器的权重，使其在表决中起较大作用，减小分类误差率大的弱分类器的权值，使其表决中起较小的作用。</p>
 <h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><h2 id="AdaBoost二分类算法"><a href="#AdaBoost二分类算法" class="headerlink" title="AdaBoost二分类算法"></a>AdaBoost二分类算法</h2><p>假设给定一个二分类训练数据集：</p>
-<center>$$ \mathit{T=\left { (x _{1},y _{1}),(x _{2},y _{2}),…,(x _{N},y _{N}) \right }} $$</center>
+<center>$$ T=\left{ (x_{1},y_{1}),(x_{2},y_{2}),…,(x_{N},y_{N}) \right } $$</center>
 
-<p>其中，每个样本点由实例与标记组成，实例 $ x _{i}\epsilon \chi \subseteq \mathbb{R} _{n} $ ,标记 $ y _{i}\epsilon Y = \left { -1,+1 \right } $ , X 是实例空间，Y是标记集合。</p>
+<p>其中，每个样本点由实例与标记组成，实例 $ x_{i}\epsilon \chi \subseteq \mathbb{R}<em>{n} $ ,标记 $ y</em>{i}\epsilon Y = \left{ -1,+1 \right} $ , X 是实例空间，Y是标记集合。</p>
 <p>算法：AdaBoost </p>
-<p>输入：训练数据集 $ T= \left { (x _{1}, y _{1}),(x _{2},y _{2}),…,(x _{N},y _{N}) \right } $ ,其中 $ x _{i}\epsilon \chi \subseteq \mathbb{R} _{n} $ , $ y _{i}\epsilon Y = \left { -1,+1 \right } $ ;弱学习算法。</p>
+<p>输入：训练数据集 $ T= \left { (x_{1}, y_{1}),(x_{2},y_{2}),…,(x_{N},y_{N}) \right } $ ,其中 $ x_{i}\epsilon \chi \subseteq \mathbb{R}<em>{n} $ , $ y</em>{i}\epsilon Y = \left { -1,+1 \right } $ ;弱学习算法。</p>
 <p>输出：最终分类器G(x).</p>
 <ul>
 <li>(1) 初始化训练数据的权值分布：<center>$$ D _{1}=(w _{11},…,w _{1i},…,w _{1N}), w _{1i}=\frac{1}{N}, i=1,2,…,N $$</center></li>
-<li>(2) 对 m=1,2,…,M<br>– (a) 使用具有权值分布 $ D _{m} $ 的训练数据集学习，得到基本分类器：<br><center>$$ G _{m}(x):\chi \rightarrow \left { -1,+1 \right }. $$</center><br>– (b) 计算 $ G _{m}(x) $ 在训练数据集上的分类误差率：<br><center>$$ e _{m}=P(G _{m}(x _{i})\neq y <em>{i})=\sum</em>{i=1}^{N}w _{mi}I(G _{m}(x _{i})\neq y _{i}) $$</center><br>– (c) 计算 $ G _{m}(x) $ 的系数：<br><center>$$ \alpha _{m}=\frac{1}{2}log\frac{1-e _{m}}{e _{m}} $$</center><br>– (d) 更新训练数据集的权值分布：<br><center>$$ D _{m+1}=(w _{m+1,1},…,w _{m+1,i},…,w _{m+1,N}) $$</center><br><center>$$ w _{m+1,i}=\frac{w _{mi}}{Z _{m}}exp(-\alpha _{m}y _{i}G _{m}(x _{i})),i=1,2,…,N $$</center><br>这里， $ Z _{m} $ 是规范因子<br><center>$$ Z <em>{m}=\sum</em>{i=1}^{N}w _{mi}exp(-\alpha _{m}y _{i}G _{m}(x _{i})) $$</center><br>它使 $ D _{m+1} $ 成为一个概率分布.</li>
+<li>(2) 对 m=1,2,…,M<br>– (a) 使用具有权值分布 $ D _{m} $ 的训练数据集学习，得到基本分类器：<br><center>$$ G _{m}(x):\chi \rightarrow \left { -1,+1 \right }. $$</center><br>– (b) 计算 $ G <em>{m}(x) $ 在训练数据集上的分类误差率：<br><center>$$ e</center></em>{m}=P(G_{m}(x_{i})\neq y {i})=\sum_{i=1}^{N}w_{mi}I(G_{m}(x_{i})\neq y_{i}) $$<br>– (c) 计算 $ G _{m}(x) $ 的系数：<br><center>$$ \alpha _{m}=\frac{1}{2}log\frac{1-e _{m}}{e _{m}} $$</center><br>– (d) 更新训练数据集的权值分布：<br><center>$$ D _{m+1}=(w _{m+1,1},…,w _{m+1,i},…,w _{m+1,N}) $$</center><br><center>$$ w _{m+1,i}=\frac{w _{mi}}{Z _{m}}exp(-\alpha _{m}y _{i}G _{m}(x _{i})),i=1,2,…,N $$</center><br>这里， $ Z _{m} $ 是规范因子<br><center>$$ Z <em>{m}=\sum</em>{i=1}^{N}w _{mi}exp(-\alpha _{m}y _{i}G _{m}(x _{i})) $$</center><br>它使 $ D _{m+1} $ 成为一个概率分布.</li>
 <li>(3) 构建基本分类器的线性组合<center>$$ f(x)=\sum_{m=1}^{M}\alpha _{m}G <em>{m}(x) $$</em></center><br>得到最终分类器：<br><center>$$ G(x)=sign(f(x))=sign(\sum{m=1}^{M}\alpha _{m}G _{m}(x)) $$</center>
 
 </li>
