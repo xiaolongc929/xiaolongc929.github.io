@@ -2153,7 +2153,7 @@
 <li>对分类树用基尼指数最小化准则；</li>
 </ul>
 <h3 id="回归树的生成"><a href="#回归树的生成" class="headerlink" title="回归树的生成"></a>回归树的生成</h3><p>回归树的特征处理，连续特征和离线特征同样采用下面的启发式的方法，即选择第j个变量 $ x^{j} $ 和它的取值 s,作为切分变量(splitting variable) 和切分点(splitting point), 并定义两个区域：</p>
-<center>$$ \mathit{R_{1}(j,s)=[x|x^{j}\leqslant s], R_{2}(j,s)=[x|x^{j}&gt;s]} $$</center><br>然后寻找最优切分变量j和最优切分点s，具体地，求解：<br><center>$$ \mathit{\min_{j,s}[\min_{c_{1}}\sum_{x_{i}\epsilon R_{1}(j,s)}(y_{i}-c_{1})^{2}+\min_{c_{2}}\sum_{x_{i}\epsilon R_{2}(j,s)}(y_{i}-c_{2})^{2}]} $$</center><br>对于固定输入变量j可以找到最优切分点s.<br><center>$$ c_{1}^{<em>}=avg(y_{i}|x_{i}\epsilon R_{1}(j,s)),c_{2}^{</em>}=avg(y_{i}|x_{i}\epsilon R_{2}(j,s)) $$</center>
+<center>$$ \mathit{R_{1}(j,s)=[x|x^{j}\leqslant s], R_{2}(j,s)=[x|x^{j}&gt;s]} $$</center><br>然后寻找最优切分变量j和最优切分点s，具体地，求解：<br><center>$$ \mathit{\min_{j,s}[\min_{c_{1}}\sum_{x_{i}\epsilon R_{1}(j,s)}(y_{i}-c_{1})^{2}+\min_{c_{2}}\sum_{x_{i}\epsilon R_{2}(j,s)}(y_{i}-c_{2})^{2}]} $$</center><br>对于固定输入变量j可以找到最优切分点s.<br><center>$$ c_{1}^{*}=avg(y_{i}|x_{i}\epsilon R_{1}(j,s)),c_{2}^{*}=avg(y_{i}|x_{i}\epsilon R_{2}(j,s)) $$</center>
 
 <p>输入：训练数据集D</p>
 <p>输出：回归树f(x)</p>
