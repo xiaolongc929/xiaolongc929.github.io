@@ -1889,14 +1889,14 @@
 </li>
 </ul>
 <h2 id="AdaBoost回归问题算法流程"><a href="#AdaBoost回归问题算法流程" class="headerlink" title="AdaBoost回归问题算法流程"></a>AdaBoost回归问题算法流程</h2><p>来源于：<a href="https://www.cnblogs.com/pinard/p/6133937.html" target="_blank" rel="noopener">集成学习之Adaboost算法原理小结</a></p>
-<p>输入：样本集 $ T=\left { (x _{1},y _{1}),(x _{2},y _{2}),…,(x _{m},y _{m}) \right } $ , 弱学习器算法，弱学习器迭代器K.</p>
+<p>输入：样本集 $ T=((x _{1},y _{1}),(x _{2},y _{2}),…,(x _{m},y _{m})) $ , 弱学习器算法，弱学习器迭代器K.</p>
 <p>输出：强学习器 $ f(x) $</p>
 <ul>
 <li>(1) 初始化样本权重：<center>$$ D _{1}=(w _{11},…,w _{1i},…,w _{1N}), w _{1i}=\frac{1}{N}, i=1,2,…,N $$</center></li>
-<li>(2) 对于k=1,2,…,k:<br>– a) 使用具有权重 $ D _{k} $ 的样本集来训练数据，得到弱学习器 $ G _{k}(x) $<br>– b) 计算训练集上的最大误差： $ E _{k}=max|y _{i} - G _{k}(x _{i})|, i=1,2,…,m $<br>– c) 计算每个样本相对误差：<br>— 如果是线性误差，则 $ e _{ki} = \frac{|y _{i}-G _{k}(x _{i})|}{E _{k}} $<br>— 如果是平方误差，则 $ e _{ki} = \frac{(y _{i}-G _{k}(x _{i}))^{2}}{E _{k}^{2}} $<br>— 如果是指数误差，则 $ e _{ki} =  1-exp(\frac{-|y _{i}-G _{k}(x _{i})|}{E _{k}}) $<br>– d) 计算回归误差率： $ e <em>{k}=\sum</em>{i=1}^{m}w _{ki}e _{ki} $<br>– e) 计算弱学习器系数： $ \alpha _{k} = \frac{e _{k}}{1-e _{k}} $<br>– f) 更新样本集的权重分布： $ w _{k+1,i}=\frac{w _{ki}}{Z _{k}}\alpha _{k}^{1-e _{ki}} $ ,其中 $ Z _{k} $ 是规范化因子： $ Z <em>{k}=\sum</em>{i=1}^{m}w _{ki}\alpha _{k}^{1-e _{ki}} $ .</li>
-<li>(3) 构建最终强学习器为： $ f(x)=G _{k*}(x) $ .</li>
+<li>(2) 对于k=1,2,…,k:<br>– a) 使用具有权重 $ D _{k} $ 的样本集来训练数据，得到弱学习器 $ G _{k}(x) $<br>– b) 计算训练集上的最大误差： $ E _{k}=max|y _{i} - G _{k}(x _{i})|, i=1,2,…,m $<br>– c) 计算每个样本相对误差：<br>— 如果是线性误差，则 $ e _{ki} = \frac{|y _{i}-G _{k}(x _{i})|}{E _{k}} $<br>— 如果是平方误差，则 $ e _{ki} = \frac{(y _{i}-G _{k}(x _{i}))^{2}}{E _{k}^{2}} $<br>— 如果是指数误差，则 $ e _{ki} =  1-exp(\frac{-|y _{i}-G _{k}(x _{i})|}{E <em>{k}}) $<br>– d) 计算回归误差率： $ e\</em>{k}=\sum_{i=1}^{m}w_{ki}e_{ki} $<br>– e) 计算弱学习器系数： $ \alpha_{k} = \frac{e_{k}}{1-e_{k}} $<br>– f) 更新样本集的权重分布： $ w_{k+1,i}=\frac{w_{ki}}{Z_{k}}\alpha_{k}^{1-e_{ki}} $ ,其中 $ Z_{k} $ 是规范化因子： $ Z_{k}=\sum_{i=1}^{m}w_{ki}\alpha_{k}^{1-e_{ki}} $ .</li>
+<li>(3) 构建最终强学习器为： $ f(x)=G_{k*}(x) $ .</li>
 </ul>
-<p>其中， $ G_ {k∗}(x) $ 是所有 $ ln\frac{1}{\alpha _{k}}, k=1,2,…,K $的中位数值对应序号k∗对应的弱学习器。</p>
+<p>其中， $ G_ {k∗}(x) $ 是所有 $ ln\frac{1}{\alpha_{k}}, k=1,2,…,K $的中位数值对应序号k∗对应的弱学习器。</p>
 <h1 id="AdaBoost的解释：前向分布算法"><a href="#AdaBoost的解释：前向分布算法" class="headerlink" title="AdaBoost的解释：前向分布算法"></a>AdaBoost的解释：前向分布算法</h1>
           
         
