@@ -1877,14 +1877,14 @@
 <h1 id="AdaBoost算法"><a href="#AdaBoost算法" class="headerlink" title="AdaBoost算法"></a>AdaBoost算法</h1><h2 id="AdaBoost二分类算法"><a href="#AdaBoost二分类算法" class="headerlink" title="AdaBoost二分类算法"></a>AdaBoost二分类算法</h2><p>假设给定一个二分类训练数据集：</p>
 <center>$$ T=((x_{1},y_{1}),(x_{2},y_{2}),…,(x_{N},y_{N})) $$</center>
 
-<p>其中，每个样本点由实例与标记组成，实例 $ x_{i}\epsilon\chi\subseteq\mathbb{R}<em>{n} $ , 标记 $ y</em>{i}\epsilon Y =(-1,+1) $ , X 是实例空间，Y是标记集合。</p>
+<p>其中，每个样本点由实例与标记组成，实例 $ x_{i}\epsilon\chi\subseteq\mathbb{R}_{n} $ , 标记 $ y_{i}\epsilon Y =(-1,+1) $ , X 是实例空间，Y是标记集合。</p>
 <p>算法：AdaBoost </p>
-<p>输入：训练数据集 $ T=((x_{1}, y_{1}),(x_{2},y_{2}),…,(x_{N},y_{N})) $ ,其中 $ x_{i}\epsilon\chi \subseteq\mathbb{R}<em>{n},y</em>{i}\epsilon Y =(-1,+1) $ ;弱学习算法。</p>
+<p>输入：训练数据集 $ T=((x_{1}, y_{1}),(x_{2},y_{2}),…,(x_{N},y_{N})) $ ,其中 $ x_{i}\epsilon\chi \subseteq\mathbb{R}_{n},y_{i}\epsilon Y =(-1,+1) $ ;弱学习算法。</p>
 <p>输出：最终分类器G(x).</p>
 <ul>
 <li>(1) 初始化训练数据的权值分布：<center>$$ D _{1}=(w _{11},…,w _{1i},…,w _{1N}), w _{1i}=\frac{1}{N}, i=1,2,…,N $$</center></li>
-<li>(2) 对 m=1,2,…,M<br>– (a) 使用具有权值分布 $ D _{m} $ 的训练数据集学习，得到基本分类器：<br><center>$$ G _{m}(x):\chi \rightarrow \left { -1,+1 \right }. $$</center><br>– (b) 计算 $ G <em>{m}(x) $ 在训练数据集上的分类误差率：<br><center>$$ e</center></em>{m}=P(G_{m}(x_{i})\neq y {i})=\sum_{i=1}^{N}w_{mi}I(G_{m}(x_{i})\neq y_{i}) $$<br>– (c) 计算 $ G _{m}(x) $ 的系数：<br><center>$$ \alpha _{m}=\frac{1}{2}log\frac{1-e _{m}}{e _{m}} $$</center><br>– (d) 更新训练数据集的权值分布：<br><center>$$ D _{m+1}=(w _{m+1,1},…,w _{m+1,i},…,w _{m+1,N}) $$</center><br><center>$$ w _{m+1,i}=\frac{w _{mi}}{Z _{m}}exp(-\alpha _{m}y _{i}G _{m}(x _{i})),i=1,2,…,N $$</center><br>这里， $ Z _{m} $ 是规范因子<br><center>$$ Z <em>{m}=\sum</em>{i=1}^{N}w _{mi}exp(-\alpha _{m}y _{i}G _{m}(x _{i})) $$</center><br>它使 $ D _{m+1} $ 成为一个概率分布.</li>
-<li>(3) 构建基本分类器的线性组合<center>$$ f(x)=\sum_{m=1}^{M}\alpha _{m}G <em>{m}(x) $$</em></center><br>得到最终分类器：<br><center>$$ G(x)=sign(f(x))=sign(\sum{m=1}^{M}\alpha _{m}G _{m}(x)) $$</center>
+<li>(2) 对 m=1,2,…,M<br>– (a) 使用具有权值分布 $ D _{m} $ 的训练数据集学习，得到基本分类器：<br><center>$$ G <em>{m}(x):\chi \rightarrow (-1,+1). $$</em></center><br>– (b) 计算 $ G\{m}(x) $ 在训练数据集上的分类误差率：<br><center>$$ e_{m}=P(G_{m}(x_{i})\neq y_{i})=\sum_{i=1}^{N}w_{mi}I(G_{m}(x_{i})\neq y_{i}) $$</center><br>– (c) 计算 $ G_{m}(x) $ 的系数：<br><center>$$ \alpha _{m}=\frac{1}{2}log\frac{1-e _{m}}{e _{m}} $$</center><br>– (d) 更新训练数据集的权值分布：<br><center>$$ D _{m+1}=(w _{m+1,1},…,w _{m+1,i},…,w _{m+1,N}) $$</center><br><center>$$ w _{m+1,i}=\frac{w _{mi}}{Z _{m}}exp(-\alpha _{m}y _{i}G _{m}(x <em>{i})),i=1,2,…,N $$</em></center><br>这里， $ Z\{m} $ 是规范因子<br><center>$$ Z_{m}=\sum_{i=1}^{N}w_{mi}exp(-\alpha_{m}y_{i}G_{m}(x_{i})) $$</center><br>它使 $ D_{m+1} $ 成为一个概率分布.</li>
+<li>(3) 构建基本分类器的线性组合<center>$$ f(x)=\sum_{m=1}^{M}\alpha _{m}G <em>{m}(x) $$</em></center><br>得到最终分类器：<br><center>$$ G(x)=sign(f(x))=sign(\sum{m=1}^{M}\alpha_{m}G_{m}(x)) $$</center>
 
 </li>
 </ul>
