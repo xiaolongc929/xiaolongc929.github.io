@@ -1719,6 +1719,27 @@
 <center>$$ T(x;\Theta)=\sum_{j=1}^{J}c_{j}I(x\epsilon R_{j}) $$</center>
 
 <p>其中，参数 $ \Theta = ((R_{1},c_{1}),(R_{2},c_{2}),…,(R_{J},c_{J})) $ 表示树的区域划分和各区域上的常数，J 是回归树的复杂度，即叶节点个数。</p>
+<p>回归问题提升树的前向分布算法为：</p>
+<center>$$ f_{0}(x)=0 $$</center><br><center>$$ f_{m}(x)=f_{m-1}+T(x;\Theta_{m}),m=1,2,…,M $$</center><br><center>$$ f_{M}(x)=\sum_{m=1}^{M}T(x;\Theta_{m}) $$</center>
+
+<p>在前向分布算法的第m步，给定当前模型 $ f_{m-1}(x) $, 需求解</p>
+<center>$$ \hat{\Theta_{m}}=arg\underset{\Theta_{m}}{min}\sum_{i=1}^{N}L(y_{i},f_{m-1}(x_{i})+T(x_{i};\Theta_{m})) $$</center>
+
+<p>得到 $ \hat{\Theta_{m}} $，即第m颗树的参数.</p>
+<p>当采用平方误差损失函数时,</p>
+<center>$$ L(y,f(x))=(y-f(x))^{2} $$</center>
+
+<p>其损失函数为:</p>
+<center>$$ L(y,f_{m-1}(x)+T(x;\Theta_{m}))=[y-f_{m-1}(x)-T(x;\Theta_{m})]^{2}=[r-T(x;\Theta_{m})]^{2} $$</center>
+
+<p>这里的 $ r=y-f_{m-1}(x) $, 是当前模型拟合数据的残差。所以，对于回归模型的提升树而言，只需简单的拟合当前模型的残差。</p>
+<h2 id="回归问题的提升树算法"><a href="#回归问题的提升树算法" class="headerlink" title="回归问题的提升树算法"></a>回归问题的提升树算法</h2><p>输入：训练数据集 $ T = ((x_{1},y_{1}),(x_{2},y_{2}),…,(x_{N},y_{N})),x_{i}\epsilon \chi \subseteq \mathbb{R}^{n} $.</p>
+<p>输出：提升树 $ f_{M}(x) $.</p>
+<ul>
+<li>(1) 初始化 $ f_{0}(x)=0 $</li>
+<li>(2) 对 m=1,2,…,M<br>– (a)按上式计算残差 $  r_{mi}=y_{i}-f_{m-1}(x_{i}), i=1,2,…,N $<br>– (b)拟合残差 $ r_{mi} $ 学习一个回归树，得到 $ T(x;\Theta_{m}) $<br>– (c)更新 $ f_{m}(x)=f_{m-1}(x)+T(x;\Theta_{m}) $</li>
+<li>(3) 得到回归问题提升树 $ f_{M}(x)=\sum_{m=1}^{M}T(x;\Theta_{m}) $</li>
+</ul>
 <h1 id="梯度提升树-GBDT"><a href="#梯度提升树-GBDT" class="headerlink" title="梯度提升树(GBDT)"></a>梯度提升树(GBDT)</h1><h2 id="负梯度拟合"><a href="#负梯度拟合" class="headerlink" title="负梯度拟合"></a>负梯度拟合</h2><p>GBDT损失函数拟合方法采用的是 Freidman 提出的损失函数负梯度来拟合本轮损失近似值，进而拟合一个CART回归树。第t轮的第i个样本的损失函数的负梯度表示为：</p>
 <p><center>$$ r_{ti}=-\left [ \frac{\partial L(y_{i},f(x_{i})))}{\partial f(x_{i})} \right ]_{f(x)=f_{t-1}(x)} $$</center><br>利用 $ (x_{i}, r_{ti})(i=1,2,…,m) $ ，可以拟合一颗CART回归树，其对应的叶子点区域 $ R_{tj}, j=1,2,…,J $ .其中J为叶子结点个数。</p>
 <p>针对每一个叶子结点的样本，我们求出使损失函数最小，也就是拟合叶子结点最好的输出值 $ c_{tj} $ 如下：</p>
