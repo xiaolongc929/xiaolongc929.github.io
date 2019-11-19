@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xiaolongc">
 <meta property="og:description" content="提升树模型提升方法实际采用加法模型(即基函数的线性组合)与前向分布算法。以决策树为基函数的提升方法称为提升树(boosting tree)。提升树模型和梯度提升树是两种不同的模型，梯度提升是在提升树模型上进一步优化。提升树对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归树；而梯度提升树对分类问题、回归问题都使用的是CART回归树。具体情况，还需要查看其对应的实现方法。TODO：sklear">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-18T14:36:29.822Z">
+<meta property="og:updated_time" content="2019-11-19T15:00:44.827Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3. GBDT">
 <meta name="twitter:description" content="提升树模型提升方法实际采用加法模型(即基函数的线性组合)与前向分布算法。以决策树为基函数的提升方法称为提升树(boosting tree)。提升树模型和梯度提升树是两种不同的模型，梯度提升是在提升树模型上进一步优化。提升树对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归树；而梯度提升树对分类问题、回归问题都使用的是CART回归树。具体情况，还需要查看其对应的实现方法。TODO：sklear">
@@ -400,7 +400,23 @@
 <center>$$ c_{tj}=\sum_{x_{i}\epsilon R_{tj}}r_{ti}/\sum_{x_{i}\epsilon R_{tj}}|r_{ti}|(1-|r_{ti}|) $$</center>
 
 <p>除了负梯度计算和叶子节点的最佳负梯度拟合的线性搜索，二元GBDT分类和GBDT回归算法过程相同。</p>
-<h2 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h2>
+<h2 id="多元分类问题"><a href="#多元分类问题" class="headerlink" title="多元分类问题"></a>多元分类问题</h2><p>多元 GBDT 要比二元 GBDT 复杂一些，对应的多元逻辑回归和二元逻辑回归的复杂度差别。假设类别树设为K,则此时的对数似然损失函数为：</p>
+<center>$$ L(y,f(x))=-\sum_{k=1}^{K}y_{k}logp_{k}(x) $$</center>
+
+<p>其中，如果样本输出类别为k, 则 $ y_{k}=1 $, 第k类的概率 $ P_{k}(x) $ 的表达式为：</p>
+<center>$$ p_{k}=exp(f_{k}(x))/\sum_{l=1}^{K}exp(f_{l}(x)) $$</center>
+
+<p>通过上面两式，可以推导出，第 t 轮的第i个样本对应类别l的负梯度误差为:</p>
+<center>$$ r_{til}=-\left [ \frac{\partial L(y_{i},f(x_{i}))}{\partial f(x_{i})} \right ]_{f_{k}(x)=f_{l,t-1}(x)}=y_{il}-p_{l,t-1}(x_{i}) $$</center>
+
+<p>观察上式可以得出，这里的误差是样本i对应类别l的真实概率和t-1轮预测概率的差值。</p>
+<p>对于生成的决策树，我们各个叶子节点的最佳负梯度拟合值为：</p>
+<center>$$ c_{tjl}=arg\underset{c_{jl}}{min}\sum_{i=0}^{m}\sum_{k=1}^{K}L(y_{k},f_{t-1,l}(x)+\sum_{j=0}^{J}c_{jl}I(x_{i}\epsilon R_{tjl})) $$</center>
+
+<p>由于上式比较难以优化，一般采用的近似替代值为：</p>
+<center>$$ c_{tjl}=\frac{K-1}{K}\frac{\sum_{x_{i}\epsilon R_{tjl}}r_{til}}{\sum_{x_{i}\epsilon R_{tjl}}|r_{til}|(1-|r_{til}|)} $$</center>
+
+
       
     </div>
     
