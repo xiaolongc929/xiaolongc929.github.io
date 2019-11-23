@@ -97,7 +97,12 @@
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/8.png">
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/10.png">
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/9.png">
-<meta property="og:updated_time" content="2019-11-23T03:09:43.283Z">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/11.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/12.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/13.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/14.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/15.png">
+<meta property="og:updated_time" content="2019-11-23T03:33:06.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4. xgboost原理及实战">
 <meta name="twitter:description" content="XGBoost 与 Boosted Tree（GBDT）前言作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。 Boosted Tree 同义词Boosted Tr">
@@ -403,8 +408,23 @@
 <p><img src="/images/2019/picture/xgboost/10.png" alt></p>
 <p>当我们把常数项移除之后，我们会发现如下一个比较统一的目标函数。这一个目标函数有一个非常明显的特点，它只依赖于每个数据点的在误差函数上的一阶导数和二阶导数[10]。有人可能会问，这个材料似乎比我们之前学过的决策树学习难懂。为什么要花这么多力气来做推导呢？</p>
 <p><img src="/images/2019/picture/xgboost/9.png" alt></p>
-<p>因为这样做使得我们可以很清楚地理解整个目标是什么，并且一步一步推导出如何进行树的学习。这一个抽象的形式对于实现机器学习工具也是非常有帮助的。传统的GBDT可能大家可以理解如优化平法aa残差，但是这样一个形式包含可所有可以求导的目标函数。也就是说有了这个形式，我们写出来的代码可以用来求解包括回归，分类和排序的各种问题，正式的推导可以使得机器学习的工具更加一般。</p>
+<p>因为这样做使得我们可以很清楚地理解整个目标是什么，并且一步一步推导出如何进行树的学习。这一个抽象的形式对于实现机器学习工具也是非常有帮助的。传统的GBDT可能大家可以理解如优化平法残差，但是这样一个形式包含可所有可以求导的目标函数。也就是说有了这个形式，我们写出来的代码可以用来求解包括回归，分类和排序的各种问题，正式的推导可以使得机器学习的工具更加一般。</p>
 <p>(4) 树的复杂度</p>
+<p>到目前为止我们讨论了目标函数中训练误差的部分。接下来我们讨论如何定义树的复杂度。我们先对于f的定义做一下细化，把树拆分成结构部分q和叶子权重部分w。下图是一个具体的例子。结构函数q把输入映射到叶子的索引号上面去，而w给定了每个索引号对应的叶子分数是什么。</p>
+<p><img src="/images/2019/picture/xgboost/11.png" alt></p>
+<p>当我们给定了如上定义之后，我们可以定义一棵树的复杂度如下。这个复杂度包含了一棵树里面节点的个数，以及每个树叶子节点上面输出分数的L2模平方。当然这不是唯一的一种定义方式，不过这一定义方式学习出的树效果一般都比较不错。下图还给出了复杂度计算的一个例子。</p>
+<p><img src="/images/2019/picture/xgboost/12.png" alt></p>
+<p>(5) 关键步骤</p>
+<p>接下来是最关键的一步1111，在这种新的定义下，我们可以把目标函数进行如下改写，其中I被定义为每个叶子上面样本集合 $ I_{j}={i|q(x_{i})=j} $ </p>
+<p><img src="/images/2019/picture/xgboost/13.png" alt></p>
+<p>这一个目标包含了T个相互独立的单变量二次函数。我们可以定义:</p>
+<center>$$ G_{j}=\sum_{i\epsilon I_{j}}g_{i}, H_{j}=\sum_{i\epsilon I_{j}}h_{i} $$</center>
+
+<p>那么这个目标函数可以进一步改写成如下的形式，假设我们已经知道树的结构q，我们可以通过这个目标函数来求解出最好的w，以及最好的w对应的目标函数最大的增益:</p>
+<p><img src="/images/2019/picture/xgboost/14.png" alt></p>
+<p>这两个的结果对应如下，左边是最好的w，右边是这个w对应的目标函数的值。到这里大家可能会觉得这个推导略复杂。其实这里只涉及到了如何求一个一维二次函数的最小值的问题。如果觉得没有理解不妨再仔细琢磨一下.</p>
+<p><img src="/images/2019/picture/xgboost/15.png" alt></p>
+<p>(6) 打分函数计算举例</p>
 
       
     </div>
