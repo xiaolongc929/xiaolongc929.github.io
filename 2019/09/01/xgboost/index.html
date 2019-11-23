@@ -79,18 +79,29 @@
 
 
 
-<meta name="description" content="xgboost 简介">
+<meta name="description" content="XGBoost 与 Boosted Tree（GBDT）前言作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。 Boosted Tree 同义词Boosted Tr">
 <meta name="keywords" content="ML,AI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="4. xgboost原理及实战">
 <meta property="og:url" content="http://yoursite.com/2019/09/01/xgboost/index.html">
 <meta property="og:site_name" content="xiaolongc">
-<meta property="og:description" content="xgboost 简介">
+<meta property="og:description" content="XGBoost 与 Boosted Tree（GBDT）前言作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。 Boosted Tree 同义词Boosted Tr">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-01T08:16:30.549Z">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/1.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/2.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/3.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/4.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/5.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/6.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/7.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/8.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/10.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/9.png">
+<meta property="og:updated_time" content="2019-11-23T03:09:43.283Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4. xgboost原理及实战">
-<meta name="twitter:description" content="xgboost 简介">
+<meta name="twitter:description" content="XGBoost 与 Boosted Tree（GBDT）前言作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。 Boosted Tree 同义词Boosted Tr">
+<meta name="twitter:image" content="http://yoursite.com/images/2019/picture/xgboost/1.png">
 
 
 
@@ -352,7 +363,49 @@
       
 
       
-        <h1 id="xgboost-简介"><a href="#xgboost-简介" class="headerlink" title="xgboost 简介"></a>xgboost 简介</h1>
+        <h1 id="XGBoost-与-Boosted-Tree（GBDT）"><a href="#XGBoost-与-Boosted-Tree（GBDT）" class="headerlink" title="XGBoost 与 Boosted Tree（GBDT）"></a>XGBoost 与 Boosted Tree（GBDT）</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。</p>
+<h2 id="Boosted-Tree-同义词"><a href="#Boosted-Tree-同义词" class="headerlink" title="Boosted Tree 同义词"></a>Boosted Tree 同义词</h2><p>Boosted Tree有各种马甲，比如GBDT, GBRT (gradient boosted regression tree)，MART，LambdaMART也是一种boosted tree的变种。网上有很多介绍Boosted tree的资料，不过大部分都是基于Friedman的最早一篇文章Greedy Function Approximation: A Gradient Boosting Machine的翻译。</p>
+<h2 id="有监督学习的算法的逻辑组成"><a href="#有监督学习的算法的逻辑组成" class="headerlink" title="有监督学习的算法的逻辑组成"></a>有监督学习的算法的逻辑组成</h2><p>有监督学习里面有几个逻辑上的重要组成部件，初略地分可以分为：模型，参数 和目标函数。</p>
+<p>(1) 模型和参数</p>
+<p>模型指给定输入xi如何去预测 输出 yi。我们比较常见的模型如线性模型（包括线性回归和logistic regression）采用了线性叠加的方式进行预测 $ \hat{y_{i}}=\sum_{j}w_{j}x_{ij} $ . 其实，这里的预测y可以有不同的解释，比如我们可以用它来作为回归目标的输出，或者进行sigmoid 变换得到概率，或者作为排序的指标等。而一个线性模型根据y的解释不同（以及设计对应的目标函数）用到回归，分类或排序等场景。</p>
+<p>参数指我们需要学习的东西，在线性模型中，参数指我们的线性系数w。</p>
+<p>(2) 目标函数：损失+正则</p>
+<p>模型和参数本身指定了给定输入我们如何做预测，但是没有告诉我们如何去寻找一个比较好的参数，这个时候就需要目标函数登场了。一般的目标函数包含下面两项：</p>
+<p><img src="/images/2019/picture/xgboost/1.png" alt="误差函数"></p>
+<p>常见的误差函数有 $ L=\sum_{i}^{m}l(y_{i},\hat{y_{i}}) $ , 比如平方误差 $ l(y_{i},\hat{y_{i}})=(y_{i},\hat{y_{i}})^{2} $, logistic 误差 $ l(y_{i},\hat{y_{i}})=y_{i}In(1+e^{-\hat{y_{i}}})+(1-y_{i})In(1+e^{\hat{y_{i}}}) $ 。</p>
+<p>而对于线性模型常见的正则化项有L2正则和L1正则。这样目标函数的设计来自于统计学习里面的一个重要概念叫做Bias-variance tradeoff。比较感性的理解，Bias可以理解为假设我们有无限多数据的时候，可以训练出最好的模型所拿到的误差。而Variance是因为我们只有有限数据，其中随机性带来的误差。目标中误差函数鼓励我们的模型尽量去拟合训练数据，这样相对来说最后的模型会有比较少的 bias。而正则化项则鼓励更加简单的模型。因为当模型简单之后，有限数据拟合出来结果的随机性比较小，不容易过拟合，使得最后模型的预测更加稳定。</p>
+<p>(3) 优化算法</p>
+<p>讲了这么多有监督学习的基本概念，为什么要讲这些呢？ 是因为这几部分包含了机器学习的主要成分，也是机器学习工具设计中划分模块比较有效的办法。其实这几部分之外，还有一个优化算法，就是给定目标函数之后怎么学的问题。<font color="orange"> 之所以我没有讲优化算法，是因为这是大家往往比较熟悉的“机器学习的部分”。而有时候我们往往只知道“优化算法”，而没有仔细考虑目标函数的设计的问题，比较常见的例子如决策树的学习，大家知道的算法是每一步去优化gini entropy，然后剪枝，但是没有考虑到后面的目标是什么。</font></p>
+<h2 id="Boosted-Tree"><a href="#Boosted-Tree" class="headerlink" title="Boosted Tree"></a>Boosted Tree</h2><p>(1) 基学习器：分类和回归树（CART）</p>
+<p>话题回到boosted tree，我们也是从这几个方面开始讲，首先讲模型。Boosted tree 最基本的组成部分叫做回归树(regression tree)，也叫做CART。</p>
+<p><img src="/images/2019/picture/xgboost/2.png" alt></p>
+<p>上面就是一个CART的例子。CART会把输入根据输入的属性分配到各个叶子节点，而每个叶子节点上面都会对应一个实数分数。上面的例子是一个预测一个人是否会喜欢电脑游戏的 CART，你可以把叶子的分数理解为有多可能这个人喜欢电脑游戏。有人可能会问它和decision tree的关系，其实我们可以简单地把它理解为decision tree的一个扩展。从简单的类标到分数之后，我们可以做很多事情，如概率预测，排序。</p>
+<p>(2) Tree Ensemble</p>
+<p>一个CART往往过于简单无法有效地预测，因此一个更加强力的模型叫做tree ensemble。</p>
+<p><img src="/images/2019/picture/xgboost/3.png" alt></p>
+<p>在上面的例子中，我们用两棵树来进行预测。我们对于每个样本的预测结果就是每棵树预测分数的和。到这里，我们的模型就介绍完毕了。现在问题来了，我们常见的随机森林和boosted tree和tree ensemble有什么关系呢？如果你仔细的思考，你会发现RF和boosted tree的模型都是tree ensemble，只是构造（学习）模型参数的方法不同。<font color="orange"> 第二个问题：在这个模型中的“参数”是什么。在tree ensemble中，参数对应了树的结构，以及每个叶子节点上面的预测分数。</font></p>
+<p>最后一个问题当然是如何学习这些参数。在这一部分，答案可能千奇百怪，但是最标准的答案始终是一个：<font color="orange"> 定义合理的目标函数，然后去尝试优化这个目标函数。在这里我要多说一句，因为决策树学习往往充满了heuristic。 如先优化吉尼系数，然后再剪枝啦，限制最大深度，等等。其实这些heuristic的背后往往隐含了一个目标函数，而理解目标函数本身也有利于我们设计学习算法，这个会在后面具体展开。</font></p>
+<p>对于tree ensemble，我们可以比较严格的把我们的模型写成是：</p>
+<center>$$ \hat{y_{i}}=\sum_{k=1}^{K}f_{k}(x_{i}),f_{k}\epsilon F $$</center>
+
+<p>其中，每个 f 是一个函数空间里面的函数，而F对应了所有regression tree的集合。我们设计的目标函数也需要遵循前面的主要原则，包含两部分:</p>
+<p><img src="/images/2019/picture/xgboost/4.png" alt></p>
+<p>(3) 模型学习：additive training</p>
+<p>其中第一部分是训练误差，也就是大家相对比较熟悉的如平方误差, logistic loss等。而第二部分是每棵树的复杂度的和。这个在后面会继续讲到。因为现在我们的参数可以认为是在一个函数空间里面，我们不能采用传统的如SGD之类的算法来学习我们的模型，因此我们会采用一种叫做additive training的方式（另外，在我个人的理解里面[7]，boosting就是指additive training的意思）。每一次保留原来的模型不变，加入一个新的函数f到我们的模型中。</p>
+<p><img src="/images/2019/picture/xgboost/5.png" alt></p>
+<p>现在还剩下一个问题，我们如何选择每一轮加入什么ff呢？答案是非常直接的，选取一个ff来使得我们的目标函数尽量最大地降低[8]。</p>
+<p><img src="/images/2019/picture/xgboost/6.png" alt></p>
+<p>这个公式可能有些过于抽象，我们可以考虑当损失函数是平方误差的情况。这个时候我们的目标可以被写成下面这样的二次函数：</p>
+<p><img src="/images/2019/picture/xgboost/7.png" alt></p>
+<p>更加一般的，对于不是平方误差的情况，我们会采用如下的泰勒展开近似来定义一个近似的目标函数，方便我们进行这一步的计算。</p>
+<p><img src="/images/2019/picture/xgboost/8.png" alt></p>
+<p>举个例子，当时平方损失时：</p>
+<p><img src="/images/2019/picture/xgboost/10.png" alt></p>
+<p>当我们把常数项移除之后，我们会发现如下一个比较统一的目标函数。这一个目标函数有一个非常明显的特点，它只依赖于每个数据点的在误差函数上的一阶导数和二阶导数[10]。有人可能会问，这个材料似乎比我们之前学过的决策树学习难懂。为什么要花这么多力气来做推导呢？</p>
+<p><img src="/images/2019/picture/xgboost/9.png" alt></p>
+<p>因为这样做使得我们可以很清楚地理解整个目标是什么，并且一步一步推导出如何进行树的学习。这一个抽象的形式对于实现机器学习工具也是非常有帮助的。传统的GBDT可能大家可以理解如优化平法aa残差，但是这样一个形式包含可所有可以求导的目标函数。也就是说有了这个形式，我们写出来的代码可以用来求解包括回归，分类和排序的各种问题，正式的推导可以使得机器学习的工具更加一般。</p>
+<p>(4) 树的复杂度</p>
+
       
     </div>
     
@@ -552,7 +605,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#xgboost-简介"><span class="nav-number">1.</span> <span class="nav-text">xgboost 简介</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XGBoost-与-Boosted-Tree（GBDT）"><span class="nav-number">1.</span> <span class="nav-text">XGBoost 与 Boosted Tree（GBDT）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosted-Tree-同义词"><span class="nav-number">1.2.</span> <span class="nav-text">Boosted Tree 同义词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有监督学习的算法的逻辑组成"><span class="nav-number">1.3.</span> <span class="nav-text">有监督学习的算法的逻辑组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosted-Tree"><span class="nav-number">1.4.</span> <span class="nav-text">Boosted Tree</span></a></li></ol></li></ol></div>
             
 
           </div>

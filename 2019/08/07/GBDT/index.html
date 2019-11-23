@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xiaolongc">
 <meta property="og:description" content="提升树模型提升方法实际采用加法模型(即基函数的线性组合)与前向分布算法。以决策树为基函数的提升方法称为提升树(boosting tree)。提升树模型和梯度提升树是两种不同的模型，梯度提升是在提升树模型上进一步优化。提升树对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归树；而梯度提升树对分类问题、回归问题都使用的是CART回归树。具体情况，还需要查看其对应的实现方法。TODO：sklear">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-19T15:00:44.827Z">
+<meta property="og:updated_time" content="2019-11-19T23:49:17.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3. GBDT">
 <meta name="twitter:description" content="提升树模型提升方法实际采用加法模型(即基函数的线性组合)与前向分布算法。以决策树为基函数的提升方法称为提升树(boosting tree)。提升树模型和梯度提升树是两种不同的模型，梯度提升是在提升树模型上进一步优化。提升树对分类问题决策树是二叉分类树，对回归问题决策树是二叉回归树；而梯度提升树对分类问题、回归问题都使用的是CART回归树。具体情况，还需要查看其对应的实现方法。TODO：sklear">
@@ -416,7 +416,7 @@
 <p>由于上式比较难以优化，一般采用的近似替代值为：</p>
 <center>$$ c_{tjl}=\frac{K-1}{K}\frac{\sum_{x_{i}\epsilon R_{tjl}}r_{til}}{\sum_{x_{i}\epsilon R_{tjl}}|r_{til}|(1-|r_{til}|)} $$</center>
 
-
+<h3 id="GBDT-常用损失函数"><a href="#GBDT-常用损失函数" class="headerlink" title="GBDT 常用损失函数"></a>GBDT 常用损失函数</h3><h3 id="GBDT-的正则化"><a href="#GBDT-的正则化" class="headerlink" title="GBDT 的正则化"></a>GBDT 的正则化</h3>
       
     </div>
     
@@ -616,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#提升树模型"><span class="nav-number">1.</span> <span class="nav-text">提升树模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分类问题"><span class="nav-number">1.1.</span> <span class="nav-text">二分类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回归问题"><span class="nav-number">1.2.</span> <span class="nav-text">回归问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回归问题的提升树算法"><span class="nav-number">1.3.</span> <span class="nav-text">回归问题的提升树算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#梯度提升树-GBDT"><span class="nav-number">2.</span> <span class="nav-text">梯度提升树(GBDT)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#负梯度拟合"><span class="nav-number">2.1.</span> <span class="nav-text">负梯度拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二类分类问题"><span class="nav-number">2.2.</span> <span class="nav-text">二类分类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元分类问题"><span class="nav-number">2.3.</span> <span class="nav-text">多元分类问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#提升树模型"><span class="nav-number">1.</span> <span class="nav-text">提升树模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分类问题"><span class="nav-number">1.1.</span> <span class="nav-text">二分类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回归问题"><span class="nav-number">1.2.</span> <span class="nav-text">回归问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#回归问题的提升树算法"><span class="nav-number">1.3.</span> <span class="nav-text">回归问题的提升树算法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#梯度提升树-GBDT"><span class="nav-number">2.</span> <span class="nav-text">梯度提升树(GBDT)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#负梯度拟合"><span class="nav-number">2.1.</span> <span class="nav-text">负梯度拟合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二类分类问题"><span class="nav-number">2.2.</span> <span class="nav-text">二类分类问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元分类问题"><span class="nav-number">2.3.</span> <span class="nav-text">多元分类问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT-常用损失函数"><span class="nav-number">2.3.1.</span> <span class="nav-text">GBDT 常用损失函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GBDT-的正则化"><span class="nav-number">2.3.2.</span> <span class="nav-text">GBDT 的正则化</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
