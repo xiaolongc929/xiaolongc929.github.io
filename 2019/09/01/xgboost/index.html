@@ -102,7 +102,10 @@
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/13.png">
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/14.png">
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/15.png">
-<meta property="og:updated_time" content="2019-11-23T03:33:06.402Z">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/16.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/17.png">
+<meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/18.png">
+<meta property="og:updated_time" content="2019-11-24T01:50:49.956Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4. xgboost原理及实战">
 <meta name="twitter:description" content="XGBoost 与 Boosted Tree（GBDT）前言作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。 Boosted Tree 同义词Boosted Tr">
@@ -425,6 +428,18 @@
 <p>这两个的结果对应如下，左边是最好的w，右边是这个w对应的目标函数的值。到这里大家可能会觉得这个推导略复杂。其实这里只涉及到了如何求一个一维二次函数的最小值的问题。如果觉得没有理解不妨再仔细琢磨一下.</p>
 <p><img src="/images/2019/picture/xgboost/15.png" alt></p>
 <p>(6) 打分函数计算举例</p>
+<p>Obj代表了当我们指定一个树的结构的时候，我们在目标上面最多减少多少。我们可以把它叫做结构分数(structure score)。你可以认为这个就是类似吉尼系数一样更加一般的对于树结构进行打分的函数。下面是一个具体的打分函数计算的例子:</p>
+<p><img src="/images/2019/picture/xgboost/16.png" alt></p>
+<p>(7) 枚举所有不同树结构的贪心法</p>
+<p>所以我们的算法也很简单，我们不断地枚举不同树的结构，利用这个打分函数来寻找出一个最优结构的树，加入到我们的模型中，再重复这样的操作。不过枚举所有树结构这个操作不太可行，所以常用的方法是贪心法，每一次尝试去对已有的叶子加入一个分割。对于一个具体的分割方案，我们可以获得的增益可以由如下公式计算：</p>
+<p><img src="/images/2019/picture/xgboost/17.png" alt></p>
+<font color="orange">Obj 越小越好，表明分割后的树结构对应的 Obj1  应该比分割前的 Obj2 要小，因此，定义 Gain = (Obj1-Obj2) , 这个增益越大越好。</font>
+
+<p>对于每次扩展，我们还是要枚举所有可能的分割方案，如何高效地枚举所有的分割呢？我假设我们要枚举所有 x小于a 这样的条件，对于某个特定的分割a我们要计算a左边和右边的导数和。</p>
+<p><img src="/images/2019/picture/xgboost/18.png" alt></p>
+<p>我们可以发现对于所有的a，我们只要做一遍从左到右的扫描就可以枚举出所有分割的梯度和GL和GR。然后用上面的公式计算每个分割方案的分数就可以了。</p>
+<p>观察这个目标函数，大家会发现第二个值得注意的事情就是引入分割不一定会使得情况变好，因为我们有一个引入新叶子的惩罚项。优化这个目标对应了树的剪枝， 当引入的分割带来的增益小于一个阀值的时候，我们可以剪掉这个分割。大家可以发现，当我们正式地推导目标的时候，像计算分数和剪枝这样的策略都会自然地出现，而不再是一种因为heuristic而进行的操作了。</p>
+<p>讲到这里文章进入了尾声，虽然有些长，希望对大家有所帮助，这篇文章介绍了如何通过目标函数优化的方法比较严格地推导出boosted tree的学习。因为有这样一般的推导，得到的算法可以直接应用到回归，分类排序等各个应用场景中去。</p>
 
       
     </div>
