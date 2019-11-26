@@ -259,6 +259,186 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/06/Programming-Hive/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/06/Programming-Hive/" itemprop="url">Hive 编程指南</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-06T15:31:43+08:00">
+                2019-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/big-data/" itemprop="url" rel="index">
+                    <span itemprop="name">big data</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>前言</strong></p>
+<p>Hive 是 Hadoop 生态系统中必不可少的一个工具，它提供了一种 SQL 语言，可以查询存储在 Hadoop 分布式文件系统(HDFS)中的数据或其他和 Hadoop 集成的文件系统， 如 MapR-FS，Amazon的S3和像 HBase(Hadoop数据库) 和 Cassandra 这样的数据库中的数据。</p>
+<h1 id="第1章-基础知识"><a href="#第1章-基础知识" class="headerlink" title="第1章 基础知识"></a>第1章 基础知识</h1><p>搜索引擎公司、电子商务公司、社交网络等许多组织意识到他们所收集的数据是让他们了解他们的用户，提高业务在市场上的表现以及提高基础架构效率的一个宝贵的资源。</p>
+<p>Hive提供了一个被称为 Hive 查询语言(HiveQL 或 HQL)的SQL语言，来查询存储在 Hadoop 集群中的数据。Hive 可以将大多数的查询转换为MapReduce任务(job)，进而在介绍一个令人熟悉的 SQL 抽象的同时，拓宽 Hadoop 的课扩展性。</p>
+<p>Hive 的劣势：</p>
+<ul>
+<li>Hive 不支持记录级别的更新，插入或者删除操作。</li>
+<li>因为Hadoop是一个面向批处理的系统，而MapReduce任务(job)的启动过程需要消耗较长时间，所以 Hive 查询延时比较严重。</li>
+<li>Hive 不支持事务。因此，Hive 不支持OLTP(联机事务处理)所需的关键功能。</li>
+</ul>
+<p>如果用户需要对大规模数据使用OLTP功能的话，那么应该选择使用一个NoSQL数据库，例如，和 Hadoop 结合使用的 HBase 及 Cassandra。</p>
+<h2 id="Hadoop-和-MapReduce-综述"><a href="#Hadoop-和-MapReduce-综述" class="headerlink" title="Hadoop 和 MapReduce 综述"></a>Hadoop 和 MapReduce 综述</h2><p>参考Tom White 《Hadoop权威指南》一书。</p>
+<p>MapReduce</p>
+<p>MapReduce是一种计算模型，该模型可以将大型数据处理任务分解为很多单个的，可以在服务器集群中并行执行的任务，这些任务的计算结果可以合并在一起来计算最终的结果。</p>
+<p>MapReduce编程模型由谷歌开发，两篇经典的论文为：《MapReduce: 大数据之上的简化数据处理》，以及《Google 文件系统》。这两篇论文启发了道-卡丁开发了 Hadoop。</p>
+<p>MapReduce这个术语来自于两个基本的数据转换操作: Map过程和reduce过程。MapReduce 计算框架中的输入和输出的基本数据结构是键-值对。</p>
+<p>下图介绍了一种 Word Count程序，左边的每个 Input(输入) 框都表示一个单独的文件，默认情况下，每个文档都会触发一个 Mapper 进程进行处理。而在实际场景中，大文件可能会划分为多个部分，每个部分都会被发送给一个 Mapper 进行处理。同时，也有将多个小文件合并为一个部分供某个 Mapper进行处理。</p>
+<p><img src="/images/2019/picture/Programming-Hive/1-1.png" alt></p>
+<p>Hadoop 神奇的地方一部分在于后面要进行的Sort和Shuffle过程，Hadoop会按照键来对键-值进行排序，然后Shuffle，将所有具有相同键的键-值对分发到同一个Reducer中。这里有很多方式可以决定哪个Reducer获取哪个范围内的键对应的数据。</p>
+<h2 id="Hadoop生态系统中的Hive"><a href="#Hadoop生态系统中的Hive" class="headerlink" title="Hadoop生态系统中的Hive"></a>Hadoop生态系统中的Hive</h2><p>下图显示了Hive的主要模块，以及Hive是如何与Hadoop交互工作的。有好几种方式可以与Hive进行交互，例如命令行。或者图形界面：Karmasphere发布的一个商业产品，Cloudera提供的开源 Hue 项目，以及 Qubole 提供的 “Hive即服务”。</p>
+<p><img src="/images/2019/picture/Programming-Hive/1-2.png" alt></p>
+<p>Hive 发行版中附带的模块有CLI(命令行)，一个称为 Hive 网页界面(HWI)的简单网页界面，以及可通过 JDBC、ODBC 和一个 Thrift 服务器进行编程访问的几个模块。</p>
+<p>所有的命令和查询都会进入到Driver模块，通过该模块对输入进行解析编译，对需求的计算进行优化，然后按照指定的步骤执行(通常是启动多个MapReduce任务(job)来执行)。当需要启动 MapReduce job 时，Hive本身是不会生成 Java MapReduce 算法程序的。相反，Hive 通过一个表示 “job执行计划”的XML 文件驱动执行内置的、原生的 Mapper 和 Reducer 模块。</p>
+<p>Hive通过和 JobTracker通信来初始化 MapReduce任务(job)，而不必部署在 JobTracker 所在的管理节点上执行。</p>
+<p>Metastore(元数据存储)是一个独立的关系型数据库(通常是一个MySQL实例)，Hive 会在其中保存表模式和其他系统元数据。</p>
+<h3 id="Pig"><a href="#Pig" class="headerlink" title="Pig"></a>Pig</h3><p>Hive的替代工具中最有名的就是 Pig，假设用户的输入数据具有一个或者多个源，而用户需要进行一组复杂的转换来生成一个或者多个输出数据集。如果使用 Hive, 用户可能会使用嵌套查询，但是在某些时刻会需要重新保存临时表来控制复杂度。</p>
+<p>Pig被描述为一种数据流语言，而不是一种查询语言，因此，Pig常用于ETL(数据抽取，数据转换，和数据装载)过程的一部分.</p>
+<p>参考 Alan Gates 《Pig 编程指南》</p>
+<h3 id="HBase"><a href="#HBase" class="headerlink" title="HBase"></a>HBase</h3><p>如果用户需要 Hive 无法提供的数据特性(如行级别的更新，快速查询响应时间，以及支持事务)的话，那么该怎么办呢？ HBase 是一个分布式的、可伸缩的数据存储，其支持行级别的数据更新，快速查询和行级事务(但不支持多行事务)。</p>
+<p>HBase支持的一个重要特性就是列存储，可以像键-值存储一样来使用HBase。HBase使用HDFS(或其他某种分布式文件系统)来持久化存储数据。Hive 现在已经可以和 HBase 结合使用了。</p>
+<h3 id="Cascading、Crunch-及其他"><a href="#Cascading、Crunch-及其他" class="headerlink" title="Cascading、Crunch 及其他"></a>Cascading、Crunch 及其他</h3><h2 id="Java-和-Hive-词频统计算法"><a href="#Java-和-Hive-词频统计算法" class="headerlink" title="Java 和 Hive: 词频统计算法"></a>Java 和 Hive: 词频统计算法</h2><p>统计词频：</p>
+<pre><code>CREATE TABLE docs (line STRING);
+LOAD DATA INPATH &apos;docs&apos; OVERWRITE INTO TABLE docs;
+CREATE TABLE word_counts AS
+SELECT word, count(1) AS count FROM
+    (SELECT explode(split(line, &apos;\s&apos;)) AS word FROM docs) w
+GROUP BY word
+ORDER BY word;
+</code></pre><h1 id="第2章-基础操作"><a href="#第2章-基础操作" class="headerlink" title="第2章 基础操作"></a>第2章 基础操作</h1><h2 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h2><p><a href="https://xiaolongc929.github.io/2019/03/12/hadoop-spark-install/" target="_blank" rel="noopener">macOS hadoop-spark安装方式</a></p>
+<h3 id="本地模式、伪分布式模式、分布式模式"><a href="#本地模式、伪分布式模式、分布式模式" class="headerlink" title="本地模式、伪分布式模式、分布式模式"></a>本地模式、伪分布式模式、分布式模式</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/Theory-of-Generalization/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2126,427 +2306,6 @@ branch: master
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/08/maven-action/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chenxiaolong">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xiaolongc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/08/maven-action/" itemprop="url">maven实战</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-08T22:02:00+08:00">
-                2019-03-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/maven/" itemprop="url" rel="index">
-                    <span itemprop="name">maven</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="maven-简介"><a href="#maven-简介" class="headerlink" title="maven 简介"></a>maven 简介</h1><p>Apache Maven，是一个软件（特别是Java软件）项目管理及自动构建工具，由Apache软件基金会所提供。基于项目对象模型（缩写：POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。—来自维基百科</p>
-<p>Maven 是基于项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建、报告和文档的软件项目管理工具。</p>
-<p>Maven是一款强大的自动化构建工具，覆盖了编译、测试、运行、清理、打包和部署等各个项目构建的周期。它提供了一个仓库的概念，帮助统一的管理第三方的jar包，最大可能避免由于环境配置不同所产生的不同环境无法运行的情况。</p>
-<h1 id="maven-环境搭建"><a href="#maven-环境搭建" class="headerlink" title="maven 环境搭建"></a>maven 环境搭建</h1><p>Maven 的安装：</p>
-<ul>
-<li>mac下：brew install maven</li>
-<li>windows下：<a href="https://maven.apache.org/download.cgi#" target="_blank" rel="noopener">https://maven.apache.org/download.cgi#</a> 找到 Binary zip archive 对应的压缩包下载即可，解压并配置环境变量。</li>
-</ul>
-<p>文件结构：</p>
-<ul>
-<li>bin 目录:包含mvn的运行脚本。其中 m2.conf 是一个配置文件。</li>
-<li>boot 目录:包含了一个类加载器的框架plexus-classworlds-2.5.2.jar，maven使用它来加载自己的类库。</li>
-<li>conf 目录:包含了一些配置文件，例如常用的 settings.xml。</li>
-<li>lib 目录:包含了 Maven 运行时所用到的所有类库，除了 Maven自身的，还包含了一些第三方依赖的类库。</li>
-</ul>
-<h1 id="maven-helloWorld程序"><a href="#maven-helloWorld程序" class="headerlink" title="maven helloWorld程序"></a>maven helloWorld程序</h1><p>直接使用Idea进行创建，过程如下：</p>
-<ul>
-<li>创建 maven 项目</li>
-</ul>
-<p><img src="/images/2019/picture/Maven/1.png" alt></p>
-<ul>
-<li>选择 GroupId 和 ArtifactId</li>
-</ul>
-<p><img src="/images/2019/picture/Maven/2.png" alt></p>
-<ul>
-<li>确定项目名称及保存地址</li>
-</ul>
-<p><img src="/images/2019/picture/Maven/3.png" alt></p>
-<p>查看并修改 pom.xml 内容为：</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
-        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-        xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;com.maventest&lt;/groupId&gt;
-    &lt;artifactId&gt;maven.helloworld&lt;/artifactId&gt;
-    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;junit&lt;/groupId&gt;
-            &lt;artifactId&gt;junit&lt;/artifactId&gt;
-            &lt;version&gt;4.10&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-&lt;/project&gt;
-</code></pre><ul>
-<li>构建结构目录为：</li>
-</ul>
-<p><img src="/images/2019/picture/Maven/4.png" alt></p>
-<pre><code>// HelloWorld.java 文件为：
-package com.maventest.helloworld;
-
-public class HelloWorld {
-    public String sayHello(){
-        return &quot;Hello World!&quot;;
-    }
-}
-
-// HelloWorldTest.java 文件为：
-package com.maventest.helloworld;
-
-import org.junit.*;
-import org.junit.Assert.*;
-
-public class HelloWorldTest {
-    @Test
-    public void testHello(){
-        Assert.assertEquals(&quot;Hello World!&quot;, new HelloWorld().sayHello());
-    }
-}
-</code></pre><p>在 terminal 中依次输入如下命令，并观察输出：</p>
-<ul>
-<li>mvn compile</li>
-<li>mvn test</li>
-<li>mvn package</li>
-</ul>
-<h1 id="maven-核心知识"><a href="#maven-核心知识" class="headerlink" title="maven 核心知识"></a>maven 核心知识</h1><h2 id="maven-常用命令"><a href="#maven-常用命令" class="headerlink" title="maven 常用命令"></a>maven 常用命令</h2><pre><code>compile: 编译
-test: 测试
-package: 打包
-clean: 删除target
-install: 安装jar包到本地仓库
-</code></pre><h2 id="maven-自动建立目录骨架"><a href="#maven-自动建立目录骨架" class="headerlink" title="maven 自动建立目录骨架"></a>maven 自动建立目录骨架</h2><p>archetype插件：用于创建符合 maven 规定的目录骨架。</p>
-<p>创建目录的两种方式：</p>
-<ul>
-<li>mav archetype:generate</li>
-<li>mvn archetype:generate -DgroupId=com.imooc.maven04 -DartifactId=maven04-demo -Dversion=1.0.0SNAPSHOT -Dpackage=com.imooc.maven04.demo </li>
-</ul>
-<h2 id="maven-中的坐标和仓库"><a href="#maven-中的坐标和仓库" class="headerlink" title="maven 中的坐标和仓库"></a>maven 中的坐标和仓库</h2><p>构件：在 maven 中，任何一个插件、依赖以及构件的输出都可以称为构件。</p>
-<p>坐标：所有构件均通过构件作为其唯一标识。包括(groupId, artifactId, version)</p>
-<p>例如：</p>
-<ul>
-<li>groupId：com.imooc.maven01，其中 com.imooc 为公司名的反写，maven01 为项目名。</li>
-<li>artifactId: maven01-model，其中 maven01 为项目名，model 为该项目的模块名。</li>
-<li>version: 0.0.1SNAPSHOT，为项目所构件的版本</li>
-</ul>
-<p>仓库：用来管理项目的依赖。仓库主要分为 <code>本地仓库</code> 和 <code>远程仓库</code>两种。依赖会先在本地仓库中进行查找，如果查找不到就会在远程仓库进行查找，在远程仓库中能查找到则下载到本地仓库中去，不能查找到则会报错。</p>
-<p>maven 全球中央仓库地址：<a href="https://repo.maven.apache.org/maven2" target="_blank" rel="noopener">https://repo.maven.apache.org/maven2</a></p>
-<p>修改镜像仓库： 修改 maven/conf/settings.xml 文件。修改下面的内容为：</p>
-<pre><code>&lt;mirrors&gt;
-&lt;!-- mirror
-    | Specifies a repository mirror site to use instead of a given repository. The repository that
-    | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
-    | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
-    |
-&lt;mirror&gt;
-    &lt;id&gt;maven.net.cn&lt;/id&gt;
-    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
-    &lt;name&gt;central mirror in china&lt;/name&gt;
-    &lt;url&gt;http://maven.net.cn/content/groups/public&lt;/url&gt;
-&lt;/mirror&gt;
-    --&gt;
-&lt;/mirrors&gt;
-</code></pre><p>仓库位置：${M2_HOME}/conf/settings.xml 文件。</p>
-<p>同时将 settings.xml 文件复制一份到 ${user.home}/.m2/settings.xml 文件夹下。</p>
-<p>maven的配置文件settings.xml存在于两个地方：</p>
-<p>1.安装的地方：${M2_HOME}/conf/settings.xml</p>
-<p>2.用户的目录：${user.home}/.m2/settings.xml</p>
-<p>前者又被叫做全局配置，对操作系统的所有使用者生效；后者被称为用户配置，只对当前操作系统的使用者生效。如果两者都存在，它们的内容将被合并，并且用户范围的 settings.xml 会覆盖全局的 settings.xml。</p>
-<p>Maven安装后，用户目录下不会自动生成 settings.xml，只有全局配置文件。如果需要创建用户范围的 settings.xml，可以将安装路径下的 settings 复制到目录${user.home}/.m2/。Maven默认的settings.xml是一个包含了注释和例子的模板，可以快速的修改它来达到你的要求。</p>
-<p>全局配置一旦更改，所有的用户都会受到影响，而且如果 maven 进行升级，所有的配置都会被清除，所以要提前复制和备份 ${M2_HOME}/conf/settings.xml文件，一般情况下不推荐配置全局的 settings.xml。</p>
-<p>将复制后的 ${user.home}/.m2/settings.xml 修改下面的内容为：</p>
-<pre><code>&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
-</code></pre><p>即可将仓库指定到 <code>/path/to/local/repo</code> 路径下。</p>
-<h2 id="maven-的生命周期和插件"><a href="#maven-的生命周期和插件" class="headerlink" title="maven 的生命周期和插件"></a>maven 的生命周期和插件</h2><p>完整的项目构建过程包括：清理、编译、测试、打包、集成测试、验证和部署。</p>
-<ul>
-<li>clean: 清理项目<ul>
-<li>pre-clean: 执行清理前的工作</li>
-<li>clean: 清理上一次构建生成的所有文件</li>
-<li>post-clean: 执行清理后的文件</li>
-</ul>
-</li>
-<li>default: 构建项目（最核心）<ul>
-<li>compile:</li>
-<li>test:</li>
-<li>package:</li>
-<li>install:</li>
-</ul>
-</li>
-<li>site: 生成项目站点<ul>
-<li>pre-site: 生成项目站点前要完成工作</li>
-<li>site: 生成项目的站点文档</li>
-<li>post-site: 在生成项目站点后要完成的工作</li>
-<li>site-deploy: 发布生成站点到服务器上</li>
-</ul>
-</li>
-</ul>
-<p>maven 插件：<a href="https://maven.apache.org/plugins/index.html" target="_blank" rel="noopener">https://maven.apache.org/plugins/index.html</a> 目录下都是 maven 的插件。</p>
-<p>例如：使用 <code>source</code> 插件，该插件可以将项目的源码进行打包。</p>
-<p>在项目的 <code>pom.xml</code> 文件中，添加一下内容：</p>
-<pre><code>&lt;build&gt;
-    &lt;plugins&gt;
-        &lt;plugin&gt;
-            &lt;groupId&gt;org.apache.maven.plugin&lt;/groupId&gt;
-            &lt;artifactId&gt;maven-source-plugin&lt;/artifactID&gt;
-            &lt;version&gt;2,4&lt;/version&gt;
-            &lt;executions&gt;
-                &lt;phase&gt;package&lt;/phase&gt;
-                &lt;goals&gt;
-                    &lt;goal&gt;jar-no-fork&lt;/goal&gt;
-                &lt;/goals&gt;
-            &lt;/executions&gt;
-        &lt;/plugin&gt;
-    &lt;/plugins&gt;
-&lt;/build&gt;
-</code></pre><p>例如：执行 package 命令时，会默认将前面的 compile, test 命令自动执行。</p>
-<h2 id="maven-中-pom-xml-解析"><a href="#maven-中-pom-xml-解析" class="headerlink" title="maven 中 pom.xml 解析"></a>maven 中 pom.xml 解析</h2><p>pom,xml 文件是用于项目描述，组织管理，依赖管理和构建信息。</p>
-<p>根项目元素:</p>
-<pre><code>&lt;project xmlns:&apos;pom的约束信息&apos;&gt;
-    &lt;!--制定了当前pom的版本--&gt;
-    &lt;modelVersion&gt;&lt;/modelVersion&gt;
-
-    &lt;groupId&gt;反写的公司网址+项目名&lt;/groupId&gt;
-    &lt;artifactId&gt;项目名+模块名&lt;/artifactId&gt;
-    &lt;!--第一个0表示大版本号
-        第二个0表示分支版本号
-        第三个0表示小版本号
-        0.01
-        snapshot快照
-        alpha内部测试
-        beta公测
-        release稳定
-        GA正式发布
-    --&gt;
-    &lt;version&gt;&lt;/version&gt;
-    &lt;!--默认是jar
-        war zip pom
-    --&gt;
-    &lt;packaging&gt;&lt;/packaging&gt;
-
-    &lt;!--项目描述名，产生文档时会使用--&gt;
-    &lt;name&gt;&lt;/name&gt;
-    &lt;!--项目的地址--&gt;
-    &lt;url&gt;&lt;/url&gt;
-    &lt;!--项目的描述--&gt;
-    &lt;description&gt;&lt;/description&gt;
-    &lt;!--开发人员信息--&gt;
-    &lt;developers&gt;&lt;/developers&gt;
-    &lt;!--许可证件--&gt;
-    &lt;licenses&gt;&lt;/licenses&gt;
-    &lt;!--组织信息--&gt;
-    &lt;organization&gt;&lt;/organization&gt;
-
-    &lt;!--依赖类--&gt;
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;&lt;/groupId&gt;
-            &lt;artifactId&gt;&lt;/artifactId&gt;
-            &lt;veriosn&gt;&lt;/version&gt;
-            &lt;type&gt;&lt;/type&gt;
-            &lt;!--scope指定依赖的范围
-                例如junit指定的test, 指的是只在 test 测试过程有用
-            --&gt;
-            &lt;scope&gt;test&lt;scope&gt;
-            &lt;!-- 设置依赖是否可选，默认是 false--&gt;
-            &lt;optional&gt;&lt;/optional&gt;
-            &lt;!--排除依赖传递列表--&gt;
-            &lt;exclusions&gt;
-                &lt;exclusion&gt;
-                &lt;/exclusion&gt;
-            &lt;/exclusions&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-
-    &lt;!--依赖的管理，并不会引入依赖--&gt;
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-            &lt;/dependency&gt;
-        &lt;/dependencies&gt;
-    &lt;/dependencyManagement&gt;
-    &lt;!--build 对相应的构建行为提供相应的支持--&gt;
-    &lt;build&gt;
-        &lt;!--插件列表--&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-                &lt;groupId&gt;&lt;/groupId&gt;
-                &lt;artifactId&gt;&lt;/artifactId&gt;
-                &lt;veriosn&gt;&lt;/version&gt;
-            &lt;/plugin&gt;
-        &lt;/plugins&gt;
-    &lt;/build&gt;
-    &lt;!-- 对父依赖的继承--&gt;
-    &lt;parent&gt;&lt;/parent&gt;
-    &lt;!-- 指定多个模块。一起编译--&gt;
-    &lt;modules&gt;
-        &lt;module&gt;&lt;/module&gt;
-    &lt;/modules&gt;
-&lt;/project&gt;
-</code></pre><h2 id="maven-依赖范围"><a href="#maven-依赖范围" class="headerlink" title="maven 依赖范围"></a>maven 依赖范围</h2><p>scope 指定6中依赖范围：<a href="https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html" target="_blank" rel="noopener">Dependency Scope</a></p>
-<ul>
-<li>compile: 默认范围</li>
-<li>provided: 编译测试时有效</li>
-<li>runtime: 测试和运行时有效</li>
-<li>test: 测试时有效</li>
-<li>system: 本机系统相关：编译和测试时有效</li>
-<li>import: 导入的范围</li>
-</ul>
-<h2 id="maven-依赖传递"><a href="#maven-依赖传递" class="headerlink" title="maven 依赖传递"></a>maven 依赖传递</h2><p>假如 A 依赖于 B，B 依赖于 C。则在 A 引入 B 的依赖时，会将 C 的依赖也引入进来，要想 A 至依赖于 B，可以通过 <code>exclusions</code> 将 C 排除在外：</p>
-<pre><code>&lt;exclusions&gt;
-    &lt;exclusion&gt;
-        &lt;groupID&gt;&lt;/groupID&gt;
-        &lt;artifactId&gt;&lt;/artifactId&gt;
-        &lt;version&gt;&lt;/veriosn&gt;
-    &lt;/exclusion&gt;
-&lt;/exclusions&gt;
-</code></pre><h2 id="依赖冲突"><a href="#依赖冲突" class="headerlink" title="依赖冲突"></a>依赖冲突</h2><p>1 短路优先</p>
-<pre><code>A -&gt; B -&gt; C -&gt; X(jar)
-A -&gt; D -&gt; X(jar)
-</code></pre><p>假如，A 依赖的 B,D 所依赖的 X 的版本不同，根据短路优先原则，A 会依赖 D 所依赖的 X(jar)</p>
-<p>2 路径相同时，先声明先优先</p>
-<h2 id="maven-聚合和继承"><a href="#maven-聚合和继承" class="headerlink" title="maven 聚合和继承"></a>maven 聚合和继承</h2><pre><code>&lt;parent&gt;&lt;/parent&gt;
-&lt;packaging&gt;pom&lt;/packaging&gt;
-&lt;modules&gt;
-    &lt;module&gt;&lt;/module&gt;
-&lt;/modules&gt;
-</code></pre><h1 id="maven-构建web项目"><a href="#maven-构建web项目" class="headerlink" title="maven 构建web项目"></a>maven 构建web项目</h1><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
-<li><a href="https://www.imooc.com/learn/443" target="_blank" rel="noopener">项目管理利器-maven</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2599,7 +2358,7 @@ A -&gt; D -&gt; X(jar)
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

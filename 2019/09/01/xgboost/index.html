@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/16.png">
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/17.png">
 <meta property="og:image" content="http://yoursite.com/images/2019/picture/xgboost/18.png">
-<meta property="og:updated_time" content="2019-11-24T01:50:49.956Z">
+<meta property="og:updated_time" content="2019-11-24T02:40:04.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="4. xgboost原理及实战">
 <meta name="twitter:description" content="XGBoost 与 Boosted Tree（GBDT）前言作为一个非常有效的机器学习方法，Boosted Tree是数据挖掘和机器学习中最常用的算法之一。因为它效果好，对于输入要求不敏感，往往是从统计学家到数据科学家必备的工具之一，它同时也是kaggle比赛冠军选手最常用的工具。最后，因为它的效果好，计算复杂度不高，也在工业界中有大量的应用。 Boosted Tree 同义词Boosted Tr">
@@ -420,6 +420,7 @@
 <p>(5) 关键步骤</p>
 <p>接下来是最关键的一步1111，在这种新的定义下，我们可以把目标函数进行如下改写，其中I被定义为每个叶子上面样本集合 $ I_{j}={i|q(x_{i})=j} $ </p>
 <p><img src="/images/2019/picture/xgboost/13.png" alt></p>
+<p>其中，上式第二步到第三步的转换是个关键，即将 n 个样本折算到 T 个叶子节点上，每个叶子节点所对应的数值是一致的，因此通过叶子节点所对应的样本个数来改写损失函数。</p>
 <p>这一个目标包含了T个相互独立的单变量二次函数。我们可以定义:</p>
 <center>$$ G_{j}=\sum_{i\epsilon I_{j}}g_{i}, H_{j}=\sum_{i\epsilon I_{j}}h_{i} $$</center>
 
@@ -440,7 +441,7 @@
 <p>我们可以发现对于所有的a，我们只要做一遍从左到右的扫描就可以枚举出所有分割的梯度和GL和GR。然后用上面的公式计算每个分割方案的分数就可以了。</p>
 <p>观察这个目标函数，大家会发现第二个值得注意的事情就是引入分割不一定会使得情况变好，因为我们有一个引入新叶子的惩罚项。优化这个目标对应了树的剪枝， 当引入的分割带来的增益小于一个阀值的时候，我们可以剪掉这个分割。大家可以发现，当我们正式地推导目标的时候，像计算分数和剪枝这样的策略都会自然地出现，而不再是一种因为heuristic而进行的操作了。</p>
 <p>讲到这里文章进入了尾声，虽然有些长，希望对大家有所帮助，这篇文章介绍了如何通过目标函数优化的方法比较严格地推导出boosted tree的学习。因为有这样一般的推导，得到的算法可以直接应用到回归，分类排序等各个应用场景中去。</p>
-
+<h1 id="xgboost-的工程优化"><a href="#xgboost-的工程优化" class="headerlink" title="xgboost 的工程优化"></a>xgboost 的工程优化</h1><h1 id="xgboost-和-GBDT之间的区别"><a href="#xgboost-和-GBDT之间的区别" class="headerlink" title="xgboost 和 GBDT之间的区别"></a>xgboost 和 GBDT之间的区别</h1><h1 id="xgboost-的其他特性"><a href="#xgboost-的其他特性" class="headerlink" title="xgboost 的其他特性"></a>xgboost 的其他特性</h1><h2 id="缺失值的处理"><a href="#缺失值的处理" class="headerlink" title="缺失值的处理"></a>缺失值的处理</h2>
       
     </div>
     
@@ -563,7 +564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -640,7 +641,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XGBoost-与-Boosted-Tree（GBDT）"><span class="nav-number">1.</span> <span class="nav-text">XGBoost 与 Boosted Tree（GBDT）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosted-Tree-同义词"><span class="nav-number">1.2.</span> <span class="nav-text">Boosted Tree 同义词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有监督学习的算法的逻辑组成"><span class="nav-number">1.3.</span> <span class="nav-text">有监督学习的算法的逻辑组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosted-Tree"><span class="nav-number">1.4.</span> <span class="nav-text">Boosted Tree</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#XGBoost-与-Boosted-Tree（GBDT）"><span class="nav-number">1.</span> <span class="nav-text">XGBoost 与 Boosted Tree（GBDT）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosted-Tree-同义词"><span class="nav-number">1.2.</span> <span class="nav-text">Boosted Tree 同义词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有监督学习的算法的逻辑组成"><span class="nav-number">1.3.</span> <span class="nav-text">有监督学习的算法的逻辑组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boosted-Tree"><span class="nav-number">1.4.</span> <span class="nav-text">Boosted Tree</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xgboost-的工程优化"><span class="nav-number">2.</span> <span class="nav-text">xgboost 的工程优化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xgboost-和-GBDT之间的区别"><span class="nav-number">3.</span> <span class="nav-text">xgboost 和 GBDT之间的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#xgboost-的其他特性"><span class="nav-number">4.</span> <span class="nav-text">xgboost 的其他特性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缺失值的处理"><span class="nav-number">4.1.</span> <span class="nav-text">缺失值的处理</span></a></li></ol></li></ol></div>
             
 
           </div>
