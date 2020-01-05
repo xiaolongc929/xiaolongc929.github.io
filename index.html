@@ -430,6 +430,243 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/21/convex-optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="chenxiaolong">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaolongc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/21/convex-optimization/" itemprop="url">6. 凸优化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-21T10:50:43+08:00">
+                2019-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
+                    <span itemprop="name">machine learning</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><strong>凸优化之所以如此重要，是因为凸优化的重要特性：凸优化的任意局部最优解也是全局最优解</strong></p>
+<h2 id="数学优化"><a href="#数学优化" class="headerlink" title="数学优化"></a>数学优化</h2><p>数学优化问题定义(1.1):</p>
+<p>$$minimize\ f_{0}(x)$$<br>$$subject\ to\ f_{i}(x)&lt;=b_{i}, i=1,…,m$$</p>
+<ul>
+<li>其中，向量$x=(x_{1},x_{2},…,x_{n})$称为问题的优化变量</li>
+<li>函数$f_{0}:R^{n}\rightarrow R$称为目标函数</li>
+<li>函数$f_{i}:R^{n}\rightarrow R,\ i=1,…,m$称为(不等式)约束函数</li>
+<li>常数$b_{1},…,b_{m}$称为约束上限或者约束边界</li>
+</ul>
+<p>对于任意满足约束$f_{1}(z)&lt;=b1,…,f_{m}(z)&lt;=b_{m}$的向量$z$，有$f_{0}(z)&gt;=f_{0}(x^{<em>})$,那么称$x^{</em>}$为上述问题的最优解.</p>
+<p>线性规划(1.2)：</p>
+<p>若优化问题(1.1)中的目标函数和约束函数$f_{0},…,f_{m}$都是线性函数，即对任意的$x,y\in R^{n}$和$\alpha,\beta\in R$有:</p>
+<p>$$f_{i}(\alpha x+\beta y)=\alpha f_{i}(x)+\beta f_{i}(y).$$</p>
+<p>则此优化问题称为线性规划，若优化问题不是线性的，则称之为非线性优化。</p>
+<p><strong>最小二乘问题</strong></p>
+<p>最小二乘问题是其中的一个优化特例，它没有约束条件(即$m=0$)，目标函数是若干项的平方和，每一项具有形式$a_{i}^{T}x-b_{i}$，具体形式如下(1.4):</p>
+<p>$$minimize\ f_{0}(x)=||Ax-b||<em>{2}^{2}=\sum</em>{i=1}^{k}(a_{i}^{T}x-b_{i})^{2}.$$</p>
+<ul>
+<li>其中，$A\in R^{k*n}(k&gt;=n)$</li>
+<li>$a_{i}^{T}$是矩阵$A$的行向量</li>
+<li>向量$x\in R^{n}$是优化变量</li>
+</ul>
+<p>求解最小二乘问题：</p>
+<p>最小二乘问题(1.4)的求解可以化简为求解一组线性方程:</p>
+<p>$$(A^{T}A)x=A^{T}b$$</p>
+<p>因此，其解析解为$x=(A^{T}A)^{-1}A^{T}b$.</p>
+<h1 id="凸集"><a href="#凸集" class="headerlink" title="凸集"></a>凸集</h1><p>仿射集：略</p>
+<p>凸集定义：集合$C$被称为凸集，如果$C$中任意两点间的线段任然在$C$中，即对任意$x_{1},x_{2}\ \in C$和满足$0&lt;=\Theta &lt;=1$的$\Theta$都有:</p>
+<p>$$\Theta x_{1}\ +\ (1-\Theta)x_{2} \in C$$</p>
+<p>粗略地，如果集合中每一点都可以被其他点沿着它们之间一条无阻碍的路径看见，那么这个集合就是凸集。无阻碍是指整条路径都在集合中。</p>
+<p>例如：</p>
+<p><img src="/images/2019/picture/convex-optimization/1.jpg" alt></p>
+<ul>
+<li>第一个：是凸集（集合中的任意两点连线的所有点，都在集合中）</li>
+<li>第二个：不是凸集，原因图中已经标的很清楚了（有空隙）</li>
+<li>第三个：不是凸集，有些边没有在集合中</li>
+</ul>
+<h1 id="凸函数"><a href="#凸函数" class="headerlink" title="凸函数"></a>凸函数</h1><p>凸函数定义：</p>
+<p>函数$f:R^{n}\rightarrow R$是凸的，如果$dom\ f$是凸集，且对于任意$x,y \in dom\ f$和任意$0&lt;=\Theta &lt;=1$，有式(3-1)：</p>
+<p>$$f(\Theta x\ +\ (1-\Theta)y)&lt;=\Theta f(x)+(1-\Theta)f(y)$$</p>
+<p><img src="/images/2019/picture/convex-optimization/2.png" alt></p>
+<p>从几何意义上看，上述不等式意味着点$(x,f(x))$和$(y,f(y))$之间的线段，即$x$到$y$的弦，在函数$f$的上方。如果式(3-1)中的不等式$x≠y$以及$0&lt;\Theta &lt;1$是严格成立，则称$f$是严格凸的。</p>
+<p>凸函数的性质:</p>
+<p><strong>一阶条件</strong></p>
+<p>假设$f$是可微的(即其梯度$\bigtriangledown f$在开集$dom\ f$内处处存在)，则函数$f$是凸函数的充要条件是：</p>
+<ul>
+<li>(1)$dom\ f$是凸集</li>
+<li>(2)对于任意$x,y\in dom\ f$, 该式成立:$f(y)&gt;=f(x)+ \bigtriangledown f(x)^{T}(y-x).$</li>
+</ul>
+<p><img src="/images/2019/picture/convex-optimization/3.jpg" alt></p>
+<p><strong>二阶条件</strong></p>
+<p>假设函数$f$是二阶可微的，即对于开集$dom\ f$内的任意一点，它的$Hessian$矩阵或者二阶导数$\bigtriangledown ^{2}f$存在，则函数$f$是凸函数的充要条件是：</p>
+<ul>
+<li>其$Hessian$矩阵是半正定阵，即对于所有的$x\in dom\ f$,有$\bigtriangledown ^{2}f(x)&gt;=0$.</li>
+<li>对于$R$上的函数，上式可以简化为$f^{‘’}(x)&gt;=0$，此条件说明函数$f$的导数是非减的。</li>
+</ul>
+<p>我们如果能够判断一个函数的海瑟矩阵是正定的，那么我们就可以说这个函数就是凸函数。判断完了凸函数，我们就可以利用凸函数的性质。</p>
+<h1 id="凸优化问题"><a href="#凸优化问题" class="headerlink" title="凸优化问题"></a>凸优化问题</h1><p>凸优化问题的标准形式(4.15):</p>
+<p>$$minimize\ f_{0}(x)$$<br>$$subject\ to\ f_{i}(x)&lt;=0,\ i=1,…,m$$<br>$$a_{i}^{T}x=b_{i},\ i=1,…,p$$</p>
+<p>的问题，其中$f_{0},…,f_{m}$为凸函数，$x^{*}\in X$是可微函数$f_{0}$的最优解，当且仅当:</p>
+<p>$$\bigtriangledown f_{0}(x^{<em>})^{T}(y-x^{</em>})&gt;=0,y\in X$$</p>
+<h2 id="无约束凸优化的问题"><a href="#无约束凸优化的问题" class="headerlink" title="无约束凸优化的问题"></a>无约束凸优化的问题</h2><h3 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h3><p>无约束凸优化问题(即(4.15)式中，m=p=0),$x^{*}\in X$是可微函数$f$的最优解的重要条件是:</p>
+<p>$$\bigtriangledown f(x^{*})=0$$</p>
+<h3 id="求解方法"><a href="#求解方法" class="headerlink" title="求解方法"></a>求解方法</h3><p>(1) 解析解</p>
+<p>对于少数一些简单的凸优化问题，可以利用最优性准则通过解析来求解。但对于大多数凸优化问题来讲，是没有办法通过解析来求解的。</p>
+<p>(2) 下降方法：确定步长、确定搜索方向.</p>
+<p><img src="/images/2019/picture/convex-optimization/4.png" alt></p>
+<p>(3) 确定步长的方法：固定步长搜索、精确直线搜索、回溯直线搜索<br>(4) 确定搜索方向的方法：梯度下降方法、最速下降方法(一阶泰勒展开近似优化)、牛顿法(二阶泰勒展开近似优化).</p>
+<ul>
+<li>梯度下降方法必须满足：搜索方向和负梯度成锐角，简单方法是直接用负梯度作为搜索方向，即</li>
+</ul>
+<p>$$\Delta x=-\bigtriangledown f(x)$$</p>
+<ul>
+<li>最速下降方法(一阶泰勒展开近似优化)</li>
+</ul>
+<p><img src="/images/2019/picture/convex-optimization/5.png" alt></p>
+<ul>
+<li>牛顿法(二阶泰勒展开近似优化)</li>
+</ul>
+<p><img src="/images/2019/picture/convex-optimization/6.png" alt><br><img src="/images/2019/picture/convex-optimization/7.png" alt><br><img src="/images/2019/picture/convex-optimization/8.png" alt></p>
+<h2 id="只含等式约束凸优化的问题"><a href="#只含等式约束凸优化的问题" class="headerlink" title="只含等式约束凸优化的问题"></a>只含等式约束凸优化的问题</h2><h3 id="问题定义-1"><a href="#问题定义-1" class="headerlink" title="问题定义"></a>问题定义</h3><p>考虑只含等式约束而没有不等式约束的问题，即</p>
+<p>$$minimize\ f_{0}(x)$$<br>$$subject\ to\ Ax=b,$$</p>
+<p>可行解$x$的最优性条件为：对任意满足$Ay=b$的$y$:$\bigtriangledown f_{0}(x)^{T}(y-x)&gt;=0$都成立。</p>
+<p>对应的，$x^{*}\in X$是可微函数$f$的最优解的重要条件为，存在$v\in R^{p}$,使得:</p>
+<p>$$\bigtriangledown f(x^{*})+A^{T}v=0$$</p>
+<p>其中，$A\in R^{p*n}.$</p>
+<h3 id="求解方法-1"><a href="#求解方法-1" class="headerlink" title="求解方法"></a>求解方法</h3><p>通过Lagrange对偶问题求解</p>
+<h2 id="不等式约束凸优化的问题"><a href="#不等式约束凸优化的问题" class="headerlink" title="不等式约束凸优化的问题"></a>不等式约束凸优化的问题</h2><h3 id="问题定义-2"><a href="#问题定义-2" class="headerlink" title="问题定义"></a>问题定义</h3><p>$$minimize\ f_{0}(x)$$<br>$$subject\ to\ f_{i}(x)&lt;=0,\ i=1,…,m$$<br>$$a_{i}^{T}x=b_{i},\ i=1,…,p$$</p>
+<p>其中$f_{0},…,f_{m}$为凸函数。</p>
+<h3 id="求解方法-2"><a href="#求解方法-2" class="headerlink" title="求解方法"></a>求解方法</h3><p>通过Lagrange对偶问题求解:</p>
+<p>(1) 原始问题</p>
+<p><img src="/images/2019/picture/convex-optimization/9.png" alt><br><img src="/images/2019/picture/convex-optimization/10.png" alt><br><img src="/images/2019/picture/convex-optimization/11.png" alt></p>
+<p>(2) 对偶问题</p>
+<p><img src="/images/2019/picture/convex-optimization/12.png" alt></p>
+<p>(3) 原始问题和对偶问题的关系</p>
+<p><img src="/images/2019/picture/convex-optimization/13.png" alt><br><img src="/images/2019/picture/convex-optimization/14.png" alt><br><img src="/images/2019/picture/convex-optimization/15.png" alt><br><img src="/images/2019/picture/convex-optimization/16.png" alt></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/26/lightgbm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2200,368 +2437,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/27/Decision-tree/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="chenxiaolong">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="xiaolongc">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/27/Decision-tree/" itemprop="url">1. Decision-tree</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-27T08:16:21+08:00">
-                2019-07-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/machine-learning/" itemprop="url" rel="index">
-                    <span itemprop="name">machine learning</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>目前，工作中接触最多的就是树模型，为了加深对树模型的理解，是时候将树模型总结总结了。</p>
-<p>决策树：可以认为是 if-then 规则集合，也可以认为是定义在特征空间与类空间上的条件概率分布。</p>
-<p>学习时，利用训练数据，根据损失函数最小化建立决策树模型；预测时，利用决策树模型对新数据分类。</p>
-<p>决策树学习通常包括3个步骤：</p>
-<font color="red">特征选择、决策树生成和决策树修剪。</font>
-
-<p>决策树主要思想来自于：Quinlan 在1986提出的 ID3 和 1993年提出的C4.5，以及由 Breiman 等人在1984年提出的CART算法。</p>
-<h1 id="决策树模型"><a href="#决策树模型" class="headerlink" title="决策树模型"></a>决策树模型</h1><p>决策树由结点(node)和有向边(directed edge)组成。结点有两类：内部结点(internal node, 表示一个特征或属性)和叶结点(leaf node, 表示一个类)。</p>
-<p>可以将决策树看做是一个 if-then 规则：即决策树的根节点到叶结点的每一条路径为一条规则：路径上内部结点特征对应着规则的条件，而叶结点的类对应则规则的结论。</p>
-<p>也可以将决策树表示给定特征条件下类的条件概率分布：这一条件概率分布定义在特征空间的一个划分上，将特征空间划分为互不相交的单元或区域，并在每个单元定义一个类的概率分布，即构成了一个条件概率分布。决策树的一条路径对应于划分中的一个单元，决策树所表示的条件概率分布由各个单元给定条件下类的条件概率分布组成。</p>
-<p>李航博士将统计学习的三要素为：方法=模型+策略+算法</p>
-<ul>
-<li><font color="red">模型：</font>决策树。</li>
-<li><font color="red">策略：</font>以损失函数(通常是正则化的极大似然函数)为目标函数的最小化。</li>
-<li><font color="red">算法：</font>通常采用启发式方法，近似求解最优化问题。</li>
-</ul>
-<p>决策树学习的过程通常是一个递归地选择最优特征，并根据该特征对训练数据进行分割，使得各个子数据集有一个最好的分类过程，这一过程对应着对特征空间的划分，也对应着决策树的构建。</p>
-<p>决策树学习算法包含<font color="Tomato">特征选择、决策树生成、决策树剪枝过程</font>。其中决策树的生成对应于模型的局部选择，决策树的剪枝对应于模型的全局选择。</p>
-<p>常用的算法包含有 ID3、C4.5 与 CART，下面分别介绍三种算法的决策树学习的特征选择、决策树的生成和剪枝过程。</p>
-<h2 id="信息增益"><a href="#信息增益" class="headerlink" title="信息增益"></a>信息增益</h2><p>直观上，如果一个特征具有更好的分类能力，或者按照这个特征将训练数据集分割成子集，使得各个子集在当前条件下有最好的分类，那么就应该选择这个特征，信息增益(information gain)就能够很好地表示这一直观准则。</p>
-<p>下面依次介绍与信息增益有关的几个概念：</p>
-<font color="red">熵(entropy): </font>用来表示随机变量的不确定性的度量。设X是一个取值有限的离散变量，概率分布为:<br><center>$$\mathit{P(X = x_{i})=p_{i}, i=1,2,…,n}$$</center><br>则随机变量 X 的熵定义为：<br><center>$$\mathit{H(X)=-\sum_{i=1}^{n}p_{i}logp_{i}}$$</center><br>如果 p<sub>i</sub>=0, 则定义 0log0=0. 由上面可以看出，熵只依赖于 <em>X</em> 的分布，而与 <em>X</em> 的取值无关，所以也可以将 X 的熵记为 <em>H(p)</em>, 即：<br><center>$$\mathit{H(p)=-\sum_{i=1}^{n}p_{i}logp_{i}}$$</center><br>熵越大，随机变量的不确定性就越大，从定义可以看出：<br><center>$$\mathit{0\leqslant H(p)\leqslant logn}$$</center><br>当随机变量只有两个取值时，则 <em>X</em> 的分布为：<br><center>$$\mathit{P(X=1)=p,P(X=0)=1-p,0\leqslant p\leqslant 1}$$</center><br>熵为：<br><center>$$\mathit{H(p)=-plog_{2}p-(1-p)log_{2}(1-p)}$$</center><br>其中 <em>H(p)</em> 随概率 <em>p</em> 变化的曲线如图所示:<br><br><img src="/images/2019/picture/Decision-tree/1.png" alt><br><br><font color="red">联合概率分布: </font>设有随机变量 <em>(X, Y)</em>，其联合概率分布为：<br><center>$$\mathit{P(X=x_{i},Y=y_{i})=p_{ij},i=1,2,…,n;j=1,2,…,m}$$</center><br><font color="red">条件熵: </font> <em>H(Y|X)</em>表示在已知随机变量 <em>X</em> 的条件下随机变量 <em>Y</em> 的不确定性. 随机变量 <em>X</em> 给定条件下的随机变量 <em>Y</em> 的条件熵(conditional entropy) <em>H(Y|X)</em>, 定义为 <em>X</em> 给定条件下 <em>Y</em> 的条件概率分布的熵对 X 的数学期望：<br><center>$$\mathit{H(Y|X)=\sum_{i=1}^{n}p_{i}H(Y|X=x_{i})}$$</center><br>其中，$$\mathit{p_{i}=P(X=x_{i}),i=1,2,…,n.}$$<br><br>当熵和条件熵中的概率由 <strong>数据估计(特别是极大似然估计)</strong> 得到时，所对应的的熵分别为经验熵(empirical entropy) 和经验条件熵(empirical conditional entropy).<br><br><font color="red">信息增益: </font>特征<em>A</em>对训练数据集<em>D</em>的信息增益<em>g(D,A)</em>, 定义为集合D的经验熵<em>H(D)</em>与特征<em>A</em>给定条件下<em>D</em>的经验熵<em>H(D/A)</em>之差，即：<br><center>$$\mathit{g(D,A)=H(D)-H(D|A)}$$</center><br>信息增益表示了得知特征<em>X</em>的信息，使得类<em>Y</em>的信息不确定性减少的程度。<br><br>一般地，熵<em>H(Y)</em>与条件熵<em>H(Y|X)</em>之差称为 <strong>互信息(mutual information)</strong>. 决策树学习中的信息增益等价于训练数据集中类与特征的互信息。<br><br><font color="orange"><strong>决策树学习应用信息增益准则选择特征。</strong> 给定训练数据集D和特征A，<code>经验熵 H(D)</code> 表示对数据集D进行分类的不确定性，而 <code>经验条件熵 H(D|A)</code> 表示在特征A给定条件下对数据集D进行分类的不确定性。那么他们的差，即 <strong>信息增益，表示由于特征A而使得数据集D的分类不确定性减少的程度。</strong></font>
-
-<p>设训练数据集为D，|D|表示其样本容量，即样本个数。设有 <em>K</em> 个类 $ C_{k},k=1,2,…,K, |C_{k}| $ 为属于类 $ C_{k} $ 的样本个数，$ \mathit{\sum_{k=1}^{K}|C_{k}|=|D|.} $ 设特征 <em>A</em> 有n个不同的取值 $ \mathit{(a_{1},a_{2},…,a_{n}.)}, $ 根据特征 A 的取值将D划分为 n 个子集  $ \mathit{(D_{1},D_{2},…,D_{n}), |D_{i}|} $ 为 $ D_{i} $ 的样本个数， $ \mathit{\sum_{i=1}^{n}|D_{i}|=|D|}. $ 记子集 $ D_{i} $ 中属于类 $ C_{k} $ 的样本集合为 $ D_{ik}, $ 即 $ D_{ik}=D_{i}\bigcap C_{k} $ , $ |D_{ik}| $ 为 $ D_{ik} $ 的样本个数。于是信息增益的算法为:</p>
-<font color="gray"><br>输入：训练数据集D和特征A;<br><br>输出：特征A对训练数据集D的信息增益 g(D,A).<br><br>(1) 计算数据集 D的经验熵 H(D)<br><center>$$ \mathit{H(D)=-\sum_{i=1}^{K}\frac{|C_{k}|}{|D|}log_{2}\frac{|C_{k}|}{|D|}} $$</center><br>(2) 计算特征A对数据集D的 <code>经验条件熵H(D|A)</code><br><center>$$\mathit{H(D|A)=\sum_{i=1}^{n}p_{i}H(D|A=a_{i})=\sum_{i=1}^{n}\frac{|D_{i}|}{|D|}H(D|A=a_{i})}$$</center><br>即：<br><center>$$\mathit{H(D|A)=\sum_{i=1}^{n}\frac{|D_{i}|}{|D|}H(D_{i})=- \sum_{i=1}^{n}\frac{|D_{i}|}{|D|}\sum_{k=1}^{K}\frac{|D_{ik}|}{|D_{i}|}log_{2}\frac{|D_{ik}|}{|D_{i}|}}$$</center><br>(3) 计算信息增益<br><center>$$\mathit{g(D,A)=H(D)-H(D,A)}$$</center><br></font>
-
-<h2 id="信息增益比"><a href="#信息增益比" class="headerlink" title="信息增益比"></a>信息增益比</h2><font color="red">信息增益比: 以信息增益作为划分训练数据集的特征，存在偏向于选择取值较多的特征的问题。使用信息增益比(information gain ratio)可以对这一问题进行纠正。</font> 
-
-<p>特征A对训练数据集的信息增益比 $ g_{R}(D,A) $ 定义为信息增益 $ g(D,A) $ 与训练数据集D关于特征A的值的的经验熵 $ H_{A}(D) $ 之比：</p>
-<center>$$\mathit{g_{R}(D,A)=\frac{g(D,A)}{H_{A}(D)}}$$</center>
-
-<p>其中：</p>
-<center>$$\mathit{H_{A}(D)=-\sum_{i=1}^{n}\frac{|D_{i}|}{|D|}log_{2}\frac{|D_{i}|}{|D|}}$$</center>
-
-
-<h1 id="决策树的生成"><a href="#决策树的生成" class="headerlink" title="决策树的生成"></a>决策树的生成</h1><h2 id="ID3算法"><a href="#ID3算法" class="headerlink" title="ID3算法"></a>ID3算法</h2><p>输入：训练数据集D，特征集A, 阈值 $ \varepsilon $ ;</p>
-<p>输出：决策树T.</p>
-<ul>
-<li>(1) 若D中所有实例属于同一类 $ C_{k} $ ,则T为单结点树，并将类 $ C_{k} $ 作为结点的类标记，返回T;</li>
-<li>(2) 若 $ A=\Phi $ ,则T为单结点树，并将D中实例树最大的类 $ C_{k} $ 作为该结点的类标记，返回T;</li>
-<li>(3) 否则，计算A中各个特征对D的<font color="red">信息增益</font>，选择信息增益最大的特征 $ A_{g} $ ;</li>
-<li>(4) 如果 $ A_{g} $ 的信息增益小于阈值 $ \Phi $ , 则置T为单结点树，并将D中实例树最大的类 $ C_{k} $ 作为该结点的类标记，返回T;</li>
-<li>(5) 否则，对 $ A_{g} $ 的每一可能值 $ a_{i} $ , 依 $ A_{g}=a_{i} $ 将D分割为若干非空子集 $ D_{i} $ , 将 $ D_{i} $ 中实例最大的类作为标记，构建子结点，由结点及其子结点构成树T，返回T;</li>
-<li>(6) 对第i个子结点，以 $ D_{i} $ 为训练集，以 $ A-{A_{g} } $ 为特征集，递归地调用步(1)~(5), 得到子树 $ T_{i} $ , 返回 $ T_{i} $ .</li>
-</ul>
-<h2 id="ID3算法的不足"><a href="#ID3算法的不足" class="headerlink" title="ID3算法的不足"></a>ID3算法的不足</h2><p>来自于 <a href="https://www.cnblogs.com/pinard/p/6050306.html" target="_blank" rel="noopener">决策树算法原理(上)</a></p>
-<ul>
-<li>1) 无法处理连续特征。</li>
-<li>2) 采用信息增益的特征缺点：取值比较多的特征比取值较少的特征的信息增益大。</li>
-<li>3) 无法处理缺失值。</li>
-<li>4) 没有考虑过拟合问题。</li>
-</ul>
-<h2 id="C4-5算法"><a href="#C4-5算法" class="headerlink" title="C4.5算法"></a>C4.5算法</h2><p>输入：训练数据集D，特征集A, 阈值 $ \varepsilon $ ;</p>
-<p>输出：决策树T.</p>
-<ul>
-<li>(1) 若D中所有实例属于同一类 $ C_{k} $ ,则T为单结点树，并将类 $ C_{k} $ 作为结点的类标记，返回T;</li>
-<li>(2) 若 $ A=\Phi $ ,则T为单结点树，并将D中实例树最大的类 $ C_{k} $ 作为该结点的类标记，返回T;</li>
-<li>(3) 否则，计算A中各个特征对D的<font color="red">信息增益比</font>，选择信息增益最大的特征 $ A_{g} $ ;</li>
-<li>(4) 如果 $ A_{g} $ 的信息增益小于阈值 $ \Phi $ , 则置T为单结点树，并将D中实例树最大的类 $ C_{k} $ 作为该结点的类标记，返回T;</li>
-<li>(5) 否则，对 $ A_{g} $ 的每一可能值 $ a_{i} $ , 依 $ A_{g}=a_{i} $ 将D分割为若干非空子集 $ D_{i} $ , 将 $ D_{i} $ 中实例最大的类作为标记，构建子结点，由结点及其子结点构成树T，返回T;</li>
-<li>(6) 对第i个子结点，以 $ D_{i} $ 为训练集，以 $ A-{A_{g} } $ 为特征集，递归地调用步(1)~(5), 得到子树 $ T_{i} $ , 返回 $ T_{i} $ .</li>
-</ul>
-<h2 id="C4-5对ID3的改进"><a href="#C4-5对ID3的改进" class="headerlink" title="C4.5对ID3的改进"></a>C4.5对ID3的改进</h2><p>来自于 <a href="https://www.cnblogs.com/pinard/p/6050306.html" target="_blank" rel="noopener">决策树算法原理(上)</a></p>
-<ul>
-<li>1) 不能处理连续特征的解决方法：C4.5将连续的特征离散化。比如m个样本的连续特征A有m个，从小到大排列为 $ a_{1},a_{2},…,a_{m}, $ 则C4.5取相邻两样本的平均值，一共取得m-1个划分点，其中第i个划分点 $ T_{i} $ 表示为： $ \mathit{T_{i}=\frac{a_{i}+a_{i+1}}{2}}. $ 对于这 m-1 个点，分别计算以该点作为二元分类点时的信息增益。选择信息增益最大的点作为该连续特征的<font color="orange">二元离线分类点</font>。比如取到的增益最大的点为 $ a_{t}, $ 则小于 $ a_{t} $ 的值为类别1，大于 $ a_{t} $ 的值为类别2，这样我们就做到了<font color="orange">连续特征的离散化</font>。要注意的是，与离散属性不同的是，<font color="orange">如果当前节点为连续属性，则该属性后面还可以参与子结点的产生选择过程。</font> <strong>这里应该也采用的是信息增益比吧？</strong></li>
-<li>2) 采用信息增益比来解决。</li>
-<li>3) 对于确实值的处理，主要解决是两个问题，一是在样本某些特征缺失的情况下选择划分的属性，二是选定了划分属性，对于在该属性上缺失特征的样本的处理。</li>
-<li><ul>
-<li>3.1）对于第一个子问题，对于某一个有缺失特征值的特征A。C4.5的思路是将数据分成两部分，对每个样本设置一个权重（初始可以都为1），然后划分数据，一部分是有特征值A的数据D1，另一部分是没有特征A的数据D2. 然后对于没有缺失特征A的数据集D1来和对应的A特征的各个特征值一起计算加权重后的信息增益比，最后乘上一个系数，这个系数是无特征A缺失的样本加权后所占加权总样本的比例。</li>
-</ul>
-</li>
-<li><ul>
-<li>3.2) 对于第二个子问题，可以将缺失特征的样本同时划分入所有的子节点，不过将该样本的权重按各个子节点样本的数量比例来分配。比如缺失特征A的样本a之前权重为1，特征A有3个特征值A1,A2,A3。 3个特征值对应的无缺失A特征的样本个数为2,3,4.则a同时划分入A1，A2，A3。对应权重调节为2/9,3/9, 4/9。</li>
-</ul>
-</li>
-<li>4) C4.5引入了正则化系数进行初步的剪枝。</li>
-</ul>
-<h2 id="C4-5的不足"><a href="#C4-5的不足" class="headerlink" title="C4.5的不足"></a>C4.5的不足</h2><ul>
-<li>1) 由于决策树算法非常容易过拟合，因此对于生成的决策树必须要进行剪枝.思路主要是两种，一种是预剪枝，即在生成决策树的时候就决定是否剪枝。另一个是后剪枝，即先生成决策树，再通过交叉验证来剪枝.后面在下篇讲CART树的时候我们会专门讲决策树的减枝思路，主要采用的是后剪枝加上交叉验证选择最合适的决策树。</li>
-<li>2) C4.5生成的是多叉树，即一个父节点可以有多个节点。很多时候，在计算机中二叉树模型会比多叉树运算效率高。如果采用二叉树，可以提高效率。</li>
-<li>3) C4.5只能用于分类，如果能将决策树用于回归的话可以扩大它的使用范围。</li>
-<li>4) C4.5由于使用了熵模型，里面有大量的耗时的对数运算,如果是连续值还有大量的排序运算。如果能够加以模型简化可以减少运算强度但又不牺牲太多准确性的话，那就更好了。</li>
-</ul>
-<h1 id="决策树的剪枝"><a href="#决策树的剪枝" class="headerlink" title="决策树的剪枝"></a>决策树的剪枝</h1><p>决策树生成算法递归地产生决策树，容易出现过拟合，其原因在于学习时过多地考虑如何提高对训练数据的正确分类，从而构造出过于复杂的决策树。</p>
-<p>在决策树学习中将已生成的树进行简化的过程称为剪枝。</p>
-<font color="orange">决策树的剪枝往往通过极小化决策树整体的损失函数(loss function)来实现。</font>
-
-<p>设树T的叶结点个数为|T|，t是树T的叶结点，该叶结点有 $ N_{t} $ 个样本点，其中k类的样本点有 $ N_{tk} $ 个，k=1,2,…,K，$ H_{t}(T) $ 为叶结点t上的经验熵，$ \alpha \geq 0 $ 为参数，则决策树学习的损失函数可以定义为：<br>$$ \mathit{C_{\alpha}(T)=\sum_{t=1}^{|T|}N_{t}H_{t}(T)+\alpha|T|} $$<br>其中经验熵为：<br>$$ \mathit{H_{t}(T)=-\sum_{k}\frac{N_{tk}}{N_{t}}log\frac{N_{tk}}{N_{t}}} $$<br>令：<br>$$ \mathit{C(T)=\sum_{t=1}^{|T|}N_{t}H_{t}(T)=-\sum_{t=1}^{|T|}\sum_{k=1}^{K}\frac{N_{tk}}{N_{t}}log\frac{N_{tk}}{N_{t}}} $$<br>这时有：<br>$$ \mathit{C_{\alpha}(T)=C(T)+\alpha|T|} $$</p>
-<p>上式中，C(T)表示模型对训练数据的预测误差，即模型与训练数据的拟合程度，|T|表示模型复杂度，参数 $ \alpha \geq 0 $ 控制两者之间的影响。较大的 $ \alpha $ 促使选择较简单的模型，较小的 $ \alpha $ 促使选择复杂的模型， $ \alpha =0 $ 意味只考虑与训练数据的拟合程度。</p>
-<font color="orange">剪枝，就是当 $ \alpha $ 确定时，选择损失函数最小的模型。上式定义的损失函数的极小化等价于正则化的极大似然估计。所以，利用损失函数最小原则进行剪枝就是用正则化的极大似然估计进行模型选择。</font>
-
-<p>树的剪枝算法：</p>
-<p>输入：生成算法产生的整个树T，参数 $ \alpha $ ;</p>
-<p>输出：剪枝后的子树 $ T_{\alpha}. $</p>
-<ul>
-<li>(1) 计算每个结点的经验熵</li>
-<li>(2) 递归地从树的叶结点向上回缩：设一组叶结点回缩到父节点之前与之后的整体树分别为 $ T_{B} $ 与 $ T_{A} $ , 其对应的损失函数分别是 $ C_{\alpha}(T_{B}) $ 与 $ C_{\alpha}(T_{A}) $ , 如果 $ C_{\alpha}(T_{A}) \geq C_{\alpha}(T_{B}) $ 则进行剪枝，即将父节点变为新的叶结点.</li>
-<li>(3) 返回(2), 直到不能继续为止，得到损失函数最小的子树 $ T_{\alpha}. $</li>
-</ul>
-<h1 id="CART树"><a href="#CART树" class="headerlink" title="CART树"></a>CART树</h1><p>CART 假设决策树是二叉树，内部结点特征的取值为“是”和“否”，左分支是取值为“是”的分支，右分支是取值为“否”的分支。这样的决策树等价于递归地二分每个特征，将输入空间即特征空间划分为有限个单元，并在这些单元上确定预测的概率分布，也就是在输入给定的条件下输出的条件概率分布。</p>
-<h2 id="基尼系数"><a href="#基尼系数" class="headerlink" title="基尼系数"></a>基尼系数</h2><p>来自于 <a href="https://www.cnblogs.com/pinard/p/6053344.html" target="_blank" rel="noopener">决策树算法原理(下)
-</a></p>
-<p>为何CART要采用基尼系数：</p>
-<p>我们知道，在ID3算法中我们使用了信息增益来选择特征，信息增益大的优先选择。在C4.5算法中，采用了信息增益比来选择特征，以减少信息增益容易选择特征值多的特征的问题。但是无论是ID3还是C4.5,都是基于信息论的熵模型的，这里面会涉及大量的对数运算。</p>
-<p>能不能简化模型同时也不至于完全丢失熵模型的优点呢？有！<font color="orange">CART分类树算法使用基尼系数来代替信息增益比，基尼系数代表了模型的不纯度，基尼系数越小，则不纯度越低，特征越好。这和信息增益(比)是相反的。</font></p>
-<p>具体的，在分类问题中，假设有K个类别，第k个类别的概率为 $ p_{k} $ , 则基尼系数的表达式为：</p>
-<center>$$ \mathit{Gini(p)=\sum_{k=1}^{K}p_{k}(1-p_{k})=1-\sum_{k=1}^{K}p_{k}^{2}} $$</center><br>如果是二类分类问题，计算就更加简单了，如果属于第一个样本输出的概率是p，则基尼系数的表达式为：<br><center>$$ \mathit{Gini(p)=2p(1-p)} $$</center><br>对于给定的样本D,假设有K个类别, 第k个类别的数量为 $ C_{k} $ ,则样本D的基尼系数表达式为：<br><center>$$ \mathit{Gini(D)=1-\sum_{k=1}^{K}(\frac{|C_{k}|}{|D|})^{2}} $$</center><br>特别的，对于样本D,如果根据特征A的某个值a,把D分成D1和D2两部分，则在特征A的条件下，D的基尼系数表达式为：<br><center>$$ \mathit{Gini(D, A)=\frac{|D_{1}|}{|D|}Gini(D_{1})+\frac{|D_{2}|}{|D|}Gini(D_{2})} $$</center>
-
-
-<h2 id="CART生成"><a href="#CART生成" class="headerlink" title="CART生成"></a>CART生成</h2><p>决策树的生成就是递归地构建二叉决策树的过程。特征选择的标准为：</p>
-<ul>
-<li>对回归树用平方误差最小化准则；</li>
-<li>对分类树用基尼指数最小化准则；</li>
-</ul>
-<h3 id="回归树的生成"><a href="#回归树的生成" class="headerlink" title="回归树的生成"></a>回归树的生成</h3><p>回归树的特征处理，连续特征和离线特征同样采用下面的启发式的方法，即选择第j个变量 $ x^{j} $ 和它的取值 s,作为切分变量(splitting variable) 和切分点(splitting point), 并定义两个区域：</p>
-<center>$$ \mathit{R_{1}(j,s)=[x|x^{j}\leqslant s], R_{2}(j,s)=[x|x^{j}&gt;s]} $$</center><br>然后寻找最优切分变量j和最优切分点s，具体地，求解：<br><center>$$ \mathit{\min_{j,s}[\min_{c_{1}}\sum_{x_{i}\epsilon R_{1}(j,s)}(y_{i}-c_{1})^{2}+\min_{c_{2}}\sum_{x_{i}\epsilon R_{2}(j,s)}(y_{i}-c_{2})^{2}]} $$</center><br>对于固定输入变量j可以找到最优切分点s.<br><center>$$ c_{1}^{*}=avg(y_{i}|x_{i}\epsilon R_{1}(j,s)),c_{2}^{*}=avg(y_{i}|x_{i}\epsilon R_{2}(j,s)) $$</center>
-
-<p>输入：训练数据集D</p>
-<p>输出：回归树f(x)</p>
-<font color="orange">在训练数据集所在的输入空间中，递归地将每个区域划分为两个子区域并决定每个子区域上的输出值，构建二叉决策树。</font>
-
-<ul>
-<li>(1) 寻找最优切分变量 j 与切分点 s, 求解：<center>$$ \mathit{\min_{j,s}[\min_{c_{1}}\sum_{x_{i}\epsilon R_{1}(j,s)}(y_{i}-c_{1})^{2}+\min_{c_{2}}\sum_{x_{i}\epsilon R_{2}(j,s)}(y_{i}-c_{2})^{2}]} $$</center></li>
-<li>(2) 用选定的对(j,s)划分区域并决定相应的输出值：<center>$$ \mathit{R_{1}(j,s)=[x|x^{j}\leqslant s], R_{2}(j,s)=[x|x^{j} &gt; s]} $$</center><br><center>$$ \mathit{c_{m}^{*}=\frac{1}{N_{m}}\sum_{x_{i}\epsilon R_{m}(j,s)}y_{i},x\epsilon R_{m},m=1,2} $$</center></li>
-<li>(3) 继续对两个子区域调用步骤(1),(2),直到满足停止条件.</li>
-<li>(4) 将输入空间划分为M个区域 $ R_{1},R_{2},…,R_{M}, $ 并生成决策树：<center>$$ \mathit{f(x)=\sum_{m=1}^{M}c_{m}^{*}I(x\epsilon R_{m})} $$</center>
-
-</li>
-</ul>
-<font color="orange">还有个疑问是：回归树对于离线的特征是如何处理的？1.计算基尼系数，这样如何和连续特征进行比较(排除);2.也采用均方差最小的方式，这也有两种情况:1)按是否大于某一值划分为两部分，2)按是否等于某一值划分为两部分。还有个问题是：在使用时模型如何区别连续特征和离散特征(看 sklearn 库中并没有传入标记离散特征或者连续特征的参数。)</font>
-
-<h3 id="分类树的生成"><a href="#分类树的生成" class="headerlink" title="分类树的生成"></a>分类树的生成</h3><p>来自于 <a href="https://www.cnblogs.com/pinard/p/6053344.html" target="_blank" rel="noopener">决策树算法原理(下)
-</a></p>
-<p>连续值的处理：</p>
-<p>具体的思路如下，比如m个样本的连续特征A有m个，从小到大排列为 $ a_{1},a_{2},…,a_{m}, $ 则CART算法取相邻两样本值的平均数，一共取得m-1个划分点，其中第i个划分点Ti表示为：$ Ti=\frac{a_{i}+a_{i+1}}{2} $ 。对于这m-1个点，分别计算以该点作为二元分类点时的基尼系数。选择基尼系数最小的点作为该连续特征的二元离散分类点。比如取到的基尼系数最小的点为 $ a_{t} $ ,则小于 $ a_{t} $ 的值为类别1，大于 $ a_{t} $ 的值为类别2，这样我们就做到了连续特征的离散化。要注意的是，与ID3或者C4.5处理离散属性不同的是，如果当前节点为连续属性，则该属性后面还可以参与子节点的产生选择过程。</p>
-<p>离散值的处理：</p>
-<p>回忆下ID3或者C4.5，如果某个特征A被选取建立决策树节点，如果它有A1,A2,A3三种类别，我们会在决策树上一下建立一个三叉的节点。这样导致决策树是多叉树。但是CART分类树使用的方法不同，他采用的是不停的二分，还是这个例子，CART分类树会考虑把A分成{A1}和{A2,A3}, {A2}和{A1,A3}, {A3}和{A1,A2}三种情况，找到基尼系数最小的组合，比如{A2}和{A1,A3},然后建立二叉树节点，一个节点是A2对应的样本，另一个节点是{A1,A3}对应的节点。同时，由于这次没有把特征A的取值完全分开，后面我们还有机会在子节点继续选择到特征A来划分A1和A3。这和ID3或者C4.5不同，在ID3或者C4.5的一棵子树中，离散特征只会参与一次节点的建立。</p>
-<p>CART 生成算法：</p>
-<p>输入：训练数据集D，停止计算的条件(样本个数小于阈值，或者没有特征，或者基尼系数小于阈值。)；</p>
-<p>输出：CART决策树。</p>
-<ul>
-<li>(1) 设结点的训练数据集为D，计算现有特征对该数据集的基尼指数，此时，对每个特征A，将数据集划分为两部分，根据上面介绍的连续值、离散值计算基尼指数。</li>
-<li>(2) 选择基尼指数最小的特征A及其对应的切分点a，依最优特征与最优切分点，从现结点生成两个子结点，将训练集依特征分配到两个子结点中去。</li>
-<li>(3) 对两个子结点递归调用(1),(2)直到满足停止条件。</li>
-<li>(4) 生成CART树。 </li>
-</ul>
-<font color="orange">还有个疑问是：分类树如何确定离线特征或者连续特征。</font>
-
-<h3 id="CART-剪枝"><a href="#CART-剪枝" class="headerlink" title="CART 剪枝"></a>CART 剪枝</h3><p>来自于 <a href="https://www.cnblogs.com/pinard/p/6053344.html" target="_blank" rel="noopener">决策树算法原理(下)
-</a></p>
-<p>CART回归树和CART分类树的剪枝策略除了在度量损失的时候一个使用均方差，一个使用基尼系数，算法基本完全一样，这里我们一起来讲。</p>
-<p>由于决策时算法很容易对训练集过拟合，而导致泛化能力差，为了解决这个问题，我们需要对CART树进行剪枝，即类似于线性回归的正则化，来增加决策树的泛化能力。但是，有很多的剪枝方法，我们应该这么选择呢？CART采用的办法是后剪枝法，即先生成决策树，然后产生所有可能的剪枝后的CART树，然后使用交叉验证来检验各种剪枝的效果，选择泛化能力最好的剪枝策略。</p>
-<p>也就是说，CART树的剪枝算法可以概括为两步，第一步是从原始决策树生成各种剪枝效果的决策树，第二部是用交叉验证来检验剪枝后的预测能力，选择泛化预测能力最好的剪枝后的数作为最终的CART树。</p>
-<p>首先我们看看剪枝的损失函数度量，在剪枝的过程中，对于任意的一刻子树T,其损失函数为：</p>
-<p><center>$$ \mathit{C_{\alpha }(T_{t})=C(T_{t})+\alpha |T_{t}|} $$</center><br>其中，α为正则化参数，这和线性回归的正则化一样。 $ C(T_{t}) $ 为训练数据的预测误差，分类树是用基尼系数度量，回归树是均方差度量。 $ |T_{t}| $ 是子树T的叶子节点的数量。</p>
-<p>当α=0时，即没有正则化，原始的生成的CART树即为最优子树。当α=∞时，即正则化强度达到最大，此时由原始的生成的CART树的根节点组成的单节点树为最优子树。当然，这是两种极端情况。一般来说，α越大，则剪枝剪的越厉害，生成的最优子树相比原生决策树就越偏小。对于固定的α，一定存在使损失函数 $ C_{α}(T) $ 最小的唯一子树。</p>
-<p>看过剪枝的损失函数度量后，我们再来看看剪枝的思路，对于位于节点t的任意一颗子树Tt，如果没有剪枝，它的损失是:</p>
-<p><center>$$ \mathit{C_{\alpha }(T_{t})=C(T_{t})+\alpha |T_{t}|} $$</center><br>如果将其剪掉，仅仅保留根节点，则损失是:</p>
-<p><center>$$ \mathit{C_{\alpha }(T)=C(T)+\alpha} $$</center><br>当α=0或者α很小时， $ C_{α}(T_{t}) &lt; C_{α}(T) $ , 当α增大到一定的程度时: $ C_{α}(T_{t}) = C_{α}(T) $ .</p>
-<p>当α继续增大时不等式反向，也就是说，如果满足下式：</p>
-<p><center>$$ \mathit{\alpha =\frac{C(T)-C(T_{t})}{|T_{t}|-1}} $$</center><br>$ T_{t} $ 和T有相同的损失函数，但是T节点更少，因此可以对子树 $ T_{t} $ 进行剪枝，也就是将它的子节点全部剪掉，变为一个叶子节点T。</p>
-<p>最后我们看看CART树的交叉验证策略。上面我们讲到，可以计算出每个子树是否剪枝的阈值α，如果我们把所有的节点是否剪枝的值α都计算出来，然后分别针对不同的α所对应的剪枝后的最优子树做交叉验证。这样就可以选择一个最好的α，有了这个α，我们就可以用对应的最优子树作为最终结果。</p>
-<p>好了，有了上面的思路，我们现在来看看CART树的剪枝算法。</p>
-<p>输入是CART树建立算法得到的原始决策树T。</p>
-<p>输出是最优决策子树 $ T_{α} $ 。</p>
-<p>算法过程如下：</p>
-<ul>
-<li>(1) 初始化 $ \alpha _{min}=\infty  $， 最优子树集合 w={T}。</li>
-<li>(2) 从叶子节点开始自下而上计算各内部节点t的训练误差损失函数 $ C_{\alpha}(T_{t}) $ (回归树为均方差，分类树为基尼系数)，叶子结点树 $ |T_{t}| $ ,以及正则化阈值 $ \alpha=min(\frac{C(T)-C(T_{t})}{|T_{t}|-1},\alpha _{min}) $ ,更新 $ \alpha _{min} = \alpha $ .</li>
-<li>(3) 得到所有节点的α值的集合M。</li>
-<li>(4) 从M中选择最大的值 $ \alpha _{k} $, 自上而下的访问子树t的内部结点，如果 $ \frac{C(T)-C(T _{t})}{|T _{t}|-1} \leq \alpha _{k} $ 时，进行剪枝。并决定叶节点t的值。如果是分类树，则是概率最高的类别，如果是回归树，则是所有样本输出的均值。这样得到 $ \alpha _{k} $ 对应的最优子树 $ T _{k} $ .</li>
-<li>(5) 最优子树集合 $ \omega = \omega \cup T _{k}, M=M-\alpha _{k} $ .</li>
-<li>(6) 如果M不为空，则回到步骤4。否则就已经得到了所有的可选最优子树集合 $ \omega $ .</li>
-<li>(7) 采用交叉验证在 $ \omega $ 选择最优子树 $ T _{\alpha} $ .</li>
-</ul>
-<h1 id="对3种不同的树进行总结"><a href="#对3种不同的树进行总结" class="headerlink" title="对3种不同的树进行总结"></a>对3种不同的树进行总结</h1><table>
-<thead>
-<tr>
-<th>算法</th>
-<th>支持模型</th>
-<th>树结构</th>
-<th>特征选择</th>
-<th>连续值处理</th>
-<th>缺失值处理</th>
-<th>剪枝</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>ID3</td>
-<td>分类</td>
-<td>多叉树</td>
-<td>信息增益</td>
-<td>不支持</td>
-<td>不支持</td>
-<td>不支持</td>
-</tr>
-<tr>
-<td>C4.5</td>
-<td>分类</td>
-<td>多叉树</td>
-<td>信息增益比</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持</td>
-</tr>
-<tr>
-<td>CART</td>
-<td>分类，回归</td>
-<td>二叉树</td>
-<td>基尼系数，均方差</td>
-<td>支持</td>
-<td>支持</td>
-<td>支持</td>
-</tr>
-</tbody>
-</table>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ul>
-<li>总结《统计学习方法》-李航博士笔记</li>
-<li>之前看过刘建平大佬写过的系列博客，在此强烈推荐 <a href="https://www.cnblogs.com/pinard/p/6050306.html" target="_blank" rel="noopener">决策树原理</a>。总结过程中，会参考大佬的文章。</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2614,7 +2489,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2695,7 +2570,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
